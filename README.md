@@ -1,2 +1,2 @@
-# fintech-youth-finance-app
+# PeakFinance / Elevate Your Money Management
 aplikasi pengelolaan keuangan generasi muda
