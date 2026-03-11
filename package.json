@@ -1,0 +1,21 @@
+{
+  "name": "peakfinance",
+  "version": "1.0.0",
+  "description": "PeakFinance adalah aplikasi **personal finance management** yang dirancang untuk membantu generasi muda mengelola keuangan mereka secara lebih terstruktur. Aplikasi ini membantu pengguna mencatat pemasukan dan pengeluaran, menganalisis pola belanja, serta membuat target tabungan agar kebiasaan finansial menjadi lebih sehat.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafapradhana1716/PeakFinance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/rafapradhana1716/PeakFinance/issues"
+  },
+  "homepage": "https://github.com/rafapradhana1716/PeakFinance#readme"
+}
