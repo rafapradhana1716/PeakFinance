@@ -1,15 +1,16 @@
 import express from "express";
-import dashboardRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
+import indexRouter from './routes/index.js';
 import 'dotenv/config';
 
 const app = express();
 const port = process.env.PORT;
 
-app.use("/dashboard", dashboardRouter);
+app.set('view engine', 'ejs')
 
-app.get("/", (req, res) => {
-    res.send("Hello world!");
-});
+app.use(express.static('public'))
+app.use("/login", usersRouter);
+app.use("/", indexRouter);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

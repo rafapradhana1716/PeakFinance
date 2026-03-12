@@ -1,8 +1,8 @@
-import express from "express";
+import express from 'express';
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("Test dashboard")
+router.get('/', (req, res) => {
+    res.render('index')
 });
 
 export default router;
