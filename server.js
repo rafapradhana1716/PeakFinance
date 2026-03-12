@@ -1,7 +1,9 @@
 import express from "express";
 import dashboardRouter from "./routes/index.js";
+import 'dotenv/config';
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use("/dashboard", dashboardRouter);
 

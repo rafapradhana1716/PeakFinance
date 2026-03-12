@@ -1,0 +1,6 @@
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    user VARCHAR(50),
+    pass VARCHAR(255),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
