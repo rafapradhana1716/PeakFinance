@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.send("Test dashboard")
+    // res.send("Test dashboard")
+    res.render('login')
 });
 
 export default router;
