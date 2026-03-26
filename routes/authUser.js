@@ -81,8 +81,9 @@ router.post("/register", async (req, res) => {
         const result = await db.query(
             'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, name, hashPass]
         );
+        const newUserId = Number(result.insertId);
 
-        const payload = { id:  result.insertId, username: name};
+        const payload = { id:  newUserId, username: name};
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h"
@@ -105,7 +106,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    res.send("Logout endpoint");
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout berhasil!" })
 });
 
 export default router;
