@@ -1,7 +1,6 @@
 import express from 'express';
 import usersRouter from './routes/authUser.js';
 import indexRouter from './routes/index.js';
-import usersPageRouter from './routes/users.js'
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -19,7 +18,6 @@ app.use(cors({
 }));
 app.use(express.static('public'));
 app.use("/auth", usersRouter);
-app.use("/login", usersPageRouter);
 app.use("/", indexRouter);
 
 app.listen(port, () => {

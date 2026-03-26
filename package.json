@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
-    "dev-css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --watch",
+    "dev-css": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/styles.css --watch",
     "dev": "concurrently \"npm run dev-css\" \"npm run start-dev\""
   },
   "repository": {

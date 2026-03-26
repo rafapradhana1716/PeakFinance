@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import db from "../database.js";
+import db from "../config/database.js";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
