@@ -165,15 +165,38 @@ Mitigasi:
 - Dokumentasi keputusan penting
 
 ---
+## Installation
 
-# Project Goals
+Clone Repository ke Lokal
+```bash
+git clone https://github.com/rafapradhana1716/PeakFinance.git
+```
 
-Dengan adanya PeakFinance, diharapkan pengguna dapat:
+Masuk ke folder repository tersebut
+```bash
+cd PeakFinance
+```
+Atau bisa buka dengan Visual Studio Code
 
-- Lebih sadar terhadap kondisi keuangan mereka
-- Mengontrol pengeluaran dengan lebih baik
-- Mencapai target tabungan secara konsisten
-- Membangun kebiasaan finansial yang sehat sejak dini
+Lalu install semua package yang dibutuhkan :
+```bash
+npm install
+```
+
+Untuk start mode normal gunakan :
+```bash
+npm run start
+```
+
+Untuk start mode developer (nodemon) :
+```bash
+npm run start-dev
+```
+
+Untuk start mode developer + update css :
+```bash
+npm run dev
+```
 
 ---
 
