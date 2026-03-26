@@ -1,19 +1,18 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import db from "../config/database.js";
+import jwt from "jsonwebtoken";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body
-    let conn;
 
     if(!email || !password) {
         return res.status(400).json({ message: "Email dan Password wajib diisi!" });
     }
 
     try {
-        conn = await db.getConnection();
-        const rows = await conn.query(
+        const rows = await db.query(
             'SELECT * FROM users WHERE email = ?', [email]
         );
 
@@ -24,31 +23,42 @@ router.post("/login", async (req, res) => {
         const user = rows[0];
 
         const match = await bcrypt.compare(password, user.pass);
-
-        if(match) {
-            return res.json({
-                message: "Login berhasil!",
-                user: {
-                    id: user.id,
-                    name: user.name
-                }
-            });
-        } else {
-            return res.status(401).json({ message: "Email atau Password salah!" });
+        if(!match) {
+            return res.status(401).json({ message: "Email atau Password salah!" });   
         }
+
+        const payload = {
+            id: user.id,
+            username: user.user
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "1h"
+        });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000,
+        });
+
+        return res.json({
+            message: "Login berhasil!",
+            user: {
+                id: user.id,
+                name: user.user
+            }
+        });
 
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Terjadi kesalahan pada database!" });
-    } finally {
-        if(conn) conn.release();
     }
 });
 
 router.post("/register", async (req, res) => {
     const { email, name, password } = req.body
     const hashPass = await bcrypt.hash(password, 10);
-    let conn;
 
     if(!email || !name || !password) {
         return res.status(400).json({ message: "Semua field wajib diisi!" });
@@ -60,8 +70,7 @@ router.post("/register", async (req, res) => {
     }
 
     try {
-        conn = await db.getConnection();
-        const existedUser = await conn.query(
+        const existedUser = await db.query(
             'SELECT * FROM users WHERE email = ?', [email]
         );
 
@@ -69,19 +78,17 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ message: "User terdaftar!" })
         }
 
-        await conn.query(
+        await db.query(
             'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, name, hashPass]
         );
 
         return res.status(200).json({
             message: "User berhasil ditambahkan",
-            user: { name }
+            name: name
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Gagal registrasi user!" });
-    } finally {
-        if(conn) conn.release();
     }
 });
 
