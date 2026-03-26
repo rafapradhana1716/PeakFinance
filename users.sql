@@ -1,5 +1,6 @@
 CREATE TABLE users (
     id INT PRIMARY KEY,
+    email VARCHAR(255),
     user VARCHAR(50),
     pass VARCHAR(255),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
