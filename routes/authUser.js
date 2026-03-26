@@ -78,12 +78,24 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ message: "User terdaftar!" })
         }
 
-        await db.query(
+        const result = await db.query(
             'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, name, hashPass]
         );
 
+        const payload = { id:  result.insertId, username: name};
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "1h"
+        });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000
+        });
+
         return res.status(200).json({
-            message: "User berhasil ditambahkan",
+            message: "User berhasil ditambahkan dan otomatis login!",
             name: name
         });
     } catch (error) {
