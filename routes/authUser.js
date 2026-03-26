@@ -75,7 +75,7 @@ router.post("/register", async (req, res) => {
         );
 
         if (existedUser.length > 0) {
-            return res.status(400).json({ message: "User terdaftar!" })
+            return res.status(400).json({ message: "Email terdaftar!" })
         }
 
         const result = await db.query(
