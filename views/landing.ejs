@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeakFinance</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-name">Peak<span>Finance</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Fitur</a>
+    <a href="#how">Cara Kerja</a>
+    <a href="#insight">Insight</a>
+  </div>
+  <div class="nav-cta">
+    <button class="btn-ghost">Masuk</button>
+    <button class="btn-primary-sm" onclick="window.location.href='login'">Mulai Gratis →</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="grid-lines"></div>
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Solusi Fintech untuk Generasi Muda Indonesia
+    </div>
+    <h1 class="hero-title">
+      Kontrol<br>
+      <span class="accent">Uang Kamu,</span><br>
+      <span class="outline">Bangun</span> Masa Depan
+    </h1>
+    <p class="hero-desc">
+      Lacak pengeluaran, deteksi kebocoran uang, dan capai target tabunganmu — semua dalam satu platform yang dirancang khusus untuk remaja Indonesia.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-hero" onclick="window.location.href='dashboard'">
+        🚀 Coba Dashboard
+      </button>
+      <button class="btn-outline">
+        ▶ Lihat Demo
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="dot"></span> Catat Pemasukan & Pengeluaran</div>
+    <div class="marquee-item"><span class="dot"></span> Analisis Pola Belanja</div>
+    <div class="marquee-item"><span class="dot"></span> Target Tabungan Terstruktur</div>
+    <div class="marquee-item"><span class="dot"></span> Skor Kesehatan Finansial</div>
+    <div class="marquee-item"><span class="dot"></span> Insight & Rekomendasi Otomatis</div>
+    <div class="marquee-item"><span class="dot"></span> Dashboard Ringkas</div>
+    <div class="marquee-item"><span class="dot"></span> Kategori Pengeluaran Cerdas</div>
+    <div class="marquee-item"><span class="dot"></span> Catat Pemasukan & Pengeluaran</div>
+    <div class="marquee-item"><span class="dot"></span> Analisis Pola Belanja</div>
+    <div class="marquee-item"><span class="dot"></span> Target Tabungan Terstruktur</div>
+    <div class="marquee-item"><span class="dot"></span> Skor Kesehatan Finansial</div>
+    <div class="marquee-item"><span class="dot"></span> Insight & Rekomendasi Otomatis</div>
+    <div class="marquee-item"><span class="dot"></span> Dashboard Ringkas</div>
+    <div class="marquee-item"><span class="dot"></span> Kategori Pengeluaran Cerdas</div>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<section class="features" id="features">
+  <div class="section-label">Fitur Unggulan</div>
+  <h2 class="section-title">Semua yang kamu butuhkan<br>untuk kelola uang</h2>
+  <p class="section-desc">Bukan sekadar catatan keuangan biasa — Peak Finance adalah painkiller nyata untuk masalah finansial remaja.</p>
+
+  <div class="features-grid">
+    <!-- Big card: spending analysis -->
+    <div class="feature-card large">
+      <div class="feat-icon" style="background:rgba(255,107,107,0.12)">📊</div>
+      <div class="feat-title">Analisis Pengeluaran Otomatis</div>
+      <div class="feat-desc">Peak Finance mendeteksi kategori terbesar pengeluaranmu secara otomatis dan menampilkannya dalam visual yang mudah dipahami.</div>
+      <div class="mini-chart">
+        <div class="mc-bar" style="height:40%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:65%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:30%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:85%;background:linear-gradient(180deg,var(--mint),var(--mint-dim))"></div>
+        <div class="mc-bar" style="height:50%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:70%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:25%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:55%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:45%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:60%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:35%;background:var(--card2)"></div>
+        <div class="mc-bar" style="height:75%;background:var(--card2)"></div>
+      </div>
+    </div>
+
+    <!-- Health score -->
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(0,229,160,0.12)">💚</div>
+      <div class="feat-title">Skor Kesehatan Finansial</div>
+      <div class="feat-desc">Pantau kondisi keuanganmu dengan skor 0–100 yang dihitung dari pola pengeluaran dan kebiasaan menabung.</div>
+      <div class="score-display">
+        <div class="big-score">70</div>
+        <div class="score-info">
+          <div class="score-label">Cukup Sehat 💪</div>
+          <div class="score-bar"><div class="score-fill"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Savings target -->
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(0,163,255,0.12)">🎯</div>
+      <div class="feat-title">Target Tabungan</div>
+      <div class="feat-desc">Set target tabungan dengan deadline dan pantau progresnya setiap hari.</div>
+      <div class="savings-mini">
+        <div class="sm-label">Target Aktif</div>
+        <div class="sm-name">🎧 Sony WH-1000XM5</div>
+        <div class="sm-progress"><div class="sm-fill"></div></div>
+        <div class="sm-nums"><span>Rp 2,38 Jt</span><span>68% · 45 hari lagi</span></div>
+      </div>
+    </div>
+
+    <!-- Insight -->
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(255,184,48,0.12)">⚡</div>
+      <div class="feat-title">Insight Otomatis</div>
+      <div class="feat-desc">Rekomendasi berbasis pola keuanganmu — bukan teori, tapi saran yang relevan dan actionable.</div>
+    </div>
+
+    <!-- Quick input -->
+    <div class="feature-card">
+      <div class="feat-icon" style="background:rgba(200,241,53,0.12)">⚡</div>
+      <div class="feat-title">Catat dalam 3 Detik</div>
+      <div class="feat-desc">Input transaksi super cepat dengan kategori otomatis dan antarmuka yang dirancang untuk mobile.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how" id="how">
+  <div class="how-inner">
+    <div class="section-label">Cara Kerja</div>
+    <h2 class="section-title">Mulai dalam 60 detik</h2>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-circle">1</div>
+        <div class="step-title">Daftar Gratis</div>
+        <div class="step-desc">Buat akun dalam hitungan detik, tanpa perlu kartu kredit atau rekening bank.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">2</div>
+        <div class="step-title">Catat Transaksi</div>
+        <div class="step-desc">Input pemasukan dan pengeluaranmu dengan mudah — pilih kategori, masukkan nominal, selesai.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">3</div>
+        <div class="step-title">Lihat Analisis</div>
+        <div class="step-desc">Peak Finance otomatis menganalisis pola keuanganmu dan menampilkan insight yang mudah dipahami.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">4</div>
+        <div class="step-title">Capai Target</div>
+        <div class="step-desc">Ikuti rekomendasi Peak Finance dan pantau progres tabunganmu menuju target impian.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSIGHT SECTION ── -->
+<section id="insight">
+  <div class="insight-section">
+    <div class="insight-text">
+      <div class="section-label">Smart Insights</div>
+      <h2 class="section-title">Bukan sekadar data,<br>tapi <span style="color:var(--mint)">aksi nyata</span></h2>
+      <p class="section-desc" style="margin-top:16px">Peak Finance menganalisis pola keuanganmu dan memberikan rekomendasi spesifik yang bisa langsung kamu terapkan hari ini.</p>
+    </div>
+    <div class="insight-visual">
+      <div class="insight-cards-stack">
+        <div class="ins-card">
+          <div class="ins-icon" style="background:rgba(255,107,107,0.12)">🚨</div>
+          <div class="ins-body">
+            <div class="ins-tag" style="background:rgba(255,107,107,0.1);color:var(--coral)">⚠️ Peringatan</div>
+            <div class="ins-title">Pengeluaran makananmu 72% dari total!</div>
+            <div class="ins-desc">Coba batasi di Rp 200.000 untuk bisa nabung lebih banyak minggu depan.</div>
+          </div>
+        </div>
+        <div class="ins-card">
+          <div class="ins-icon" style="background:rgba(0,229,160,0.1)">🎉</div>
+          <div class="ins-body">
+            <div class="ins-tag" style="background:rgba(0,229,160,0.1);color:var(--mint)">✅ Bagus!</div>
+            <div class="ins-title">Target headphone hampir tercapai!</div>
+            <div class="ins-desc">Nabung Rp 25K/hari selama 45 hari lagi dan Sony WH-1000XM5 sudah jadi milikmu.</div>
+          </div>
+        </div>
+        <div class="ins-card">
+          <div class="ins-icon" style="background:rgba(255,184,48,0.1)">💡</div>
+          <div class="ins-body">
+            <div class="ins-tag" style="background:rgba(255,184,48,0.1);color:var(--amber)">💡 Tips</div>
+            <div class="ins-title">Kamu konsisten 3 hari tanpa boros!</div>
+            <div class="ins-desc">Pertahankan momentum ini — skor keuanganmu naik 5 poin minggu ini.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div style="position:relative;z-index:2">
+    <div class="section-label">Mulai Sekarang</div>
+    <h2 class="section-title">Uangmu, kendalimu.<br><span style="color:var(--mint)">Mulai hari ini.</span></h2>
+    <p class="section-desc">Gratis selamanya untuk fitur dasar. Bergabung dengan 10.000+ remaja yang sudah lebih cerdas kelola uang.</p>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn-hero" onclick="window.location.href='/dashboard'">🚀 Buka Dashboard Demo</button>
+      <button class="btn-outline">📱 Download App</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <div class="nav-logo">
+      <div class="logo-icon">P</div>
+      <div class="logo-name">Peak <span style="color:var(--mint)">Finance</span></div>
+    </div>
+    <p>Solusi fintech untuk membantu generasi muda Indonesia mengelola keuangan pribadi secara lebih terstruktur dan konsisten.</p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2025 Peak Finance · CC26-PS079</span>
+  <span>Dibuat dengan ❤️ untuk generasi muda Indonesia</span>
+</div>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.style.opacity = 1; });
+  }, { threshold: 1 });
+</script>
+</body>
+</html>
