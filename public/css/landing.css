@@ -73,6 +73,7 @@ nav {
   font-size: 30px;
   font-weight: 700;
 }
+
 .logo-name span {
   color: var(--mint);
 }
@@ -81,6 +82,7 @@ nav {
   display: flex;
   gap: 36px;
 }
+
 .nav-links a {
   font-size: 14px;
   font-weight: 500;
@@ -89,6 +91,7 @@ nav {
   transition: color 0.2s;
   letter-spacing: 0.2px;
 }
+
 .nav-links a:hover {
   color: var(--text);
 }
@@ -98,6 +101,7 @@ nav {
   gap: 10px;
   align-items: center;
 }
+
 .btn-ghost {
   background: transparent;
   color: var(--soft);
@@ -110,6 +114,7 @@ nav {
   font-family: "Plus Jakarta Sans", sans-serif;
   transition: all 0.2s;
 }
+
 .btn-ghost:hover {
   color: var(--text);
   border-color: var(--soft);
@@ -128,6 +133,7 @@ nav {
   transition: all 0.2s;
   letter-spacing: 0.3px;
 }
+
 .btn-primary-sm:hover {
   background: var(--mint-dim);
   transform: translateY(-1px);
@@ -166,6 +172,7 @@ nav {
   left: -200px;
   animation: drift1 12s ease-in-out infinite;
 }
+
 .orb-2 {
   width: 400px;
   height: 400px;
@@ -174,6 +181,7 @@ nav {
   right: -100px;
   animation: drift2 15s ease-in-out infinite;
 }
+
 .orb-3 {
   width: 300px;
   height: 300px;
@@ -184,28 +192,36 @@ nav {
 }
 
 @keyframes drift1 {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   50% {
     transform: translate(40px, 30px);
   }
 }
+
 @keyframes drift2 {
+
   0%,
   100% {
     transform: translate(0, 0);
   }
+
   50% {
     transform: translate(-30px, 40px);
   }
 }
+
 @keyframes drift3 {
+
   0%,
   100% {
     transform: translate(-50%, 0);
   }
+
   50% {
     transform: translate(-50%, -30px);
   }
@@ -253,11 +269,13 @@ nav {
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(0.8);
@@ -277,6 +295,7 @@ nav {
 .hero-title .accent {
   color: var(--mint);
 }
+
 .hero-title .outline {
   -webkit-text-stroke: 2px var(--mint);
   color: transparent;
@@ -316,6 +335,7 @@ nav {
   align-items: center;
   gap: 8px;
 }
+
 .btn-hero:hover {
   background: var(--mint-dim);
   transform: translateY(-3px);
@@ -337,6 +357,7 @@ nav {
   align-items: center;
   gap: 8px;
 }
+
 .btn-outline:hover {
   border-color: var(--soft);
   transform: translateY(-2px);
@@ -355,15 +376,18 @@ nav {
 .stat-item {
   text-align: center;
 }
+
 .stat-val {
   font-family: "Clash Display", sans-serif;
   font-size: 32px;
   font-weight: 700;
   color: var(--text);
 }
+
 .stat-val span {
   color: var(--mint);
 }
+
 .stat-label {
   font-size: 12px;
   color: var(--soft);
@@ -376,6 +400,7 @@ nav {
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -408,6 +433,7 @@ nav {
   white-space: nowrap;
   letter-spacing: 0.3px;
 }
+
 .marquee-item .dot {
   width: 4px;
   height: 4px;
@@ -419,6 +445,7 @@ nav {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }
@@ -479,17 +506,16 @@ nav {
   inset: 0;
   opacity: 0;
   transition: opacity 0.3s;
-  background: radial-gradient(
-    ellipse at top left,
-    rgba(0, 229, 160, 0.06),
-    transparent 60%
-  );
+  background: radial-gradient(ellipse at top left,
+      rgba(0, 229, 160, 0.06),
+      transparent 60%);
 }
 
 .feature-card:hover {
   border-color: rgba(0, 229, 160, 0.25);
   transform: translateY(-4px);
 }
+
 .feature-card:hover::before {
   opacity: 1;
 }
@@ -515,6 +541,7 @@ nav {
   font-weight: 700;
   margin-bottom: 10px;
 }
+
 .feat-desc {
   font-size: 14px;
   color: var(--soft);
@@ -529,12 +556,14 @@ nav {
   height: 48px;
   margin-top: 20px;
 }
+
 .mc-bar {
   border-radius: 4px 4px 0 0;
   flex: 1;
   opacity: 0.7;
   transition: opacity 0.2s;
 }
+
 .mc-bar:hover {
   opacity: 1;
 }
@@ -561,6 +590,7 @@ nav {
 .score-info {
   flex: 1;
 }
+
 .score-label {
   font-size: 11px;
   color: var(--soft);
@@ -568,11 +598,13 @@ nav {
   letter-spacing: 0.8px;
   margin-bottom: 6px;
 }
+
 .score-bar {
   height: 6px;
   background: var(--border);
   border-radius: 3px;
 }
+
 .score-fill {
   height: 100%;
   border-radius: 3px;
@@ -595,23 +627,27 @@ nav {
   letter-spacing: 0.6px;
   margin-bottom: 6px;
 }
+
 .sm-name {
   font-family: "Clash Display", sans-serif;
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 10px;
 }
+
 .sm-progress {
   height: 5px;
   background: var(--border);
   border-radius: 3px;
 }
+
 .sm-fill {
   height: 100%;
   border-radius: 3px;
   background: linear-gradient(90deg, var(--blue), var(--mint));
   width: 68%;
 }
+
 .sm-nums {
   display: flex;
   justify-content: space-between;
@@ -619,6 +655,7 @@ nav {
   margin-top: 5px;
   color: var(--soft);
 }
+
 .sm-nums span:first-child {
   color: var(--mint);
   font-weight: 700;
@@ -627,12 +664,10 @@ nav {
 /* ── HOW IT WORKS ── */
 .how {
   padding: 120px 64px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(0, 229, 160, 0.02),
-    transparent
-  );
+  background: linear-gradient(180deg,
+      transparent,
+      rgba(0, 229, 160, 0.02),
+      transparent);
   position: relative;
 }
 
@@ -696,6 +731,7 @@ nav {
   font-weight: 700;
   margin-bottom: 8px;
 }
+
 .step-desc {
   font-size: 13px;
   color: var(--soft);
@@ -734,12 +770,15 @@ nav {
   transition: all 0.3s;
   animation: fadeUp 0.6s ease both;
 }
+
 .ins-card:nth-child(1) {
   animation-delay: 0s;
 }
+
 .ins-card:nth-child(2) {
   animation-delay: 0.1s;
 }
+
 .ins-card:nth-child(3) {
   animation-delay: 0.2s;
 }
@@ -763,6 +802,7 @@ nav {
 .ins-body {
   flex: 1;
 }
+
 .ins-tag {
   display: inline-block;
   border-radius: 6px;
@@ -773,12 +813,14 @@ nav {
   letter-spacing: 0.5px;
   margin-bottom: 5px;
 }
+
 .ins-title {
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 3px;
   line-height: 1.3;
 }
+
 .ins-desc {
   font-size: 12px;
   color: var(--soft);
@@ -812,6 +854,7 @@ nav {
   padding: 24px;
   transition: all 0.3s;
 }
+
 .testi-card:hover {
   border-color: rgba(0, 229, 160, 0.2);
   transform: translateY(-4px);
@@ -823,6 +866,7 @@ nav {
   margin-bottom: 14px;
   letter-spacing: 2px;
 }
+
 .testi-quote {
   font-size: 14px;
   color: var(--soft);
@@ -830,6 +874,7 @@ nav {
   margin-bottom: 20px;
   font-style: italic;
 }
+
 .testi-quote strong {
   color: var(--text);
   font-style: normal;
@@ -840,6 +885,7 @@ nav {
   align-items: center;
   gap: 10px;
 }
+
 .testi-avatar {
   width: 36px;
   height: 36px;
@@ -851,10 +897,12 @@ nav {
   font-size: 14px;
   font-weight: 700;
 }
+
 .testi-name {
   font-size: 13px;
   font-weight: 700;
 }
+
 .testi-role {
   font-size: 11px;
   color: var(--soft);
@@ -871,17 +919,16 @@ nav {
 .cta-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 229, 160, 0.06) 0%,
-    transparent 60%
-  );
+  background: radial-gradient(ellipse at center,
+      rgba(0, 229, 160, 0.06) 0%,
+      transparent 60%);
 }
 
 .cta-section .section-title {
   font-size: clamp(36px, 5vw, 64px);
   margin-bottom: 20px;
 }
+
 .cta-section .section-desc {
   font-size: 18px;
   color: var(--soft);
@@ -915,6 +962,7 @@ footer {
   margin-bottom: 16px;
   letter-spacing: 0.3px;
 }
+
 .footer-col a {
   display: block;
   font-size: 13px;
@@ -923,6 +971,7 @@ footer {
   margin-bottom: 10px;
   transition: color 0.2s;
 }
+
 .footer-col a:hover {
   color: var(--text);
 }
