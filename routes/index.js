@@ -2,7 +2,11 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('index', { page: 'dashboard' });
+  res.render('index');
+});
+
+router.get('/dashboard', (req, res) => {
+  res.render('dashboard', { page: 'dashboard' });
 });
 
 router.get('/analitik', (req, res) => {
@@ -22,7 +26,7 @@ router.get('/profil', (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-    res.render('login')
+  res.render('login');
 });
 
 export default router;
