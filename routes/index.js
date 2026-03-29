@@ -26,7 +26,12 @@ router.get('/profil', (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  res.render('login');
+  res.render("auth/login", { page: "login" });
 });
+
+router.get("/register", (req, res) => {
+  res.render("auth/register", { page: "register" });
+});
+
 
 export default router;
