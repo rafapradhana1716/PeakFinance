@@ -127,23 +127,10 @@
     gap: 10px;
 }
 
-.brand-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 11px;
-    background: linear-gradient(135deg, var(--mint), var(--blue));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Clash Display', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #000;
-}
 
 .brand-name {
     font-family: 'Clash Display', sans-serif;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 700;
 }
 
