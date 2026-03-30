@@ -1,12 +1,24 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('index', { page: 'home' });
-});
+  const token = req.cookies.token;
 
-router.get('/dashboard', (req, res) => {
-  res.render('dashboard', { page: 'dashboard' });
+  if(!token) {
+    return res.render('landing', { page: 'landing' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return res.render('index', {
+      page: 'home',
+      user: decoded.username
+    });
+  }  catch (err) {
+    res.clearCookie('token');
+    return res.render('landing', { page: 'landing' });
+  }
 });
 
 router.get('/analitik', (req, res) => {
@@ -26,12 +38,12 @@ router.get('/profil', (req, res) => {
 });
 
 router.get("/login", (req, res) => {
+  if(req.cookies.token) return res.redi
   res.render("auth/login", { page: "login" });
 });
 
 router.get("/register", (req, res) => {
   res.render("auth/register", { page: "register" });
 });
-
 
 export default router;

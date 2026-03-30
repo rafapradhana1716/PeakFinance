@@ -4,7 +4,7 @@ import db from "../config/database.js";
 import jwt from "jsonwebtoken";
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+router.get("/login", async (req, res) => {
     const { email, password } = req.body
 
     if(!email || !password) {
