@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
-    "dev-css": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/styles.css --watch",
+    "dev-css": "postcss ./public/css/input.css -o ./public/css/styles.css --watch",
+    "build-css": "postcss ./public/css/input.css -o ./public/css/styles.css",
     "dev": "concurrently \"npm run dev-css\" \"npm run start-dev\""
   },
   "repository": {
@@ -22,7 +23,6 @@
   },
   "homepage": "https://github.com/rafapradhana1716/PeakFinance#readme",
   "dependencies": {
-    "@tailwindcss/cli": "^4.2.1",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -34,6 +34,11 @@
     "nodemon": "^3.1.14"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.8",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.2.2"
   }
 }
