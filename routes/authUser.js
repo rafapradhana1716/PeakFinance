@@ -4,16 +4,16 @@ import db from "../config/database.js";
 import jwt from "jsonwebtoken";
 const router = express.Router();
 
-router.get("/login", async (req, res) => {
-    const { email, password } = req.body
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body
 
-    if(!email || !password) {
+    if(!username || !password) {
         return res.status(400).json({ message: "Email dan Password wajib diisi!" });
     }
 
     try {
         const rows = await db.query(
-            'SELECT * FROM users WHERE email = ?', [email]
+            'SELECT * FROM users WHERE email = ?', [username]
         );
 
         if(rows.length === 0) {
@@ -42,13 +42,7 @@ router.get("/login", async (req, res) => {
             maxAge: 3600000,
         });
 
-        return res.json({
-            message: "Login berhasil!",
-            user: {
-                id: user.id,
-                name: user.user
-            }
-        });
+        return res.redirect("/");
 
     } catch (error) {
         console.error(error);
@@ -57,10 +51,10 @@ router.get("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    const { email, name, password } = req.body
+    const { email, username, password } = req.body
     const hashPass = await bcrypt.hash(password, 10);
 
-    if(!email || !name || !password) {
+    if(!email || !username || !password) {
         return res.status(400).json({ message: "Semua field wajib diisi!" });
     }
 
@@ -79,11 +73,11 @@ router.post("/register", async (req, res) => {
         }
 
         const result = await db.query(
-            'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, name, hashPass]
+            'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, username, hashPass]
         );
         const newUserId = Number(result.insertId);
 
-        const payload = { id:  newUserId, username: name};
+        const payload = { id:  newUserId, username: username};
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h"

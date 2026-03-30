@@ -3,23 +3,22 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  // const token = req.cookies.token;
+  const token = req.cookies.token;
 
-  // if(!token) {
-  //   return res.render('landing', { page: 'landing' });
-  // }
+  if(!token) {
+    return res.render('landing', { page: 'landing' });
+  }
 
-  // try {
-  //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  //   return res.render('index', {
-  //     page: 'home',
-  //     user: decoded.username
-  //   });
-  // }  catch (err) {
-  //   res.clearCookie('token');
-  //   return res.render('landing', { page: 'landing' });
-  // }
-  res.render('index', { page: 'home' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return res.render('index', {
+      page: 'home',
+      user: decoded.username
+    });
+  }  catch (err) {
+    res.clearCookie('token');
+    return res.render('landing', { page: 'landing' });
+  }
 });
 
 router.get('/analitik', (req, res) => {
