@@ -87,7 +87,7 @@
       </div>
     </aside>
 
-    <!-- ================= MAIN ================= -->
+    <!-- Main-Content -->
     <main class="flex-1 px-10 py-8 min-h-screen">
       <!-- HEADER -->
       <div
@@ -108,7 +108,9 @@
 
       <!-- HERO -->
       <div class="flex justify-between items-start mb-10">
-        <h2 class="text-4xl font-bold leading-tight">Selamat Pagi, Rafi! ☀️</h2>
+        <h2 class="text-4xl font-bold leading-tight" id="greeting">
+          Selamat Pagi, Rafi! ☀️
+        </h2>
 
         <div class="text-right">
           <p class="text-xs text-gray-400">Awas pinjol ilegal!</p>
@@ -117,7 +119,7 @@
         </div>
       </div>
 
-      <!-- ================= CARD ATAS ================= -->
+      <!-- Card bagian atas -->
       <div class="grid grid-cols-3 gap-6 mb-12">
         <!-- TABUNGAN -->
         <div
@@ -189,7 +191,6 @@
         </div>
       </div>
 
-      <!-- ================= WHAT'S NEW ================= -->
       <div class="mb-4">
         <h2 class="text-xl font-semibold">What's New?</h2>
         <p class="text-sm text-gray-400">Insight Terbaru</p>
@@ -247,7 +248,7 @@
       </div>
     </main>
 
-    <!-- ================= MODAL ================= -->
+    <!-- Modal-Content -->
     <div
       id="modal"
       class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50"
@@ -257,7 +258,7 @@
       >
         <!-- SLIDER -->
         <div id="slider" class="flex w-[840px] transition duration-500">
-          <!-- ================= PAGE 1 ================= -->
+          <!-- Catat Uang pg1 -->
           <div
             class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
           >
@@ -320,7 +321,7 @@
             </div>
           </div>
 
-          <!-- ================= PAGE 2 ================= -->
+          <!-- Catat Tabungan pg2 -->
           <div
             class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
           >
@@ -374,6 +375,17 @@
     </div>
 
     <script>
+      function getGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return "Selamat Pagi ☀️";
+        if (hour >= 12 && hour < 15) return "Selamat Siang 🌤️";
+        if (hour >= 15 && hour < 19) return "Selamat Sore 🌇";
+        return "Selamat Malam 🌙";
+      }
+
+      document.getElementById("greeting").textContent =
+        getGreeting() + ", Rafi 👋";
+
       function openModal() {
         const m = document.getElementById("modal");
         m.classList.remove("hidden");
