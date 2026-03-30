@@ -4,6 +4,8 @@ import indexRouter from './routes/index.js';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import path from 'path';
+
 
 const app = express();
 const port = process.env.PORT;
@@ -16,7 +18,8 @@ app.use(cors({
     origin: "http://localhost:8080",
     credentials: true
 }));
-app.use(express.static('public'));
+
+app.use(express.static(path.resolve('public')));
 app.use("/auth", usersRouter);
 app.use("/", indexRouter);
 
