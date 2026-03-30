@@ -1,0 +1,44 @@
+{
+  "name": "peakfinance",
+  "version": "1.0.0",
+  "description": "PeakFinance adalah aplikasi **personal finance management** yang dirancang untuk membantu generasi muda mengelola keuangan mereka secara lebih terstruktur. Aplikasi ini membantu pengguna mencatat pemasukan dan pengeluaran, menganalisis pola belanja, serta membuat target tabungan agar kebiasaan finansial menjadi lebih sehat.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start-dev": "nodemon server.js",
+    "dev-css": "postcss ./public/css/input.css -o ./public/css/styles.css --watch",
+    "build-css": "postcss ./public/css/input.css -o ./public/css/styles.css",
+    "dev": "concurrently \"npm run dev-css\" \"npm run start-dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafapradhana1716/PeakFinance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/rafapradhana1716/PeakFinance/issues"
+  },
+  "homepage": "https://github.com/rafapradhana1716/PeakFinance#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mariadb": "^3.5.2",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.8",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.2.2"
+  }
+}

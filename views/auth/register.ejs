@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <title>Daftar — Peak Finance</title>
+</head>
+
+<body class="auth-body">
+
+    <!-- Background -->
+    <div class="auth-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="auth-wrapper">
+
+        <!-- Left Panel -->
+        <div class="auth-left">
+            <div class="brand">
+                <div class="brand-name">Peak<span>Finance</span></div>
+            </div>
+            <div class="auth-left-content">
+                <h1 class="auth-left-title">Mulai perjalanan<br><span>finansialmu.</span></h1>
+                <p class="auth-left-desc">Gratis selamanya untuk fitur dasar. Bergabung dan mulai kendalikan keuanganmu
+                    sekarang.</p>
+                <div class="auth-features">
+                    <div class="af-item"><span class="af-icon">✅</span> Gratis, tanpa kartu kredit</div>
+                    <div class="af-item"><span class="af-icon">🔒</span> Data kamu aman & terenkripsi</div>
+                    <div class="af-item"><span class="af-icon">⚡</span> Setup selesai dalam 60 detik</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Form -->
+        <div class="auth-right">
+            <div class="auth-card">
+
+                <div class="auth-card-header">
+                    <h2 class="auth-title">Buat akun baru</h2>
+                    <p class="auth-subtitle">Isi data berikut untuk mulai</p>
+                </div>
+
+                <form action="auth/register" method="POST" class="auth-form">
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label" for="firstname">Nama Depan</label>
+                            <div class="input-wrap">
+                                <span class="input-icon">✏️</span>
+                                <input class="form-input" type="text" id="firstname" name="firstname"
+                                    placeholder="Nama depan" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastname">Nama Belakang</label>
+                            <div class="input-wrap">
+                                <span class="input-icon">✏️</span>
+                                <input class="form-input" type="text" id="lastname" name="lastname"
+                                    placeholder="Nama belakang" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-username">Username</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">👤</span>
+                            <input class="form-input" type="text" id="reg-username" name="username"
+                                placeholder="Pilih username unik" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">📧</span>
+                            <input class="form-input" type="email" id="email" name="email" placeholder="email@kamu.com"
+                                autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-password">Password</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">🔑</span>
+                            <input class="form-input" type="password" id="reg-password" name="password"
+                                placeholder="Min. 8 karakter" autocomplete="off">
+                            <button type="button" class="toggle-pw"
+                                onclick="togglePassword('reg-password', this)">👁</button>
+                        </div>
+                        <div class="pw-strength" id="pw-strength">
+                            <div class="pw-bar">
+                                <div class="pw-fill" id="pw-fill"></div>
+                            </div>
+                            <span class="pw-label" id="pw-label">Kekuatan password</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Konfirmasi Password</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">🔒</span>
+                            <input class="form-input" type="password" id="confirm-password" name="confirm_password"
+                                placeholder="Ulangi password" autocomplete="off">
+                            <button type="button" class="toggle-pw"
+                                onclick="togglePassword('confirm-password', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <label class="checkbox-label" style="margin-bottom:20px">
+                        <input type="checkbox" class="checkbox-input" required>
+                        <span class="checkbox-custom"></span>
+                        Saya setuju dengan <a href="#" class="auth-switch-link">Syarat & Ketentuan</a>
+                    </label>
+
+                    <button type="submit" class="btn-submit">
+                        Buat Akun <span class="btn-arrow">→</span>
+                    </button>
+
+                </form>
+
+                <div class="auth-divider"><span>atau</span></div>
+
+                <p class="auth-switch">
+                    Sudah punya akun?
+                    <a href="login" class="auth-switch-link">Masuk di sini</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '⌣';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁';
+            }
+        }
+
+        // Password strength meter
+        document.getElementById('reg-password').addEventListener('input', function () {
+            const val = this.value;
+            const fill = document.getElementById('pw-fill');
+            const label = document.getElementById('pw-label');
+            let strength = 0;
+            if (val.length >= 8) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+            const configs = [
+                { width: '0%', color: 'var(--border2)', text: 'Kekuatan password' },
+                { width: '25%', color: 'var(--coral)', text: 'Lemah' },
+                { width: '50%', color: 'var(--amber)', text: 'Cukup' },
+                { width: '75%', color: 'var(--blue)', text: 'Kuat' },
+                { width: '100%', color: 'var(--mint)', text: 'Sangat Kuat ✓' },
+            ];
+            const c = configs[strength];
+            fill.style.width = c.width;
+            fill.style.background = c.color;
+            label.textContent = c.text;
+            label.style.color = c.color;
+        });
+    </script>
+</body>
+
+</html>

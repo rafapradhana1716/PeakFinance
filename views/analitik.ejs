@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Analitik</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body
+    class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
+  >
+    <!-- ================= SIDEBAR ================= -->
+    <aside
+      class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-2xl font-bold mb-8">
+          Peak<span class="text-green-400">Finance</span>
+        </h2>
+
+        <div class="space-y-2 text-sm">
+          <a
+            href="/"
+            class="flex items-center px-3 py-2 rounded-lg text-gray-400 hover:text-green-400 hover:bg-green-500/10"
+          >
+            🏠 Dashboard
+          </a>
+
+          <a
+            href="/analitik"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg bg-green-500/20 text-green-400"
+          >
+            📊 Analitik
+          </a>
+
+          <a
+            href="/transaksi"
+            class="flex items-center justify-betweenx gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            💸 Transaksi
+          </a>
+
+          <a
+            href="target"
+            class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            🎯 Target Tabungan
+          </a>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
+
+        <div class="space-y-2 text-sm">
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            💡 Insight
+          </div>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            📄 Laporan
+          </div>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            ⚙️ Pengaturan
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div
+        class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold"
+        >
+          R
+        </div>
+        <div>
+          <p class="font-semibold"><%= user.firstname %> <%= user.lastname %></p>
+          <p class="text-xs text-gray-400"><%= user.username %></p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="flex-1 px-12 py-10">
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-semibold">Analisis</h1>
+
+        <div class="flex items-center gap-3">
+          <span class="text-gray-400 text-sm">Catat uangmu di sini</span>
+          <button
+            class="w-10 h-10 bg-green-500 rounded-xl text-black font-bold hover:scale-105 transition"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTER -->
+      <div class="flex gap-3 mb-8">
+        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+          3 hari terakhir
+        </button>
+        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+          7 hari terakhir
+        </button>
+        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+          30 hari terakhir
+        </button>
+        <button class="px-4 py-2 bg-green-500 text-black rounded-lg text-sm">
+          90 hari terakhir
+        </button>
+      </div>
+
+      <!-- SALDO + CARD -->
+      <div class="flex items-center justify-between mb-12">
+        <div>
+          <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
+          <h1 class="text-[64px] font-bold text-green-400">Rp1.500.000</h1>
+        </div>
+
+        <div class="flex gap-5">
+          <div
+            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+          >
+            <p class="text-xs text-gray-500 mb-2">TARGET</p>
+            <p class="text-yellow-400 text-lg font-semibold">+Rp1.5 Jt</p>
+          </div>
+
+          <div
+            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+          >
+            <p class="text-xs text-gray-500 mb-2">PENGELUARAN</p>
+            <p class="text-gray-400 text-lg">-Rp0</p>
+          </div>
+
+          <div
+            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+          >
+            <p class="text-xs text-gray-500 mb-2">TABUNGAN</p>
+            <p class="text-green-400 text-lg font-semibold">+Rp1.5 Jt</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= GRID FIX ================= -->
+      <div class="grid grid-cols-3 gap-6 items-start">
+        <!-- LEFT -->
+        <div class="col-span-2 space-y-6">
+          <!-- CHART -->
+          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+            <p class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
+            <canvas id="myChart" class="h-[250px]"></canvas>
+          </div>
+
+          <!-- SKOR -->
+          <div
+            class="bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border border-green-500/30 rounded-2xl p-6 flex items-center justify-between"
+          >
+            <div class="flex items-center gap-6">
+              <div
+                class="w-20 h-20 rounded-full border-[6px] border-green-400 flex items-center justify-center text-green-400 text-xl font-bold"
+              >
+                100
+              </div>
+
+              <div>
+                <p class="text-xs text-gray-400 mb-1">SKOR KEUANGAN</p>
+                <p class="font-semibold">Sehat Banget 🔥</p>
+                <p class="text-xs text-gray-500 mb-2">Saver Master</p>
+
+                <p class="text-xs text-gray-400 max-w-md">
+                  KAMU TELAH MENABUNG SEBANYAK 1.5 JUTA HANYA DALAM 30 HARI
+                  TERAKHIR! Sebagai pengguna baru, kamu langsung masuk ke dalam
+                  Top 1% orang dengan kemampuan menabung yang tinggi.
+                </p>
+              </div>
+            </div>
+
+            <span
+              class="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-lg"
+            >
+              ✓ HEMAT
+            </span>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="space-y-6">
+          <!-- KATEGORI -->
+          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+            <p class="text-gray-400 text-sm mb-5">KATEGORI PENGELUARAN</p>
+
+            <div class="space-y-4">
+              <!-- ITEM -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 w-full">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-500/10"
+                  >
+                    🍔
+                  </div>
+
+                  <div class="w-full">
+                    <div class="flex justify-between text-sm">
+                      <span>Makanan & Minuman</span>
+                      <span class="text-red-400">Rp0</span>
+                    </div>
+
+                    <div
+                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
+                    ></div>
+                  </div>
+                </div>
+                <span class="text-xs text-gray-400 ml-2">0%</span>
+              </div>
+
+              <!-- ITEM -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 w-full">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/10"
+                  >
+                    🚌
+                  </div>
+
+                  <div class="w-full">
+                    <div class="flex justify-between text-sm">
+                      <span>Transportasi</span>
+                      <span class="text-yellow-400">Rp0</span>
+                    </div>
+
+                    <div
+                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
+                    ></div>
+                  </div>
+                </div>
+                <span class="text-xs text-gray-400 ml-2">0%</span>
+              </div>
+
+              <!-- ITEM -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 w-full">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-purple-500/10"
+                  >
+                    🎮
+                  </div>
+
+                  <div class="w-full">
+                    <div class="flex justify-between text-sm">
+                      <span>Hiburan</span>
+                      <span class="text-purple-400">Rp0</span>
+                    </div>
+
+                    <div
+                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
+                    ></div>
+                  </div>
+                </div>
+                <span class="text-xs text-gray-400 ml-2">0%</span>
+              </div>
+
+              <!-- ITEM -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 w-full">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-400/10"
+                  >
+                    📚
+                  </div>
+
+                  <div class="w-full">
+                    <div class="flex justify-between text-sm">
+                      <span>Pendidikan</span>
+                      <span class="text-blue-400">Rp0</span>
+                    </div>
+
+                    <div
+                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
+                    ></div>
+                  </div>
+                </div>
+                <span class="text-xs text-gray-400 ml-2">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TARGET -->
+          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+            <p class="font-semibold mb-1">Target Tabungan</p>
+            <p class="text-xs text-gray-400 mb-4">2 target aktif</p>
+
+            <div class="space-y-5">
+              <!-- ITEM -->
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <div>
+                    🎧 Sony WH-1000XM5
+                    <p class="text-xs text-gray-500">
+                      45 hari · Deadline 26 Apr
+                    </p>
+                  </div>
+                  <span class="text-green-400">28%</span>
+                </div>
+
+                <div class="w-full h-[6px] bg-gray-800 rounded-full">
+                  <div class="w-[28%] h-[6px] bg-green-400 rounded-full"></div>
+                </div>
+
+                <div class="flex justify-between text-xs mt-1 text-gray-400">
+                  <span class="text-green-400">Rp1.000.000</span>
+                  <span>dari Rp3.500.000</span>
+                </div>
+              </div>
+
+              <!-- ITEM -->
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <div>
+                    💻 Laptop Baru
+                    <p class="text-xs text-gray-500">
+                      90 hari · Deadline 10 Jun
+                    </p>
+                  </div>
+                  <span class="text-yellow-400">5%</span>
+                </div>
+
+                <div class="w-full h-[6px] bg-gray-800 rounded-full">
+                  <div class="w-[5%] h-[6px] bg-yellow-400 rounded-full"></div>
+                </div>
+
+                <div class="flex justify-between text-xs mt-1 text-gray-400">
+                  <span class="text-yellow-400">Rp500.000</span>
+                  <span>dari Rp10.000.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- CHART -->
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [
+            "28 Feb",
+            "5 Mar",
+            "10 Mar",
+            "15 Mar",
+            "20 Mar",
+            "25 Mar",
+            "30 Mar",
+          ],
+          datasets: [
+            {
+              data: [0, 0, 0, 0, 0, 0, 1500000],
+              borderColor: "#22c55e",
+              tension: 0.4,
+              pointBackgroundColor: "#22c55e",
+            },
+          ],
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: "#9ca3af" } },
+            y: { ticks: { color: "#9ca3af" } },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

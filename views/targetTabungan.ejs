@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Target Tabungan</title>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+
+  <body
+    class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
+  >
+    <!-- ================= SIDEBAR ================= -->
+    <aside
+      class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-2xl font-bold mb-8">
+          Peak<span class="text-green-400">Finance</span>
+        </h2>
+
+        <div class="space-y-2 text-sm">
+          <a
+            href="/"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            🏠 Dashboard
+          </a>
+
+          <a
+            href="/analitik"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            📊 Analitik
+          </a>
+
+          <a
+            href="/transaksi"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            💸 Transaksi
+          </a>
+
+          <a
+            href="/target"
+            class="flex gap-3 px-3 py-2 bg-green-500/20 text-green-400 rounded-lg"
+          >
+            🎯 Target Tabungan
+          </a>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
+
+        <div class="space-y-2 text-sm">
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            💡 Insight
+          </div>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            📄 Laporan
+          </div>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            ⚙️ Pengaturan
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div
+        class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold"
+        >
+          R
+        </div>
+        <div>
+          <p class="font-semibold"><%= user.firstname %> <%= user.lastname %></p>
+          <p class="text-xs text-gray-400"><%= user.username %></p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="flex-1 px-12 py-10">
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-semibold">Target Tabungan</h1>
+
+        <div class="flex items-center gap-3">
+          <span class="text-gray-400 text-sm">Catat uangmu di sini</span>
+          <button
+            class="w-10 h-10 bg-green-500 rounded-xl text-black font-bold hover:scale-105 transition"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= CARD TARGET ================= -->
+      <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6 mb-6">
+        <p class="text-sm text-gray-400 mb-4">Target Tabungan</p>
+
+        <!-- ITEM 1 -->
+        <div class="mb-5">
+          <div class="flex justify-between text-sm mb-1">
+            <span>🎧 Sony WH-1000XM5</span>
+            <span class="text-green-400">28%</span>
+          </div>
+
+          <div class="w-full h-2 bg-gray-800 rounded-full">
+            <div class="h-2 bg-green-400 rounded-full w-[28%]"></div>
+          </div>
+
+          <div class="flex justify-between text-xs text-gray-400 mt-1">
+            <span class="text-green-400">Rp1.000.000</span>
+            <span>dari Rp3.500.000</span>
+          </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div>
+          <div class="flex justify-between text-sm mb-1">
+            <span>💻 Laptop Baru</span>
+            <span class="text-yellow-400">5%</span>
+          </div>
+
+          <div class="w-full h-2 bg-gray-800 rounded-full">
+            <div class="h-2 bg-yellow-400 rounded-full w-[5%]"></div>
+          </div>
+
+          <div class="flex justify-between text-xs text-gray-400 mt-1">
+            <span class="text-yellow-400">Rp500.000</span>
+            <span>dari Rp10.000.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= KALENDER ================= -->
+      <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6 mb-6">
+        <div class="flex justify-between mb-4">
+          <p class="text-sm text-gray-400">Kalender</p>
+
+          <div class="flex gap-2 text-xs">
+            <span class="px-3 py-1 bg-gray-800 rounded">3 hari terakhir</span>
+            <span class="px-3 py-1 bg-gray-800 rounded">7 hari terakhir</span>
+            <span class="px-3 py-1 bg-green-500 text-black rounded"
+              >30 hari terakhir</span
+            >
+            <span class="px-3 py-1 bg-gray-800 rounded">90 hari terakhir</span>
+          </div>
+        </div>
+
+        <!-- GRID KALENDER -->
+        <div class="grid grid-cols-7 gap-2 text-center text-sm text-gray-400">
+          <!-- tanggal -->
+          <div class="p-3">1</div>
+          <div class="p-3">2</div>
+          <div class="p-3">3</div>
+          <div class="p-3">4</div>
+          <div class="p-3">5</div>
+          <div class="p-3">6</div>
+          <div class="p-3">7</div>
+
+          <div class="p-3">8</div>
+          <div class="p-3">9</div>
+          <div class="p-3">10</div>
+          <div class="p-3">11</div>
+          <div class="p-3">12</div>
+          <div class="p-3">13</div>
+          <div class="p-3">14</div>
+
+          <div class="p-3">15</div>
+          <div class="p-3">16</div>
+          <div class="p-3">17</div>
+          <div class="p-3">18</div>
+          <div class="p-3">19</div>
+          <div class="p-3">20</div>
+          <div class="p-3">21</div>
+
+          <div class="p-3">22</div>
+          <div class="p-3">23</div>
+          <div class="p-3">24</div>
+          <div class="p-3">25</div>
+          <div class="p-3">26</div>
+          <div class="p-3">27</div>
+          <div class="p-3">28</div>
+
+          <div class="p-3">29</div>
+
+          <!-- HIGHLIGHT -->
+          <div class="p-3 bg-green-500/20 rounded text-green-400">
+            30
+            <div class="text-[10px]">Rp1.500.000</div>
+          </div>
+
+          <div class="p-3">31</div>
+        </div>
+      </div>
+
+      <!-- ================= INFO ================= -->
+      <div
+        class="bg-green-500/10 border border-green-500/30 text-green-400 text-center py-4 rounded-xl"
+      >
+        Target kamu dalam bulan ini adalah Rp1.500.000. Kerja bagus!
+      </div>
+    </main>
+  </body>
+</html>
