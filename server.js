@@ -5,6 +5,7 @@ import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
+import jwt from 'jsonwebtoken';
 
 
 const app = express();
@@ -21,6 +22,20 @@ app.use(cors({
 }));
 
 app.use(express.static(path.resolve('public')));
+app.use((req, res, next) => {
+    const token = req.cookies.token;
+    if(token) {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            res.locals.user = decoded;
+        } catch (err) {
+            res.locals.user = null;
+        }
+    } else {
+        res.locals.user = null;
+    }
+    next();
+});
 app.use("/auth", usersRouter);
 app.use("/", indexRouter);
 

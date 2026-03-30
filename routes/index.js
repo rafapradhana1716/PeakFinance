@@ -12,8 +12,7 @@ router.get('/', (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     return res.render('index', {
-      page: 'home',
-      user: decoded.username
+      page: 'home'
     });
   }  catch (err) {
     res.clearCookie('token');

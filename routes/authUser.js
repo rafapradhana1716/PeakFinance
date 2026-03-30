@@ -54,16 +54,19 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
     const { email, username, firstname, lastname, password } = req.body
-    const hashPass = await bcrypt.hash(password, 10);
-
+    
     if(!email || !username || !password || !firstname || !lastname) {
         return res.status(400).json({ message: "Semua field wajib diisi!" });
     }
-
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailRegex.test(email)) {
         return res.status(400).json({ message: "Format email tidak valid!" });
     }
+    if(password.length < 8) {
+        return res.status(400).json({ message: "Password harus lebih dari 8 karakter" })
+    }
+    const hashPass = await bcrypt.hash(password, 10);
 
     try {
         const existedUser = await db.query(
