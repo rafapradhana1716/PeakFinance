@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
 
     try {
         const rows = await db.query(
-            'SELECT * FROM users WHERE email = ?', [username]
+            'SELECT * FROM users WHERE email = ? OR user = ?', [username, username]
         );
 
         if(rows.length === 0) {
@@ -24,12 +24,14 @@ router.post("/login", async (req, res) => {
 
         const match = await bcrypt.compare(password, user.pass);
         if(!match) {
-            return res.status(401).json({ message: "Email atau Password salah!" });
+            return res.status(400).json({ message: "Email atau Password salah!" });
         }
 
         const payload = {
             id: user.id,
-            username: user.user
+            username: user.user,
+            firstname: user.firstname,
+            lastname: user.lastname
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -51,10 +53,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    const { email, username, password } = req.body
+    const { email, username, firstname, lastname, password } = req.body
     const hashPass = await bcrypt.hash(password, 10);
 
-    if(!email || !username || !password) {
+    if(!email || !username || !password || !firstname || !lastname) {
         return res.status(400).json({ message: "Semua field wajib diisi!" });
     }
 
@@ -73,11 +75,16 @@ router.post("/register", async (req, res) => {
         }
 
         const result = await db.query(
-            'INSERT INTO users (email, user, pass) VALUES (?, ?, ?)', [email, username, hashPass]
+            'INSERT INTO users (email, user, firstname, lastname, pass) VALUES (?, ?, ?, ?, ?)', [email, username, firstname, lastname, hashPass]
         );
         const newUserId = Number(result.insertId);
 
-        const payload = { id:  newUserId, username: username};
+        const payload = {
+            id:  newUserId,
+            username: username,
+            firstname: firstname,
+            lastname: lastname
+        };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: "1h"
@@ -89,10 +96,7 @@ router.post("/register", async (req, res) => {
             maxAge: 3600000
         });
 
-        return res.status(200).json({
-            message: "User berhasil ditambahkan dan otomatis login!",
-            name: name
-        });
+        return res.redirect("/");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Gagal registrasi user!" });
