@@ -64,7 +64,7 @@ router.post("/register", async (req, res) => {
         return res.status(400).json({ message: "Format email tidak valid!" });
     }
     if(password.length < 8) {
-        return res.status(400).json({ message: "Password harus lebih dari 8 karakter" })
+        return res.status(400).json({ message: "Password harus lebih dari 8 karakter" });
     }
     const hashPass = await bcrypt.hash(password, 10);
 
@@ -74,7 +74,7 @@ router.post("/register", async (req, res) => {
         );
 
         if (existedUser.length > 0) {
-            return res.status(400).json({ message: "Email terdaftar!" })
+            return res.status(400).json({ message: "Email terdaftar!" });
         }
 
         const result = await db.query(
@@ -108,7 +108,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/logout", (req, res) => {
     res.clearCookie("token");
-    return res.status(200).json({ message: "Logout berhasil!" })
+    return res.status(200).json({ message: "Logout berhasil!" });
 });
 
 export default router;

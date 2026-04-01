@@ -1,6 +1,7 @@
 import express from 'express';
 import usersRouter from './routes/authUser.js';
-import indexRouter from './routes/pageRouter.js';
+import pageRouter from './routes/pageRouter.js';
+import transactionRouter from './routes/transactionsRouter.js';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -27,17 +28,21 @@ app.use((req, res, next) => {
     if(token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
             res.locals.user = decoded;
         } catch (err) {
+            req.user = null;
             res.locals.user = null;
         }
     } else {
+        req.user = null;
         res.locals.user = null;
     }
     next();
 });
 app.use("/auth", usersRouter);
-app.use("/", indexRouter);
+app.use("/transaction",transactionRouter);
+app.use("/", pageRouter);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

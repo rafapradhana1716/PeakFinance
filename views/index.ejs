@@ -53,7 +53,7 @@
         <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
 
         <div class="space-y-2 text-sm">
-         <div
+          <div
             href="/target"
             class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>"
           >
@@ -82,7 +82,9 @@
           X
         </div>
         <div>
-          <p class="font-semibold"><%= user.firstname %> <%= user.lastname %></p>
+          <p class="font-semibold">
+            <%= user.firstname %> <%= user.lastname %>
+          </p>
           <p class="text-xs text-gray-400"><%= user.username %></p>
         </div>
       </div>
@@ -260,67 +262,87 @@
         <!-- SLIDER -->
         <div id="slider" class="flex w-[840px] transition duration-500">
           <!-- Catat Uang pg1 -->
-          <div
-            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
+          <form
+            action="/transactions/add"
+            method="POST"
+            id="transactionForm"
+            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl"
           >
             <div class="flex justify-between items-center mb-4">
               <p class="text-xs text-gray-300">CATAT KEUANGANMU HARI INI</p>
-              <button onclick="nextPage()" class="text-xl">></button>
+              <button
+                type="button"
+                onclick="nextPage()"
+                class="text-xl text-white"
+              >
+                >
+              </button>
             </div>
 
             <div class="space-y-3">
               <input
-                placeholder="Nama transaksi..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
+                type="text"
+                placeholder="Nama transaksi"
+                name="name"
+                required
+                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
               />
 
               <input
                 type="number"
-                placeholder="Jumlah uang..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
+                placeholder="Jumlah uang"
+                name="amount"
+                required
+                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
               />
 
-              <!-- TOGGLE -->
               <div
                 class="bg-[#020617] border border-gray-800 rounded-xl p-3 space-y-2"
               >
                 <button
+                  type="button"
                   id="pemasukanBtn"
-                  onclick="setType('pemasukan')"
-                  class="w-full py-2 rounded-xl bg-green-400 text-black font-semibold"
+                  onclick="setType('income')"
+                  class="w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all"
                 >
                   Pemasukan
                 </button>
 
                 <button
+                  type="button"
                   id="pengeluaranBtn"
-                  onclick="setType('pengeluaran')"
-                  class="w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold"
+                  onclick="setType('expense')"
+                  class="w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all"
                 >
                   Pengeluaran
                 </button>
               </div>
 
-              <input type="hidden" id="typeInput" value="pemasukan" />
+              <input type="hidden" name="type" id="typeInput" value="income" />
 
               <textarea
+                name="description"
                 placeholder="Catatan..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
+                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
               ></textarea>
             </div>
 
             <div class="flex justify-between mt-6">
               <button
+                type="button"
                 onclick="closeModal()"
-                class="w-12 h-12 bg-red-400 rounded-xl text-black"
+                class="w-12 h-12 bg-red-400 rounded-xl text-black hover:bg-red-500 transition-colors"
               >
                 ✕
               </button>
-              <button class="w-12 h-12 bg-green-400 rounded-xl text-black">
+              <button
+                type="submit"
+                class="w-12 h-12 bg-green-400 rounded-xl text-black hover:bg-green-500 transition-colors"
+              >
                 +
               </button>
             </div>
-          </div>
+          </form>
 
           <!-- Catat Tabungan pg2 -->
           <div
@@ -413,24 +435,24 @@
 
       /* TOGGLE */
       function setType(type) {
-        const pemasukan = document.getElementById("pemasukanBtn");
-        const pengeluaran = document.getElementById("pengeluaranBtn");
+        const income = document.getElementById("pemasukanBtn");
+        const expense = document.getElementById("pengeluaranBtn");
         const input = document.getElementById("typeInput");
 
         input.value = type;
 
-        if (type === "pemasukan") {
-          pemasukan.classList.add("bg-green-400", "text-black");
-          pemasukan.classList.remove("border", "text-green-400");
+        if (type === "income") {
+          income.classList.add("bg-green-400", "text-black");
+          income.classList.remove("border", "text-green-400");
 
-          pengeluaran.classList.remove("bg-green-400", "text-black");
-          pengeluaran.classList.add("border", "text-green-400");
+          expense.classList.remove("bg-green-400", "text-black");
+          expense.classList.add("border", "text-green-400");
         } else {
-          pengeluaran.classList.add("bg-green-400", "text-black");
-          pengeluaran.classList.remove("border", "text-green-400");
+          expense.classList.add("bg-green-400", "text-black");
+          expense.classList.remove("border", "text-green-400");
 
-          pemasukan.classList.remove("bg-green-400", "text-black");
-          pemasukan.classList.add("border", "text-green-400");
+          income.classList.remove("bg-green-400", "text-black");
+          income.classList.add("border", "text-green-400");
         }
       }
     </script>
