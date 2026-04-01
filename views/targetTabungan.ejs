@@ -51,23 +51,23 @@
         <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
 
         <div class="space-y-2 text-sm">
+          <a href="/insight"
+class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+  💡 Insight
+</a>
           <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
-          >
-            💡 Insight
-          </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
           >
             📄 Laporan
           </div>
           <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
           >
             ⚙️ Pengaturan
           </div>
         </div>
       </div>
+
 
       <!-- PROFILE -->
       <div
@@ -88,8 +88,9 @@
     <!-- ================= MAIN ================= -->
     <main class="flex-1 px-12 py-10">
       <!-- HEADER -->
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-semibold">Target Tabungan</h1>
+      <div  class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
+      >
+        <h1 class="text-3xl font-semibold tracking-wide">Target Tabungan</h1>
 
         <div class="flex items-center gap-3">
           <span class="text-gray-400 text-sm">Catat uangmu di sini</span>

@@ -36,6 +36,10 @@ router.get('/profil', (req, res) => {
   res.render('profile', { page: 'profil' });
 });
 
+router.get('/insight', (req, res) => {
+  res.render('insight', { page: 'insight' });
+});
+
 router.get("/login", (req, res) => {
   if(req.cookies.token) return res.redirect('/');
   res.render("auth/login", { page: "login" });

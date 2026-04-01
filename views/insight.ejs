@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insight - PeakFinance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+ <body
+    class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
+  >
+    <!-- ================= SIDEBAR ================= -->
+    <aside
+      class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between"
+    >
+      <div>
+        <h2 class="text-2xl font-bold mb-8">
+          Peak<span class="text-green-400">Finance</span>
+        </h2>
+
+        <div class="space-y-2 text-sm">
+          <a
+            href="/"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            🏠 Dashboard
+          </a>
+
+          <a
+            href="/analitik"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            📊 Analitik
+          </a>
+
+          <a
+            href="/transaksi"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            💸 Transaksi
+          </a>
+
+          <a
+            href="/target"
+            class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg"
+          >
+            🎯 Target Tabungan
+          </a>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
+
+        <div class="space-y-2 text-sm">
+          <a href="/insight"
+class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+  💡 Insight
+</a>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
+          >
+            📄 Laporan
+          </div>
+          <div
+            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
+          >
+            ⚙️ Pengaturan
+          </div>
+        </div>
+      </div>
+
+
+      <!-- PROFILE -->
+      <div
+        class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800"
+      >
+        <div
+          class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold"
+        >
+          R
+        </div>
+        <div>
+          <p class="font-semibold"><%= user.firstname %> <%= user.lastname %></p>
+          <p class="text-xs text-gray-400"><%= user.username %></p>
+        </div>
+      </div>
+    </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="flex-1 px-12 py-10 overflow-y-auto h-screen">
+
+     <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
+      >
+        <h1 class="text-3xl font-semibold tracking-wide">Insight</h1>
+
+  <div class="flex items-center gap-3">
+    <span class="text-gray-400 text-sm">Catat uangmu di sini</span>
+    <button class="w-10 h-10 bg-green-500 rounded-xl text-black font-bold">+</button>
+  </div>
+</div>
+
+    <!-- POPULER -->
+    <h2 class="text-green-400 text-3xl font-bold mb-8">
+      Insight Populer Bulan Ini 💡
+    </h2>
+
+    <a href="/insight/detail/0"
+      class="block p-6 rounded-2xl mb-12
+      bg-gradient-to-r from-green-500/25 via-green-500/10 to-transparent
+      border border-green-400/30
+      shadow-[0_0_40px_rgba(34,197,94,0.15)]
+      hover:scale-[1.01] transition">
+
+      <div class="flex items-start gap-3 mb-3">
+        <div class="text-green-400 text-xl">✔</div>
+
+        <div>
+          <p class="text-xl font-semibold">Mengatasi Pemborosan THR Yang Realistis</p>
+          <p class="text-xs text-gray-400 mt-1">Ditulis oleh Rahmanto • Maret 2026</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-gray-300">
+        Insight ini menjelaskan cara mengatasi pemborosan dan spending berlebihan saat mendapat THR.
+      </p>
+
+      <p class="text-xs text-gray-500 mt-4">Dibaca 20.102 kali</p>
+
+    </a>
+
+    <!-- LIST -->
+    <div class="space-y-5">
+
+      <a href="/insight/detail/1" class="flex items-center gap-3 p-4 rounded-xl bg-[#020617] border border-gray-800 hover:bg-[#0b1220] transition">
+        <div class="text-green-400">✔</div>
+        <div>
+          <p class="font-medium">Tips Menghindari Pajak (Legal)</p>
+          <p class="text-xs text-gray-500">Rahmanto • 29 Maret 2026 • Dibaca 10.045 kali</p>
+        </div>
+      </a>
+
+      <a href="/insight/detail/2" class="flex items-center gap-3 p-4 rounded-xl bg-[#020617] border border-gray-800 hover:bg-[#0b1220] transition">
+        <div class="text-green-400">✔</div>
+        <div>
+          <p class="font-medium">Strategi Menabung Untuk Abroad ke Jerman</p>
+          <p class="text-xs text-gray-500">Schmidt • 16 Maret 2026 • Dibaca 9.010 kali</p>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
