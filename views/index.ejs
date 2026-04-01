@@ -384,7 +384,7 @@
       }
 
       document.getElementById("greeting").textContent =
-        getGreeting() + ",(nama_profile)";
+        getGreeting() + ", <%= user.username %>";
 
       function openModal() {
         const m = document.getElementById("modal");
