@@ -1,6 +1,6 @@
 import express from 'express';
 import usersRouter from './routes/authUser.js';
-import indexRouter from './routes/index.js';
+import indexRouter from './routes/pageRouter.js';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
