@@ -22,6 +22,7 @@
 
     <div class="auth-wrapper">
 
+
         <!-- Left Panel -->
         <div class="auth-left">
             <div class="brand">
@@ -55,16 +56,16 @@
                             <label class="form-label" for="firstname">Nama Depan</label>
                             <div class="input-wrap">
                                 <span class="input-icon">✏️</span>
-                                <input class="form-input" type="text" id="firstname" name="firstname"
-                                    placeholder="Jojo" autocomplete="off">
+                                <input class="form-input" type="text" id="firstname" name="firstname" placeholder="Jojo"
+                                    autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="lastname">Nama Belakang</label>
                             <div class="input-wrap">
                                 <span class="input-icon">✏️</span>
-                                <input class="form-input" type="text" id="lastname" name="lastname"
-                                    placeholder="Willy" autocomplete="off">
+                                <input class="form-input" type="text" id="lastname" name="lastname" placeholder="Willy"
+                                    autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -118,7 +119,8 @@
                     <label class="checkbox-label" style="margin-bottom:20px">
                         <input type="checkbox" class="checkbox-input" required>
                         <span class="checkbox-custom"></span>
-                        Saya setuju dengan <a href="#" class="auth-switch-link">Syarat & Ketentuan</a>
+                        Saya setuju dengan <a href="#" onclick="openSyarat(); return false;"
+                            class="auth-switch-link">Syarat & Ketentuan</a>
                     </label>
 
                     <button type="submit" class="btn-submit">
@@ -136,10 +138,72 @@
 
             </div>
         </div>
+        <!-- Modal Syarat & Ketentuan -->
+        <div id="modalSyarat" class="modal hidden">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Syarat & Ketentuan</h3>
+                    <button onclick="closeSyarat()" class="modal-close">✖</button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Dengan menggunakan Peak Finance, kamu setuju bahwa:
+                    </p>
+                    <ul>
+                        <li>Data yang kamu masukkan adalah benar.</li>
+                        <li>Kami menjaga keamanan data kamu.</li>
+                        <li>Kamu bertanggung jawab atas akunmu sendiri.</li>
+                    </ul>
+                    <p>
+                        Detail lengkap akan dikembangkan nanti sesuai kebutuhan aplikasi.
+                    </p>
+                    <br>
+                    <p>
+                        Terus apa lagi yh?
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button onclick="setujuSyarat()" class="btn-submit">
+                        Saya Setuju
+                    </button>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
+
     <script>
+        function openSyarat() {
+            const m = document.getElementById('modalSyarat');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeSyarat() {
+            const m = document.getElementById('modalSyarat');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        function setujuSyarat() {
+            // Centang otomatis checkbox
+            document.querySelector('.checkbox-input').checked = true;
+            closeSyarat();
+        }
+
+        // Klik luar modal = tutup
+        const modal = document.getElementById('modalSyarat');
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) closeSyarat();
+            });
+        }
+
         function togglePassword(id, btn) {
             const input = document.getElementById(id);
             if (input.type === 'password') {

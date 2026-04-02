@@ -1,8 +1,3 @@
-/* ═══════════════════════════════════════
-   auth.css — Peak Finance Auth Pages
-   Login & Register shared styles
-═══════════════════════════════════════ */
-
 :root {
     --mint: #00E5A0;
     --mint-dim: #00C488;
@@ -439,6 +434,82 @@
 
 .btn-submit:hover .btn-arrow {
     transform: translateX(4px);
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal.flex {
+    display: flex;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    color: var(--text);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--soft);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: var(--coral);
+}
+
+.modal-body {
+    font-size: 14px;
+    color: var(--soft);
+    margin-bottom: 20px;
+}
+
+.modal-body ul {
+    padding-left: 18px;
+}
+
+.modal-footer {
+    text-align: right;
 }
 
 /* ── Divider ── */
