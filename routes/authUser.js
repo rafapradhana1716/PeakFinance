@@ -27,23 +27,11 @@ router.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Email atau Password salah!" });
         }
 
-        const savings = await db.query(
-            `SELECT
-            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) -
-            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS balance
-            FROM transactions
-            WHERE user_id = ?`,
-            [user.id]
-        )
-
-        const newUserSavings = savings[0].balance || 0;
-
         const payload = {
             id: user.id,
             username: user.user,
             firstname: user.firstname,
-            lastname: user.lastname,
-            savings: newUserSavings
+            lastname: user.lastname
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -94,22 +82,11 @@ router.post("/register", async (req, res) => {
         );
         const newUserId = Number(result.insertId);
 
-        const [savings] = await db.query(
-            `SELECT
-            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) -
-            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS balance
-            FROM transactions
-            WHERE user_id = ?`,
-            [newUserId]
-        )
-        const newUserSavings = savings[0].balance || 0;
-
         const payload = {
             id:  newUserId,
             username: username,
             firstname: firstname,
-            lastname: lastname,
-            savings: newUserSavings
+            lastname: lastname
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {

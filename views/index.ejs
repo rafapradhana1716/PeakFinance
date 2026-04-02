@@ -131,7 +131,7 @@
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
             TABUNGAN BULAN INI
           </p>
-          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(user.savings ? user.savings : 0).toLocaleString('id-ID') %></h2>
+          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %></h2>
           <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
           <div class="grid grid-cols-3 gap-4">
@@ -438,7 +438,7 @@
 
             <div class="bg-black rounded-xl p-4 mb-4 text-center">
               <p class="text-xs text-gray-400">Saldo Uang</p>
-              <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(user.savings ? user.savings : 0).toLocaleString('id-ID') %></h1>
+              <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %></h1>
             </div>
 
             <input

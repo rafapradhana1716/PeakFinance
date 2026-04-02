@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-
+import { getBalance } from './routes/financeService.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -23,20 +23,23 @@ app.use(cors({
 }));
 
 app.use(express.static(path.resolve('public')));
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     const token = req.cookies.token;
     if(token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decoded;
             res.locals.user = decoded;
+            res.locals.balance = await getBalance(decoded.id);
         } catch (err) {
             req.user = null;
             res.locals.user = null;
+            res.locals.balance = 0;
         }
     } else {
         req.user = null;
         res.locals.user = null;
+        res.locals.balance = 0;
     }
     next();
 });
