@@ -375,6 +375,17 @@
                       <span class="text-lg">➕</span> Lainnya
                     </button>
                   </div>
+
+                  <!-- Input Lainnya (hidden by default) -->
+                  <div id="lainnyaInput" class="hidden">
+                    <input
+                      type="text"
+                      id="kategoriLainnya"
+                      placeholder="Tulis kategori..."
+                      class="w-full bg-[#0f172a] border border-gray-700 rounded-xl px-4 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-green-400 transition-all"
+                      oninput="setKategoriLainnya(this.value)"
+                    />
+                  </div>
                   <!-- Hidden input buat nyimpen nilai kategori -->
                   <input
                     type="hidden"
@@ -556,7 +567,6 @@
       }
 
       function setKategori(el, nama) {
-        // Reset semua dulu
         document.querySelectorAll(".kategori-btn").forEach((b) => {
           b.classList.remove(
             "border-green-400",
@@ -565,15 +575,29 @@
           );
           b.classList.add("border-gray-700", "text-gray-400");
         });
-        // Aktifkan yang diklik
+        
         el.classList.remove("border-gray-700", "text-gray-400");
         el.classList.add(
           "border-green-400",
           "text-green-400",
           "bg-green-400/10",
         );
-        // Simpan ke hidden input
-        document.getElementById("selectedKategori").value = nama;
+
+        // Tampilkan/sembunyikan input lainnya
+        const lainnyaInput = document.getElementById("lainnyaInput");
+        if (nama === "Lainnya") {
+          lainnyaInput.classList.remove("hidden");
+          document.getElementById("selectedKategori").value = ""
+          document.getElementById("kategoriLainnya").focus();
+        } else {
+          lainnyaInput.classList.add("hidden");
+          document.getElementById("kategoriLainnya").value = "";
+          document.getElementById("selectedKategori").value = nama;
+        }
+      }
+
+      function setKategoriLainnya(value) {
+        document.getElementById("selectedKategori").value = value;
       }
     </script>
   </body>
