@@ -401,7 +401,7 @@
 .btn-submit {
     width: 100%;
     padding: 13px;
-    background: var(--mint);
+    background: #353535;
     color: #000;
     border: none;
     border-radius: 12px;
@@ -418,7 +418,11 @@
     margin-top: 4px;
 }
 
-.btn-submit:hover {
+.btn-submit.active {
+    background: var(--mint);
+}
+
+.btn-submit.active:hover {
     background: var(--mint-dim);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 229, 160, 0.3);
@@ -432,7 +436,7 @@
     transition: transform 0.2s;
 }
 
-.btn-submit:hover .btn-arrow {
+.btn-submit.active:hover .btn-arrow {
     transform: translateX(4px);
 }
 

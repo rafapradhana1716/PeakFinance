@@ -178,6 +178,13 @@
 
 
     <script>
+        const checkbox = document.querySelector('.checkbox-input');
+        const btnSubmit = document.querySelector('.btn-submit');
+
+        checkbox.addEventListener('change', () => {
+            btnSubmit.classList.toggle('active', checkbox.checked);
+        });
+
         function openSyarat() {
             const m = document.getElementById('modalSyarat');
             m.classList.remove('hidden');
