@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
-    const { username, password } = req.body
+    const { username, password, rememberMe } = req.body
 
     if(!username || !password) {
         return res.status(400).json({ message: "Email dan Password wajib diisi!" });
@@ -34,14 +34,19 @@ router.post("/login", async (req, res) => {
             lastname: user.lastname
         };
 
+        const isRemembered = rememberMe === 'true';
+        const shortDuration = 60 * 60;
+        const longDuration = 7 * 24 * 60 * 60;
+        const selectedDuration = isRemembered ? longDuration : shortDuration;
+
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1h"
+            expiresIn: selectedDuration
         });
 
         res.cookie('token', token, {
             httpOnly: true,
             secure: false,
-            maxAge: 3600000,
+            maxAge: selectedDuration * 1000,
         });
 
         return res.redirect("/");
@@ -108,7 +113,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/logout", (req, res) => {
     res.clearCookie("token");
-    return res.status(200).json({ message: "Logout berhasil!" });
+    return res.redirect("/login");
 });
 
 export default router;
