@@ -123,7 +123,8 @@
       <div class="flex items-center justify-between mb-12">
         <div>
           <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
-          <h1 class="text-[64px] font-bold text-green-400">Rp1.500.000</h1>
+          <h1 class="text-[64px] font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID')
+            %></h1>
         </div>
 
         <div class="flex gap-5">
@@ -351,24 +352,18 @@
     <!-- CHART -->
     <script>
       const ctx = document.getElementById("myChart");
+      const chartLabels = JSON.parse('<%- JSON.stringify(labels) %>');
+      const chartData = JSON.parse('<%- JSON.stringify(data) %>');
 
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: [
-            "28 Feb",
-            "5 Mar",
-            "10 Mar",
-            "15 Mar",
-            "20 Mar",
-            "25 Mar",
-            "30 Mar",
-          ],
+          labels: chartLabels,
           datasets: [
             {
-              data: [0, 0, 0, 0, 0, 0, 1500000],
+              data: chartData,
               borderColor: "#22c55e",
-              tension: 0.4,
+              tension: 0.1,
               pointBackgroundColor: "#22c55e",
             },
           ],

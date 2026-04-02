@@ -1,5 +1,5 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import db from '../config/database.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -23,8 +23,13 @@ router.get('/analitik', (req, res) => {
   res.render('analitik', { page: 'analitik' });
 });
 
-router.get('/transaksi', (req, res) => {
-  res.render('transaksi', { page: 'transaksi' });
+router.get('/transaksi', async (req, res) => {
+  const rows = await db.query(
+    'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
+    [req.user.id]
+  )
+
+  res.render('transaksi', { page: 'transaksi', transactions: rows });
 });
 
 router.get('/target', (req, res) => {

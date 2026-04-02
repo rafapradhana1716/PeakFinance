@@ -120,51 +120,38 @@
 
       <!-- ================= LIST TRANSAKSI ================= -->
       <div class="space-y-4">
-        <!-- ITEM 1 -->
-        <div
-          class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5"
-        >
-          <div>
-            <p class="font-semibold text-lg">30 Maret 2026</p>
-            <p class="text-sm text-gray-400">
-              Kamu telah mencatat masukanmu sebanyak
-            </p>
-            <p class="text-xs text-gray-500 italic mt-1">
-              "Ini tabungan pertamaku. Aku senang mempunyai banyak uang di suatu
-              hari nanti."
-            </p>
-          </div>
+        <% transactions.forEach(txn => { %>
 
-          <p class="text-3xl font-bold text-green-400">+ Rp1.500.000</p>
-        </div>
-
-        <!-- ITEM 2 -->
-        <div
-          class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5"
-        >
-          <div>
-            <p class="font-semibold text-lg">30 Maret 2026</p>
-            <p class="text-sm text-gray-400">
-              Kamu telah menabung untuk Sony WH-1000XM5
+          <div
+            class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5"
+            >
+            <div>
+              <p class="font-semibold text-lg"><%= new Date(txn.created_at).toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+              <p class="text-sm text-gray-400">
+                  Kamu telah mencatat <%= txn.type === 'income' ? 'masukanmu' : 'pengeluaranmu' %> sebesar
+              </p>
+              <% if (txn.description) { %>
+                  <p class="text-xs text-gray-500 italic mt-1 max-w-md">
+                      "<%= txn.description %>"
+                  </p>
+              <% } %>
+              <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
+                  <%= txn.category || 'Umum' %>
+              </span>
+            </div>
+            
+            <p class="text-2xl font-bold <%= txn.type === 'income' ? 'text-green-400' : 'text-red-400' %>">
+              <%= txn.type === 'income' ? '+' : '-' %> 
+              Rp<%= Number(txn.amount).toLocaleString('id-ID') %>
             </p>
           </div>
+        <% }) %>
 
-          <p class="text-3xl font-bold text-cyan-400">+ Rp1.000.000</p>
-        </div>
-
-        <!-- ITEM 3 -->
-        <div
-          class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5"
-        >
-          <div>
-            <p class="font-semibold text-lg">30 Maret 2026</p>
-            <p class="text-sm text-gray-400">
-              Kamu telah menabung untuk Laptop Baru
-            </p>
+        <% if (transactions.length === 0) { %>
+          <div class="text-center py-10 text-gray-500">
+            <p>Belum ada riwayat transaksi nih. Yuk mulai catat!</p>
           </div>
-
-          <p class="text-3xl font-bold text-yellow-400">+ Rp500.000</p>
-        </div>
+        <% } %>
       </div>
     </main>
   </body>

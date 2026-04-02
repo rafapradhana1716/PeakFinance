@@ -17,3 +17,43 @@ export const getBalance = async (userId) => {
         return 0;
     }
 };
+
+export const getChartData = async (userId) => {
+    const rows = await db.query(
+        `SELECT 
+            DATE_FORMAT(created_at, '%Y-%m-%d') AS tanggal,
+            SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS daily_net
+        FROM transactions 
+        WHERE user_id = ?
+        GROUP BY tanggal
+        ORDER BY tanggal ASC`,
+        [userId]
+    )
+
+    let currentBalance = 0;
+    const labels = [];
+    const data = [];
+
+    rows.forEach((row, index) => {
+        const dateNow = new Date(row.tanggal);
+
+        if(index > 0) {
+            const datePrev = new Date(rows[index - 1].tanggal);
+            const gap = (dateNow - datePrev) / (1000 * 60 * 60 * 24);
+
+            for (let i = 1; i < gap; i++) {
+                const dateGap = new Date(datePrev);
+                dateGap.setDate(datePrev.getDate() + i);
+
+                labels.push(dateGap.toISOString().split('T')[0]);
+                data.push(currentBalance);
+            }
+        }
+
+        currentBalance += Number(row.daily_net);
+        labels.push(row.tanggal);
+        data.push(currentBalance);
+    });
+
+    return { labels, data };
+};
