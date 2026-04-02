@@ -9,7 +9,7 @@ router.post("/add", async (req, res) => {
     try {
         await db.query(
             "INSERT INTO transactions (user_id, name, type, category, amount, description) VALUES (?, ?, ?, ?, ?, ?)",
-            [userId, name, type, category, amount, description]
+            [userId, name, type, category, amount, description ? description : ""]
         );
 
         return res.redirect("/");

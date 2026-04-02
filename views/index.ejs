@@ -131,7 +131,7 @@
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
             TABUNGAN BULAN INI
           </p>
-          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp1.500.000</h2>
+          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(user.savings ? user.savings : 0).toLocaleString('id-ID') %></h2>
           <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
           <div class="grid grid-cols-3 gap-4">
@@ -265,7 +265,7 @@
         >
           <!-- Catat Uang pg1 -->
           <form
-            action="/transactions/add"
+            action="/transaction/add"
             method="POST"
             id="transactionForm"
             class="w-[420px] flex-shrink-0 min-h-[500px] overflow-y-auto p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
@@ -291,12 +291,15 @@
               />
 
               <input
-                type="number"
+                type="text"
+                id="amountDisplay"
                 placeholder="Jumlah uang"
-                name="amount"
+                oninput="formatRupiah(this)"
                 required
                 class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
               />
+
+              <input type="hidden" name="amount" id="amountActual">
 
               <div
                 class="bg-[#020617] border border-gray-800 rounded-xl p-3 space-y-2"
@@ -392,7 +395,7 @@
                   <input
                     type="hidden"
                     id="selectedKategori"
-                    name="kategori"
+                    name="category"
                     value=""
                   />
                 </div>
@@ -435,7 +438,7 @@
 
             <div class="bg-black rounded-xl p-4 mb-4 text-center">
               <p class="text-xs text-gray-400">Saldo Uang</p>
-              <h1 class="text-3xl font-bold text-green-400">Rp1.500.000</h1>
+              <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(user.savings ? user.savings : 0).toLocaleString('id-ID') %></h1>
             </div>
 
             <input
@@ -489,6 +492,22 @@
       document.getElementById("greeting").textContent =
         getGreeting() + ", <%= user.username %>";
 
+      function formatRupiah(el) {
+        let rawValue = el.value.replace(/[^0-9]/g, '');
+        const hiddenInput = document.getElementById('amountActual');
+        if(hiddenInput) {
+          hiddenInput.value = rawValue;
+        }
+
+        if(!rawValue) {
+          el.value = '';
+          return;
+        }
+
+        let formatted = new Intl.NumberFormat('id-ID').format(rawValue);
+        el.value = formatted;
+      }
+
       function openModal() {
         const m = document.getElementById("modal");
         m.classList.remove("hidden");
@@ -516,30 +535,12 @@
 
       /* TOGGLE */
       function setType(type) {
-        const income = document.getElementById("pemasukanBtn");
-        const expense = document.getElementById("pengeluaranBtn");
-        const input = document.getElementById("typeInput");
-
-        input.value = type;
-
-        if (type === "income") {
-          income.classList.add("bg-green-400", "text-black");
-          income.classList.remove("border", "text-green-400");
-
-          expense.classList.remove("bg-green-400", "text-black");
-          expense.classList.add("border", "text-green-400");
-        } else {
-          expense.classList.add("bg-green-400", "text-black");
-          expense.classList.remove("border", "text-green-400");
-
-          income.classList.remove("bg-green-400", "text-black");
-          income.classList.add("border", "text-green-400");
-        }
-      }
-      function setType(type) {
+        const typeInput = document.getElementById("typeInput");
         const kategoriSection = document.getElementById("kategoriSection");
         const pemasukanBtn = document.getElementById("pemasukanBtn");
         const pengeluaranBtn = document.getElementById("pengeluaranBtn");
+        
+        typeInput.value = type;
 
         if (type === "expense") {
           // Aktifkan button pengeluaran

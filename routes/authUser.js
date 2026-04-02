@@ -31,7 +31,8 @@ router.post("/login", async (req, res) => {
             id: user.id,
             username: user.user,
             firstname: user.firstname,
-            lastname: user.lastname
+            lastname: user.lastname,
+            savings: user.savings
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -81,12 +82,14 @@ router.post("/register", async (req, res) => {
             'INSERT INTO users (email, user, firstname, lastname, pass) VALUES (?, ?, ?, ?, ?)', [email, username, firstname, lastname, hashPass]
         );
         const newUserId = Number(result.insertId);
+        const newUserSavings = Number(result.insertSavings);
 
         const payload = {
             id:  newUserId,
             username: username,
             firstname: firstname,
-            lastname: lastname
+            lastname: lastname,
+            savings: newUserSavings
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
