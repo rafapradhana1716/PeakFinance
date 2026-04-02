@@ -254,19 +254,21 @@
     <!-- Modal-Content -->
     <div
       id="modal"
-      class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50"
+      class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50"
     >
       <div
-        class="relative w-[420px] overflow-hidden rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
+        class="relative w-[420px] max-h-[85vh] overflow-hidden rounded-2xl bg-[#020617]"
       >
-        <!-- SLIDER -->
-        <div id="slider" class="flex w-[840px] transition duration-500">
+        <div
+          id="slider"
+          class="flex w-[840px] transition duration-500 items-start"
+        >
           <!-- Catat Uang pg1 -->
           <form
             action="/transactions/add"
             method="POST"
             id="transactionForm"
-            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl"
+            class="w-[420px] flex-shrink-0 min-h-[500px] overflow-y-auto p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
           >
             <div class="flex justify-between items-center mb-4">
               <p class="text-xs text-gray-300">CATAT KEUANGANMU HARI INI</p>
@@ -409,13 +411,13 @@
               <button
                 type="button"
                 onclick="closeModal()"
-                class="w-12 h-12 bg-red-400 rounded-xl text-black hover:bg-red-500 transition-colors"
+                class="w-16 h-12 bg-red-400 rounded-xl text-black hover:bg-red-500 transition-colors"
               >
                 Batal
               </button>
               <button
                 type="submit"
-                class="w-12 h-12 bg-green-400 rounded-xl text-black hover:bg-green-500 transition-colors"
+                class="w-16 h-12 bg-green-400 rounded-xl text-black hover:bg-green-500 transition-colors"
               >
                 Submit
               </button>
@@ -424,7 +426,7 @@
 
           <!-- Catat Tabungan pg2 -->
           <div
-            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
+            class="w-[420px] flex-shrink-0  min-h-[500px] p-6 bg-[#020617] bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
           >
             <div class="flex justify-between items-center mb-4">
               <p class="text-xs text-gray-300">CATAT TABUNGAN HARI INI</p>
@@ -462,11 +464,11 @@
             <div class="flex justify-between mt-6">
               <button
                 onclick="closeModal()"
-                class="w-12 h-12 bg-red-400 rounded-xl text-black"
+                class="w-16 h-12 bg-red-400 rounded-xl text-black"
               >
                 batal
               </button>
-              <button class="w-12 h-12 bg-green-400 rounded-xl text-black">
+              <button class="w-16 h-12 bg-green-400 rounded-xl text-black">
                 Submit
               </button>
             </div>
@@ -503,6 +505,7 @@
       }
 
       function nextPage() {
+        setType("income");
         document.getElementById("slider").style.transform =
           "translateX(-420px)";
       }
@@ -575,7 +578,7 @@
           );
           b.classList.add("border-gray-700", "text-gray-400");
         });
-        
+
         el.classList.remove("border-gray-700", "text-gray-400");
         el.classList.add(
           "border-green-400",
@@ -587,7 +590,7 @@
         const lainnyaInput = document.getElementById("lainnyaInput");
         if (nama === "Lainnya") {
           lainnyaInput.classList.remove("hidden");
-          document.getElementById("selectedKategori").value = ""
+          document.getElementById("selectedKategori").value = "";
           document.getElementById("kategoriLainnya").focus();
         } else {
           lainnyaInput.classList.add("hidden");
