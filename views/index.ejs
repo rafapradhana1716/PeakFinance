@@ -1,576 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css" />
-  </head>
-  <body
-    class="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white"
-  >
-    <!-- ================= SIDEBAR ================= -->
-    <aside
-      class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0"
-    >
-      <div>
-        <h2 class="text-2xl font-bold mb-8 tracking-wide">
-          Peak<span class="text-green-400">Finance</span>
-        </h2>
 
-        <div class="space-y-2 text-sm">
-          <a
-            href="/"
-            class="flex items-center justify-between px-3 py-2 rounded-lg <%= page === 'dashboard' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 text-green-400 bg-green-500/20' %>"
-          >
-            <div class="flex items-center">
-              <span>🏠 Dashboard</span>
-            </div>
-          </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
 
-          <a
-            href="/analitik"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'analitik' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>"
-          >
-            📊 Analitik
-          </a>
+<body class="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0">
+    <div>
+      <h2 class="text-2xl font-bold mb-8 tracking-wide">
+        Peak<span class="text-green-400">Finance</span>
+      </h2>
 
-          <a
-            href="/transaksi"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'transaksi' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>"
-          >
-            💸 Transaksi
-          </a>
-
-          <a
-            href="/target"
-            class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>"
-          >
-            🎯 Target Tabungan
-          </a>
-        </div>
-
-        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
-
-        <div class="space-y-2 text-sm">
-          <div
-            href="/target"
-            class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>"
-          >
-            💡 Insight
+      <div class="space-y-2 text-sm">
+        <a href="/"
+          class="flex items-center justify-between px-3 py-2 rounded-lg <%= page === 'dashboard' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 text-green-400 bg-green-500/20' %>">
+          <div class="flex items-center">
+            <span>🏠 Dashboard</span>
           </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
-            📄 Laporan
-          </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
-            ⚙️ Pengaturan
-          </div>
-        </div>
+        </a>
+
+        <a href="/analitik"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'analitik' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+          📊 Analitik
+        </a>
+
+        <a href="/transaksi"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'transaksi' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+          💸 Transaksi
+        </a>
+
+        <a href="/target"
+          class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>">
+          🎯 Target Tabungan
+        </a>
       </div>
 
-      <!-- PROFILE -->
-      <div
-        class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800"
-      >
-        <div
-          class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold"
-        >
-          X
+      <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
+
+      <div class="space-y-2 text-sm">
+        <div href="/target"
+          class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>">
+          💡 Insight
         </div>
-        <div>
-          <p class="font-semibold">
-            <%= user.firstname %> <%= user.lastname %>
-          </p>
-          <p class="text-xs text-gray-400"><%= user.username %></p>
+        <div class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer">
+          📄 Laporan
         </div>
-      </div>
-    </aside>
-
-    <!-- Main-Content -->
-    <main class="flex-1 px-10 py-8 min-h-screen">
-      <!-- HEADER -->
-      <div
-        class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-3xl font-semibold tracking-wide">Dashboard</h1>
-
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-gray-400">Catat uangmu di sini</span>
-          <button
-            onclick="openModal()"
-            class="w-10 h-10 bg-green-500 rounded-xl text-black text-lg font-bold hover:scale-105 transition"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      <!-- HERO -->
-      <div class="flex justify-between items-start mb-10">
-        <h2 class="text-4xl font-bold leading-tight" id="greeting">
-          Selamat Pagi, Rafi! ☀️
-        </h2>
-
-        <div class="text-right">
-          <p class="text-xs text-gray-400">Awas pinjol ilegal!</p>
-          <p class="text-green-400 font-semibold text-sm">Siap nabung lagi?</p>
-          <p class="text-xs text-gray-500">Bagi THR dong...</p>
-        </div>
-      </div>
-
-      <!-- Card bagian atas -->
-      <div class="grid grid-cols-3 gap-6 mb-12">
-        <!-- TABUNGAN -->
-        <div
-          class="col-span-2 bg-gradient-to-r from-[#020617] to-[#0f172a] border border-gray-800 rounded-2xl p-6 shadow-lg"
-        >
-          <p class="text-xs text-gray-400 mb-2 tracking-wide">
-            TABUNGAN BULAN INI
-          </p>
-          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %></h2>
-          <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
-
-          <div class="grid grid-cols-3 gap-4">
-            <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
-            >
-              <p class="text-xs text-gray-400">TARGET</p>
-              <p class="text-yellow-400 font-semibold">+Rp1.5jt</p>
-            </div>
-
-            <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
-            >
-              <p class="text-xs text-gray-400">PENGELUARAN</p>
-              <p>-Rp0</p>
-            </div>
-
-            <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
-            >
-              <p class="text-xs text-gray-400">TABUNGAN</p>
-              <p class="text-green-400">+Rp1.5jt</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SCORE -->
-        <div
-          class="bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg"
-        >
-          <!-- HEADER -->
-          <div class="flex justify-between items-center mb-2">
-            <p class="text-xs text-gray-400 tracking-wide">SKOR KEUANGAN</p>
-            <span
-              class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30"
-            >
-              ✓ HEMAT
-            </span>
-          </div>
-
-          <!-- CONTENT -->
-          <div class="flex flex-col items-center justify-center flex-1">
-            <div
-              class="relative w-20 h-20 flex items-center justify-center mb-3"
-            >
-              <div
-                class="absolute w-20 h-20 rounded-full bg-green-400/20 blur-lg"
-              ></div>
-
-              <div
-                class="w-16 h-16 rounded-full border-4 border-green-400 flex items-center justify-center text-sm font-bold text-green-400"
-              >
-                100
-              </div>
-            </div>
-
-            <p class="font-semibold text-sm">Sehat Banget 🔥</p>
-            <p class="text-xs text-gray-400">Saver Master</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold">What's New?</h2>
-        <p class="text-sm text-gray-400">Insight Terbaru</p>
-        <p class="text-xs text-gray-500">Dalam satu bulan terakhir</p>
-      </div>
-
-      <div class="grid grid-cols-4 gap-6">
-        <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
-        >
-          <div
-            class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
-          ></div>
-          <h3 class="font-semibold mb-2">Tips Menghindari Pajak (Legal)</h3>
-          <p class="text-xs text-gray-400">Ditulis oleh Rahmantyo</p>
-          <p class="text-xs text-gray-400 mb-2">Dibaca 10.045 kali</p>
-          <p class="text-sm text-gray-300">Preview artikel...</p>
-        </div>
-
-        <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
-        >
-          <div
-            class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
-          ></div>
-          <h3 class="font-semibold mb-2">Indonesia Miskin?</h3>
-          <p class="text-xs text-gray-400">Ditulis oleh Kok Bisa?</p>
-          <p class="text-xs text-gray-400 mb-2">Dibaca 7.592 kali</p>
-          <p class="text-sm text-gray-300">Preview artikel...</p>
-        </div>
-
-        <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
-        >
-          <div
-            class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
-          ></div>
-          <h3 class="font-semibold mb-2">Strategi ke Jerman</h3>
-          <p class="text-xs text-gray-400">Ditulis oleh Schmitz</p>
-          <p class="text-xs text-gray-400 mb-2">Dibaca 9.010 kali</p>
-          <p class="text-sm text-gray-300">Preview artikel...</p>
-        </div>
-
-        <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
-        >
-          <div
-            class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
-          ></div>
-          <h3 class="font-semibold mb-2">Biografi Elon Musk</h3>
-          <p class="text-xs text-gray-400">Ditulis oleh Benjamin</p>
-          <p class="text-xs text-gray-400 mb-2">Dibaca 6.258 kali</p>
-          <p class="text-sm text-gray-300">Preview artikel...</p>
-        </div>
-      </div>
-    </main>
-
-    <!-- Modal-Content -->
-    <div
-      id="modal"
-      class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50"
-    >
-      <div
-        class="relative w-[420px] max-h-[85vh] overflow-hidden rounded-2xl bg-[#020617]"
-      >
-        <div
-          id="slider"
-          class="flex w-[840px] transition duration-500 items-start"
-        >
-          <!-- Catat Uang pg1 -->
-          <form
-            action="/transaction/add"
-            method="POST"
-            id="transactionForm"
-            class="w-[420px] flex-shrink-0 min-h-[500px] overflow-y-auto p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <p class="text-xs text-gray-300">CATAT KEUANGANMU HARI INI</p>
-              <button
-                type="button"
-                onclick="nextPage()"
-                class="text-xl text-white"
-              >
-                >
-              </button>
-            </div>
-
-            <div class="space-y-3">
-              <input
-                type="text"
-                placeholder="Nama transaksi"
-                name="name"
-                required
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
-              />
-
-              <input
-                type="text"
-                id="amountDisplay"
-                placeholder="Jumlah uang"
-                oninput="formatRupiah(this)"
-                required
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
-              />
-
-              <input type="hidden" name="amount" id="amountActual">
-
-              <div
-                class="bg-[#020617] border border-gray-800 rounded-xl p-3 space-y-2"
-              >
-                <button
-                  type="button"
-                  id="pemasukanBtn"
-                  onclick="setType('income')"
-                  class="w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all"
-                >
-                  Pemasukan
-                </button>
-
-                <button
-                  type="button"
-                  id="pengeluaranBtn"
-                  onclick="setType('expense')"
-                  class="w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all"
-                >
-                  Pengeluaran
-                </button>
-
-                <!-- Kategori Pengeluaran (hidden by default) -->
-                <div id="kategoriSection" class="hidden pt-1 space-y-2">
-                  <p
-                    class="text-xs text-gray-500 uppercase tracking-widest font-semibold px-1"
-                  >
-                    Pilih Kategori
-                  </p>
-                  <div class="grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Makanan')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">🍔</span> Makanan
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Transport')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">🚌</span> Transport
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Hiburan')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">🎮</span> Hiburan
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Belanja')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">🛍️</span> Belanja
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Pendidikan')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">📚</span> Pendidikan
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Kesehatan')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">💊</span> Kesehatan
-                    </button>
-                    <button
-                      type="button"
-                      onclick="setKategori(this, 'Lainnya')"
-                      class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all"
-                    >
-                      <span class="text-lg">➕</span> Lainnya
-                    </button>
-                  </div>
-
-                  <!-- Input Lainnya (hidden by default) -->
-                  <div id="lainnyaInput" class="hidden">
-                    <input
-                      type="text"
-                      id="kategoriLainnya"
-                      placeholder="Tulis kategori..."
-                      class="w-full bg-[#0f172a] border border-gray-700 rounded-xl px-4 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-green-400 transition-all"
-                      oninput="setKategoriLainnya(this.value)"
-                    />
-                  </div>
-                  <!-- Hidden input buat nyimpen nilai kategori -->
-                  <input
-                    type="hidden"
-                    id="selectedKategori"
-                    name="category"
-                    value=""
-                  />
-                </div>
-              </div>
-
-              <input type="hidden" name="type" id="typeInput" value="income" />
-
-              <textarea
-                name="description"
-                placeholder="Catatan..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
-              ></textarea>
-            </div>
-
-            <div class="flex justify-between mt-6">
-              <button
-                type="button"
-                onclick="closeModal()"
-                class="w-16 h-12 bg-red-400 rounded-xl text-black hover:bg-red-500 transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                type="submit"
-                class="w-16 h-12 bg-green-400 rounded-xl text-black hover:bg-green-500 transition-colors"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-
-          <!-- Catat Tabungan pg2 -->
-          <div
-            class="w-[420px] flex-shrink-0  min-h-[500px] p-6 bg-[#020617] bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <p class="text-xs text-gray-300">CATAT TABUNGAN HARI INI</p>
-              <button onclick="prevPage()" class="text-xl"><</button>
-            </div>
-
-            <div class="bg-black rounded-xl p-4 mb-4 text-center">
-              <p class="text-xs text-gray-400">Saldo Uang</p>
-              <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %></h1>
-            </div>
-
-            <input
-              placeholder="Jumlah uang..."
-              class="w-full mb-3 p-3 rounded-lg bg-[#020617] border border-gray-800"
-            />
-
-            <p class="text-xs text-gray-400 mb-2">Pilih Tabungan</p>
-
-            <button
-              onclick="selectTabungan(this)"
-              class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition"
-            >
-              Sony WH-1000XM5
-            </button>
-
-            <button
-              onclick="selectTabungan(this)"
-              class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition"
-            >
-              Laptop Baru
-            </button>
-
-            <button class="text-green-400 text-sm mt-1">+ Tambah</button>
-
-            <div class="flex justify-between mt-6">
-              <button
-                onclick="closeModal()"
-                class="w-16 h-12 bg-red-400 rounded-xl text-black"
-              >
-                batal
-              </button>
-              <button class="w-16 h-12 bg-green-400 rounded-xl text-black">
-                Submit
-              </button>
-            </div>
-          </div>
+        <div class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer">
+          ⚙️ Pengaturan
         </div>
       </div>
     </div>
 
-    <script>
-      function getGreeting() {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return "Selamat Pagi ☀️";
-        if (hour >= 12 && hour < 15) return "Selamat Siang 🌤️";
-        if (hour >= 15 && hour < 19) return "Selamat Sore 🌇";
-        return "Selamat Malam 🌙";
+    <!-- PROFILE -->
+    <div class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800">
+      <div
+        class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold">
+        X
+      </div>
+      <div>
+        <p class="font-semibold">
+          <%= user.firstname %>
+            <%= user.lastname %>
+        </p>
+        <p class="text-xs text-gray-400">
+          <%= user.username %>
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main-Content -->
+  <main class="flex-1 px-10 py-8 min-h-screen">
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+      <h1 class="text-3xl font-semibold tracking-wide">Dashboard</h1>
+
+      <div class="flex items-center gap-4">
+        <span class="text-sm text-gray-400">Catat uangmu di sini</span>
+        <button onclick="openModal()"
+          class="w-10 h-10 bg-green-500 rounded-xl text-black text-lg font-bold hover:scale-105 transition">
+          +
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="flex justify-between items-start mb-10">
+      <h2 class="text-4xl font-bold leading-tight" id="greeting">
+        Selamat Pagi, Rafi! ☀️
+      </h2>
+
+      <div class="text-right">
+        <p class="text-xs text-gray-400">Awas pinjol ilegal!</p>
+        <p class="text-green-400 font-semibold text-sm">Siap nabung lagi?</p>
+        <p class="text-xs text-gray-500">Bagi THR dong...</p>
+      </div>
+    </div>
+
+    <!-- Card bagian atas -->
+    <div class="grid grid-cols-3 gap-6 mb-12">
+      <!-- TABUNGAN -->
+      <div
+        class="col-span-2 bg-gradient-to-r from-[#020617] to-[#0f172a] border border-gray-800 rounded-2xl p-6 shadow-lg">
+        <p class="text-xs text-gray-400 mb-2 tracking-wide">
+          TABUNGAN BULAN INI
+        </p>
+        <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID')
+            %>
+        </h2>
+        <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
+
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
+            <p class="text-xs text-gray-400">TARGET</p>
+            <p class="text-yellow-400 font-semibold">+Rp1.5jt</p>
+          </div>
+
+          <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
+            <p class="text-xs text-gray-400">PENGELUARAN</p>
+            <p>-Rp0</p>
+          </div>
+
+          <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
+            <p class="text-xs text-gray-400">TABUNGAN</p>
+            <p class="text-green-400">+Rp1.5jt</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCORE -->
+      <div
+        class="bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg">
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-2">
+          <p class="text-xs text-gray-400 tracking-wide">SKOR KEUANGAN</p>
+          <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30">
+            ✓ HEMAT
+          </span>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="flex flex-col items-center justify-center flex-1">
+          <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+            <div class="absolute w-20 h-20 rounded-full bg-green-400/20 blur-lg"></div>
+
+            <div
+              class="w-16 h-16 rounded-full border-4 border-green-400 flex items-center justify-center text-sm font-bold text-green-400">
+              100
+            </div>
+          </div>
+
+          <p class="font-semibold text-sm">Sehat Banget 🔥</p>
+          <p class="text-xs text-gray-400">Saver Master</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold">What's New?</h2>
+      <p class="text-sm text-gray-400">Insight Terbaru</p>
+      <p class="text-xs text-gray-500">Dalam satu bulan terakhir</p>
+    </div>
+
+    <div class="grid grid-cols-4 gap-6">
+      <div
+        class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition">
+        <div class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"></div>
+        <h3 class="font-semibold mb-2">Tips Menghindari Pajak (Legal)</h3>
+        <p class="text-xs text-gray-400">Ditulis oleh Rahmantyo</p>
+        <p class="text-xs text-gray-400 mb-2">Dibaca 10.045 kali</p>
+        <p class="text-sm text-gray-300">Preview artikel...</p>
+      </div>
+
+      <div
+        class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition">
+        <div class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"></div>
+        <h3 class="font-semibold mb-2">Indonesia Miskin?</h3>
+        <p class="text-xs text-gray-400">Ditulis oleh Kok Bisa?</p>
+        <p class="text-xs text-gray-400 mb-2">Dibaca 7.592 kali</p>
+        <p class="text-sm text-gray-300">Preview artikel...</p>
+      </div>
+
+      <div
+        class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition">
+        <div class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"></div>
+        <h3 class="font-semibold mb-2">Strategi ke Jerman</h3>
+        <p class="text-xs text-gray-400">Ditulis oleh Schmitz</p>
+        <p class="text-xs text-gray-400 mb-2">Dibaca 9.010 kali</p>
+        <p class="text-sm text-gray-300">Preview artikel...</p>
+      </div>
+
+      <div
+        class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition">
+        <div class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"></div>
+        <h3 class="font-semibold mb-2">Biografi Elon Musk</h3>
+        <p class="text-xs text-gray-400">Ditulis oleh Benjamin</p>
+        <p class="text-xs text-gray-400 mb-2">Dibaca 6.258 kali</p>
+        <p class="text-sm text-gray-300">Preview artikel...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal-Content -->
+  <div id="modal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center z-50">
+    <div class="relative w-[420px] max-h-[85vh] overflow-hidden rounded-2xl bg-[#020617]">
+      <div id="slider" class="flex w-[840px] transition duration-500 items-start">
+        <!-- Catat Uang pg1 -->
+        <form action="/transaction/add" method="POST" id="transactionForm"
+          class="w-[420px] flex-shrink-0 min-h-[500px] overflow-y-auto p-6 bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-xs text-gray-300">CATAT KEUANGANMU HARI INI</p>
+            <button type="button" onclick="nextPage()" class="text-xl text-white">
+              >
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <input type="text" placeholder="Nama transaksi" name="name" required
+              class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400" />
+
+            <input type="text" id="amountDisplay" placeholder="Jumlah uang" oninput="formatRupiah(this)" required
+              class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400" />
+
+            <input type="hidden" name="amount" id="amountActual">
+
+            <div class="bg-[#020617] border border-gray-800 rounded-xl p-3 space-y-2">
+              <button type="button" id="pemasukanBtn" onclick="setType('income')"
+                class="w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all">
+                Pemasukan
+              </button>
+
+              <button type="button" id="pengeluaranBtn" onclick="setType('expense')"
+                class="w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all">
+                Pengeluaran
+              </button>
+
+              <!-- Kategori Pengeluaran (hidden by default) -->
+              <div id="kategoriSection" class="hidden pt-1 space-y-2">
+                <p class="text-xs text-gray-500 uppercase tracking-widest font-semibold px-1">
+                  Pilih Kategori
+                </p>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" onclick="setKategori(this, 'Makanan')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">🍔</span> Makanan
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Transport')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">🚌</span> Transport
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Hiburan')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">🎮</span> Hiburan
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Belanja')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">🛍️</span> Belanja
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Pendidikan')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">📚</span> Pendidikan
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Kesehatan')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">💊</span> Kesehatan
+                  </button>
+                  <button type="button" onclick="setKategori(this, 'Lainnya')"
+                    class="kategori-btn flex flex-col items-center gap-1 py-2 px-1 rounded-xl border border-gray-700 text-gray-400 text-xs font-semibold hover:border-green-400 hover:text-green-400 transition-all">
+                    <span class="text-lg">➕</span> Lainnya
+                  </button>
+                </div>
+
+                <!-- Input Lainnya (hidden by default) -->
+                <div id="lainnyaInput" class="hidden">
+                  <input type="text" id="kategoriLainnya" placeholder="Tulis kategori..."
+                    class="w-full bg-[#0f172a] border border-gray-700 rounded-xl px-4 py-2 text-sm text-white placeholder-gray-500 outline-none focus:border-green-400 transition-all"
+                    oninput="setKategoriLainnya(this.value)" />
+                </div>
+                <!-- Hidden input buat nyimpen nilai kategori -->
+                <input type="hidden" id="selectedKategori" name="category" value="" />
+              </div>
+            </div>
+
+            <input type="hidden" name="type" id="typeInput" value="income" />
+
+            <textarea name="description" placeholder="Catatan..."
+              class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"></textarea>
+          </div>
+
+          <div class="flex justify-between mt-6">
+            <button type="button" onclick="closeModal()"
+              class="w-16 h-12 bg-red-400 rounded-xl text-black hover:bg-red-500 transition-colors">
+              Batal
+            </button>
+            <button type="submit"
+              class="w-16 h-12 bg-green-400 rounded-xl text-black hover:bg-green-500 transition-colors">
+              Submit
+            </button>
+          </div>
+        </form>
+
+        <!-- Catat Tabungan pg2 -->
+        <div
+          class="w-[420px] flex-shrink-0  min-h-[500px] p-6 bg-[#020617] bg-gradient-to-br from-green-500/20 to-[#020617] rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]">
+          <div class="flex justify-between items-center mb-4">
+            <p class="text-xs text-gray-300">CATAT TABUNGAN HARI INI</p>
+            <button onclick="prevPage()" class="text-xl">
+              << /button>
+          </div>
+
+          <div class="bg-black rounded-xl p-4 mb-4 text-center">
+            <p class="text-xs text-gray-400">Saldo Uang</p>
+            <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %>
+            </h1>
+          </div>
+
+          <input placeholder="Jumlah uang..." class="w-full mb-3 p-3 rounded-lg bg-[#020617] border border-gray-800" />
+
+          <p class="text-xs text-gray-400 mb-2">Pilih Tabungan</p>
+
+          <button onclick="selectTabungan(this)"
+            class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition">
+            Sony WH-1000XM5
+          </button>
+
+          <button onclick="selectTabungan(this)"
+            class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition">
+            Laptop Baru
+          </button>
+
+          <button class="text-green-400 text-sm mt-1">+ Tambah</button>
+
+          <div class="flex justify-between mt-6">
+            <button onclick="closeModal()" class="w-16 h-12 bg-red-400 rounded-xl text-black">
+              batal
+            </button>
+            <button class="w-16 h-12 bg-green-400 rounded-xl text-black">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast-container"></div>
+  <script>
+    function getGreeting() {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 12) return "Selamat Pagi!";
+      if (hour >= 12 && hour < 15) return "Selamat Siang! ";
+      if (hour >= 15 && hour < 19) return "Selamat Sore! ";
+      return "Selamat Malam! ";
+    }
+
+    document.getElementById("greeting").textContent =
+      getGreeting() + ", <%= user.username %>";
+
+    function formatRupiah(el) {
+      let rawValue = el.value.replace(/[^0-9]/g, '');
+      const hiddenInput = document.getElementById('amountActual');
+      if (hiddenInput) {
+        hiddenInput.value = rawValue;
       }
 
-      document.getElementById("greeting").textContent =
-        getGreeting() + ", <%= user.username %>";
-
-      function formatRupiah(el) {
-        let rawValue = el.value.replace(/[^0-9]/g, '');
-        const hiddenInput = document.getElementById('amountActual');
-        if(hiddenInput) {
-          hiddenInput.value = rawValue;
-        }
-
-        if(!rawValue) {
-          el.value = '';
-          return;
-        }
-
-        let formatted = new Intl.NumberFormat('id-ID').format(rawValue);
-        el.value = formatted;
+      if (!rawValue) {
+        el.value = '';
+        return;
       }
 
-      function openModal() {
-        const m = document.getElementById("modal");
-        m.classList.remove("hidden");
-        m.classList.add("flex");
+      let formatted = new Intl.NumberFormat('id-ID').format(rawValue);
+      el.value = formatted;
+    }
 
-        // reset ke page awal
-        document.getElementById("slider").style.transform = "translateX(0)";
-      }
+    function openModal() {
+      const m = document.getElementById("modal");
+      m.classList.remove("hidden");
+      m.classList.add("flex");
 
-      function closeModal() {
-        const m = document.getElementById("modal");
-        m.classList.add("hidden");
-        m.classList.remove("flex");
-      }
+      // reset ke page awal
+      document.getElementById("slider").style.transform = "translateX(0)";
+    }
 
-      function nextPage() {
-        setType("income");
-        document.getElementById("slider").style.transform =
-          "translateX(-420px)";
-      }
+    function closeModal() {
+      const m = document.getElementById("modal");
+      m.classList.add("hidden");
+      m.classList.remove("flex");
+    }
 
-      function prevPage() {
-        document.getElementById("slider").style.transform = "translateX(0)";
-      }
+    function nextPage() {
+      setType("income");
+      document.getElementById("slider").style.transform =
+        "translateX(-420px)";
+    }
 
-      /* TOGGLE */
-      function setType(type) {
-        const typeInput = document.getElementById("typeInput");
-        const kategoriSection = document.getElementById("kategoriSection");
-        const pemasukanBtn = document.getElementById("pemasukanBtn");
-        const pengeluaranBtn = document.getElementById("pengeluaranBtn");
-        
-        typeInput.value = type;
+    function prevPage() {
+      document.getElementById("slider").style.transform = "translateX(0)";
+    }
 
-        if (type === "expense") {
-          // Aktifkan button pengeluaran
-          pengeluaranBtn.className =
-            "w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all";
-          pemasukanBtn.className =
-            "w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all";
-          // Tampilkan kategori
-          kategoriSection.classList.remove("hidden");
-        } else {
-          // Aktifkan button pemasukan
-          pemasukanBtn.className =
-            "w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all";
-          pengeluaranBtn.className =
-            "w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all";
-          // Sembunyikan & reset kategori
-          kategoriSection.classList.add("hidden");
-          document.getElementById("selectedKategori").value = "";
-          document.querySelectorAll(".kategori-btn").forEach((b) => {
-            b.classList.remove(
-              "border-green-400",
-              "text-green-400",
-              "bg-green-400/10",
-            );
-            b.classList.add("border-gray-700", "text-gray-400");
-          });
-        }
-      }
+    /* TOGGLE */
+    function setType(type) {
+      const typeInput = document.getElementById("typeInput");
+      const kategoriSection = document.getElementById("kategoriSection");
+      const pemasukanBtn = document.getElementById("pemasukanBtn");
+      const pengeluaranBtn = document.getElementById("pengeluaranBtn");
 
-      function setKategori(el, nama) {
+      typeInput.value = type;
+
+      if (type === "expense") {
+        pengeluaranBtn.className =
+          "w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all";
+        pemasukanBtn.className =
+          "w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all";
+        // Tampilkan kategori
+        kategoriSection.classList.remove("hidden");
+      } else {
+        pemasukanBtn.className =
+          "w-full py-2 rounded-xl bg-green-400 text-black font-semibold transition-all";
+        pengeluaranBtn.className =
+          "w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold transition-all";
+
+        kategoriSection.classList.add("hidden");
+        document.getElementById("selectedKategori").value = "";
         document.querySelectorAll(".kategori-btn").forEach((b) => {
           b.classList.remove(
             "border-green-400",
@@ -579,30 +434,118 @@
           );
           b.classList.add("border-gray-700", "text-gray-400");
         });
+      }
+    }
 
-        el.classList.remove("border-gray-700", "text-gray-400");
-        el.classList.add(
+    // Buat Notif Catat Uang
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+
+      const toast = document.createElement("div");
+      toast.className = `toast toast-${type}`;
+
+      toast.innerHTML = `
+    <span>${type === "success" ? "✅" : "❌"}</span>
+    <span>${message}</span>
+  `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = "toastOut 0.3s ease forwards";
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function showToast(message, type = "success", duration = 5000) {
+      const container = document.getElementById("toast-container");
+
+      const toast = document.createElement("div");
+      toast.className = `toast toast-${type}`;
+
+      toast.innerHTML = `
+    <span style="font-size:20px">
+      ${type === "success" ? "✅" : "❌"}
+    </span>
+
+    <div style="flex:1">
+      <div style="font-weight:600; margin-bottom:2px">
+        ${type === "success" ? "Berhasil" : "Gagal"}
+      </div>
+      <div style="font-size:13px; color:var(--soft)">
+        ${message}
+      </div>
+    </div>
+
+    <button class="toast-close">✖</button>
+
+    <div class="toast-progress"></div>
+  `;
+
+      const progress = toast.querySelector(".toast-progress");
+      progress.style.animationDuration = duration + "ms";
+
+      const closeBtn = toast.querySelector(".toast-close");
+
+      closeBtn.onclick = () => removeToast(toast);
+
+      container.appendChild(toast);
+
+      const timeout = setTimeout(() => {
+        removeToast(toast);
+      }, duration);
+
+      function removeToast(el) {
+        el.style.animation = "toastOut 0.3s ease forwards";
+        clearTimeout(timeout);
+        setTimeout(() => el.remove(), 300);
+      }
+    }
+
+    document.getElementById("transactionForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      showToast("Transaksi berhasil ditambahkan!", "success");
+
+      setTimeout(() => {
+        this.submit();
+      }, 800);
+    });
+
+    function setKategori(el, nama) {
+      document.querySelectorAll(".kategori-btn").forEach((b) => {
+        b.classList.remove(
           "border-green-400",
           "text-green-400",
           "bg-green-400/10",
         );
+        b.classList.add("border-gray-700", "text-gray-400");
+      });
 
-        // Tampilkan/sembunyikan input lainnya
-        const lainnyaInput = document.getElementById("lainnyaInput");
-        if (nama === "Lainnya") {
-          lainnyaInput.classList.remove("hidden");
-          document.getElementById("selectedKategori").value = "";
-          document.getElementById("kategoriLainnya").focus();
-        } else {
-          lainnyaInput.classList.add("hidden");
-          document.getElementById("kategoriLainnya").value = "";
-          document.getElementById("selectedKategori").value = nama;
-        }
-      }
+      el.classList.remove("border-gray-700", "text-gray-400");
+      el.classList.add(
+        "border-green-400",
+        "text-green-400",
+        "bg-green-400/10",
+      );
 
-      function setKategoriLainnya(value) {
-        document.getElementById("selectedKategori").value = value;
+      // Tampilin sama sembunyikan input yang lain
+      const lainnyaInput = document.getElementById("lainnyaInput");
+      if (nama === "Lainnya") {
+        lainnyaInput.classList.remove("hidden");
+        document.getElementById("selectedKategori").value = "";
+        document.getElementById("kategoriLainnya").focus();
+      } else {
+        lainnyaInput.classList.add("hidden");
+        document.getElementById("kategoriLainnya").value = "";
+        document.getElementById("selectedKategori").value = nama;
       }
-    </script>
-  </body>
+    }
+
+    function setKategoriLainnya(value) {
+      document.getElementById("selectedKategori").value = value;
+    }
+  </script>
+</body>
+
 </html>
