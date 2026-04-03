@@ -43,3 +43,33 @@
     background: var(--mint);
     box-shadow: 0 0 10px var(--mint);
 }
+
+.sidebar {
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+}
+
+.sidebar.collapsed p {
+    display: none;
+}
+
+.sidebar.collapsed h2 {
+    display: none;
+}
+
+.sidebar.collapsed .profile-text {
+    display: none;
+}
