@@ -19,8 +19,8 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/analitik', (req, res) => {
-  res.render('analitik', { page: 'analitik' });
+router.get('/analisis', (req, res) => {
+  res.render('analitik', { page: 'analisis' });
 });
 
 router.get('/transaksi', async (req, res) => {
