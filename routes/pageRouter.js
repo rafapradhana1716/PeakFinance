@@ -44,6 +44,48 @@ router.get('/insight', (req, res) => {
   res.render('insight', { page: 'insight' });
 });
 
+router.get('/laporan', (req, res) => {
+
+  const transaksi = [
+    { nama: "Gaji", tipe: "masuk", jumlah: 5000000, tanggal: "2026-04-01" },
+    { nama: "Belanja", tipe: "keluar", jumlah: 2000000, tanggal: "2026-04-02" }
+  ];
+
+  let pemasukan = 0;
+  let pengeluaran = 0;
+
+  transaksi.forEach(t => {
+    if (t.tipe === "masuk") pemasukan += t.jumlah;
+    else pengeluaran += t.jumlah;
+  });
+
+  const saldo = pemasukan - pengeluaran;
+
+  res.render('laporan', {
+    page: 'laporan',
+    user: req.user || {
+      firstname: "Guest",
+      lastname: "",
+      username: "guest"
+    },
+    transaksi,
+    pemasukan,
+    pengeluaran,
+    saldo
+  });
+});
+
+router.get('/pengaturan', (req, res) => {
+  res.render('pengaturan', {
+    page: 'pengaturan',
+    user: req.user || {
+      firstname: "Guest",
+      lastname: "",
+      username: "guest"
+    }
+  });
+});
+
 router.get("/login", (req, res) => {
   if(req.cookies.token) return res.redirect('/');
   res.render("auth/login", { page: "login" });

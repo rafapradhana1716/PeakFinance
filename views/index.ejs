@@ -43,13 +43,14 @@
       <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
 
       <div class="space-y-2 text-sm">
-        <div href="/target"
-          class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>">
+        <a href="/insight"
+class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
           💡 Insight
-        </div>
-        <div class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer">
+        </a>
+        <a href="/laporan"
+          class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'laporan' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
           📄 Laporan
-        </div>
+        </a>
         <div class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer">
           ⚙️ Pengaturan
         </div>
@@ -311,7 +312,7 @@
           <div class="flex justify-between items-center mb-4">
             <p class="text-xs text-gray-300">CATAT TABUNGAN HARI INI</p>
             <button onclick="prevPage()" class="text-xl">
-              << /button>
+              <
           </div>
 
           <div class="bg-black rounded-xl p-4 mb-4 text-center">

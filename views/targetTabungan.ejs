@@ -55,16 +55,14 @@
 class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
   💡 Insight
 </a>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
+          <a href="/laporan"
+            class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'laporan' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
             📄 Laporan
-          </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
+          </a>
+          <a href="/pengaturan"
+            class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'pengaturan' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
             ⚙️ Pengaturan
-          </div>
+          </a>
         </div>
       </div>
 
@@ -92,14 +90,6 @@ class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20
       >
         <h1 class="text-3xl font-semibold tracking-wide">Target Tabungan</h1>
 
-        <div class="flex items-center gap-3">
-          <span class="text-gray-400 text-sm">Catat uangmu di sini</span>
-          <button
-            class="w-10 h-10 bg-green-500 rounded-xl text-black font-bold hover:scale-105 transition"
-          >
-            +
-          </button>
-        </div>
       </div>
 
       <!-- ================= CARD TARGET ================= -->
