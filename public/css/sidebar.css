@@ -22,6 +22,8 @@
     padding: 0.6rem 0.75rem;
     border-radius: 0.75rem;
     font-size: 0.875rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', 'sans-serif;';
     color: var(--soft);
     position: relative;
     transition: all 0.25s ease;
@@ -68,6 +70,8 @@
 
 .profile-container {
     transition: all 0.3s ease;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', 'sans-serif;';
 }
 
 .avatar {
@@ -84,6 +88,14 @@
 
 .sidebar {
     transition: width 0.3s ease;
+}
+
+.sidebar.no-transition {
+    transition: none !important;
+}
+
+.no-transition * {
+    transition: none !important;
 }
 
 .sidebar.collapsed {

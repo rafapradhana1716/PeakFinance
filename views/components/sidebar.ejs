@@ -1,8 +1,11 @@
 <link rel="stylesheet" href="/css/sidebar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link
+    href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
 
 <aside
-    class="sidebar w-64 shrink-0 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0">
+    class="sidebar no-transition w-64 shrink-0 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0">
     <div>
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-bold tracking-wide">
@@ -64,18 +67,20 @@
 
     <!-- PROFILE -->
     <div class="profile-container flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800">
-    <div class="avatar w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold">
-        <i class="fa-solid fa-user"></i>
+        <div
+            class="avatar w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="profile-text">
+            <p class="font-semibold">
+                <%= user.firstname %>
+                    <%= user.lastname %>
+            </p>
+            <p class="text-xs text-gray-400">
+                <%= user.username %>
+            </p>
+        </div>
     </div>
-    <div class="profile-text">
-        <p class="font-semibold">
-            <%= user.firstname %> <%= user.lastname %>
-        </p>
-        <p class="text-xs text-gray-400">
-            <%= user.username %>
-        </p>
-    </div>
-</div>
 </aside>
 
 <script>
@@ -91,7 +96,21 @@
     const btn = document.getElementById("toggleSidebar");
     const sidebar = document.querySelector(".sidebar");
 
+    if (localStorage.getItem("sidebar") === "collapsed") {
+        sidebar.classList.add("collapsed");
+    }
+
+    setTimeout(() => {
+        sidebar.classList.remove("no-transition");
+    }, 50);
+
     btn.addEventListener("click", () => {
         sidebar.classList.toggle("collapsed");
+
+        if (sidebar.classList.contains("collapsed")) {
+            localStorage.setItem("sidebar", "collapsed");
+        } else {
+            localStorage.setItem("sidebar", "open");
+        }
     });
 </script>
