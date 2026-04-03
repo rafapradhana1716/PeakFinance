@@ -9,50 +9,7 @@
 <body class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]">
 
 <!-- SIDEBAR -->
-<aside class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between">
-  <div>
-    <h2 class="text-2xl font-bold mb-8">
-      Peak<span class="text-green-400">Finance</span>
-    </h2>
-
-    <div class="space-y-2 text-sm">
-      <a href="/" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 rounded-lg">🏠 Dashboard</a>
-      <a href="/analitik" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 rounded-lg">📊 Analitik</a>
-      <a href="/transaksi" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 rounded-lg">💸 Transaksi</a>
-      <a href="/target" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 rounded-lg">🎯 Target Tabungan</a>
-    </div>
-
-    <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
-
-    <div class="space-y-2 text-sm">
-      <a href="/insight" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400">💡 Insight</a>
-
-      <a href="/laporan"
-        class="flex gap-3 px-3 py-2 rounded-lg 
-        <%= page === 'laporan' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400' %>">
-        📄 Laporan
-      </a>
-
-      <a href="/pengaturan" class="flex gap-3 px-3 py-2 text-gray-400 hover:text-green-400 rounded-lg">⚙️ Pengaturan</a>
-    </div>
-  </div>
-
-  <!-- PROFILE -->
-  <div class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800">
-    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold">
-      R
-    </div>
-    <div>
-      <p class="font-semibold">
-        <%= (user && user.firstname) ? user.firstname : 'Guest' %>
-        <%= (user && user.lastname) ? user.lastname : '' %>
-      </p>
-      <p class="text-xs text-gray-400">
-        <%= (user && user.username) ? user.username : 'guest' %>
-      </p>
-    </div>
-  </div>
-</aside>
+<%- include('components/aside') %>
 
 <!-- MAIN -->
 <main class="flex-1 px-12 py-10 overflow-y-auto h-screen">

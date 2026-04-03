@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   const token = req.cookies.token;
 
-  if(!token) {
+  if (!token) {
     return res.render('landing', { page: 'landing' });
   }
 
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     return res.render('index', {
       page: 'home'
     });
-  }  catch (err) {
+  } catch (err) {
     res.clearCookie('token');
     return res.render('landing', { page: 'landing' });
   }
@@ -87,7 +87,7 @@ router.get('/pengaturan', (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  if(req.cookies.token) return res.redirect('/');
+  if (req.cookies.token) return res.redirect('/');
   res.render("auth/login", { page: "login" });
 });
 
