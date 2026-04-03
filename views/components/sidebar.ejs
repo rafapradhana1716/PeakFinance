@@ -5,7 +5,7 @@
     rel="stylesheet">
 
 <aside
-    class="sidebar no-transition w-64 shrink-0 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0">
+    class="sidebar no-transition fixed h-screen left-0 top-0 w-64 bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between">
     <div>
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-bold tracking-wide">
@@ -95,6 +95,17 @@
 
     const btn = document.getElementById("toggleSidebar");
     const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+
+    function syncSidebarState() {
+        if (sidebar.classList.contains("collapsed")) {
+            localStorage.setItem("sidebar", "collapsed");
+            if (mainContent) mainContent.style.marginLeft = "5rem";
+        } else {
+            localStorage.setItem("sidebar", "open");
+            if (mainContent) mainContent.style.marginLeft = "16rem";
+        }
+    }
 
     if (localStorage.getItem("sidebar") === "collapsed") {
         sidebar.classList.add("collapsed");
@@ -102,15 +113,11 @@
 
     setTimeout(() => {
         sidebar.classList.remove("no-transition");
+        syncSidebarState();
     }, 50);
 
     btn.addEventListener("click", () => {
         sidebar.classList.toggle("collapsed");
-
-        if (sidebar.classList.contains("collapsed")) {
-            localStorage.setItem("sidebar", "collapsed");
-        } else {
-            localStorage.setItem("sidebar", "open");
-        }
+        syncSidebarState();
     });
 </script>

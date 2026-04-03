@@ -87,7 +87,14 @@
 }
 
 .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16rem !important;
+    height: 100vh;
+    overflow-y: auto;
     transition: width 0.3s ease;
+    z-index: 50;
 }
 
 .sidebar.no-transition {
@@ -97,6 +104,19 @@
 .no-transition * {
     transition: none !important;
 }
+
+.sidebar.collapsed {
+    width: 5rem !important;
+}
+
+.sidebar.collapsed .text,
+.sidebar.collapsed p,
+.sidebar.collapsed h2 {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
 
 .sidebar.collapsed {
     width: 80px;
