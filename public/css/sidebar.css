@@ -1,0 +1,45 @@
+:root {
+  --mint: #00e5a0;
+  --mint-dim: #00c488;
+  --lime: #c8f135;
+  --coral: #ff6b6b;
+  --amber: #ffb830;
+  --blue: #00a3ff;
+  --bg: #080a0c;
+  --card: #0f1215;
+  --card2: #161b20;
+  --border: #1e2428;
+  --text: #eff3f7;
+  --soft: #7a8793;
+  --muted: #3d4750;
+}
+
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--soft);
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.nav-item:hover {
+    color: var(--mint);
+    background: rgba(0, 229, 160, 0.08);
+}
+
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 4px;
+    background: var(--mint);
+    box-shadow: 0 0 10px var(--mint);
+}
