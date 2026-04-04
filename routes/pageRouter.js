@@ -1,5 +1,6 @@
 import express from 'express';
 import db from '../config/database.js';
+import { verifyToken } from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -19,11 +20,11 @@ router.get('/', (req, res) => {
   }
 });
 
-router.get('/analisis', (req, res) => {
+router.get('/analisis', verifyToken, (req, res) => {
   res.render('analitik', { page: 'analisis' });
 });
 
-router.get('/transaksi', async (req, res) => {
+router.get('/transaksi', verifyToken, async (req, res) => {
   const rows = await db.query(
     'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
     [req.user.id]
@@ -32,19 +33,19 @@ router.get('/transaksi', async (req, res) => {
   res.render('transaksi', { page: 'transaksi', transactions: rows });
 });
 
-router.get('/target', (req, res) => {
+router.get('/target', verifyToken, (req, res) => {
   res.render('targetTabungan', { page: 'target' });
 });
 
-router.get('/profil', (req, res) => {
+router.get('/profil', verifyToken, (req, res) => {
   res.render('profile', { page: 'profil' });
 });
 
-router.get('/insight', (req, res) => {
+router.get('/insight', verifyToken, (req, res) => {
   res.render('insight', { page: 'insight' });
 });
 
-router.get('/laporan', (req, res) => {
+router.get('/laporan', verifyToken, (req, res) => {
 
   const transaksi = [
     { nama: "Gaji", tipe: "masuk", jumlah: 5000000, tanggal: "2026-04-01" },
@@ -75,7 +76,7 @@ router.get('/laporan', (req, res) => {
   });
 });
 
-router.get('/pengaturan', (req, res) => {
+router.get('/pengaturan', verifyToken, (req, res) => {
   res.render('pengaturan', {
     page: 'pengaturan',
     user: req.user || {
@@ -92,6 +93,7 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/register", (req, res) => {
+  if (req.cookies.token) return res.redirect('/');
   res.render("auth/register", { page: "register" });
 });
 
