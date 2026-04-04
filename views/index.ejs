@@ -48,9 +48,7 @@
         <p class="text-xs text-gray-400 mb-2 tracking-wide">
           TABUNGAN BULAN INI
         </p>
-        <h2 class="text-3xl text-green-400 font-bold mb-2">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID')
-            %>
-        </h2>
+        <h2 id="balance" class="text-3xl text-green-400 font-bold mb-2">Memuat..</h2>
         <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
         <div class="grid grid-cols-3 gap-4">
@@ -254,8 +252,7 @@
 
           <div class="bg-black rounded-xl p-4 mb-4 text-center">
             <p class="text-xs text-gray-400">Saldo Uang</p>
-            <h1 class="text-3xl font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID') %>
-            </h1>
+            <h1 id="balance" class="text-3xl font-bold text-green-400">Memuat..</h1>
           </div>
 
           <input placeholder="Jumlah uang..." class="w-full mb-3 p-3 rounded-lg bg-[#020617] border border-gray-800" />
@@ -483,6 +480,26 @@
     function setKategoriLainnya(value) {
       document.getElementById("selectedKategori").value = value;
     }
+    
+    async function fetchAndRenderBalance() {
+      try {
+        const response = await fetch("/finance/balance-data");
+        const result = await response.json();
+
+        const formattedBalance = new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0
+        }).format(result.balance);
+        
+        document.querySelectorAll("[id='balance']").forEach(el => {
+          el.innerHTML = formattedBalance;
+        });
+      } catch (err) {
+        console.error("Gagal mengambil data keuangan", err);
+      }
+    }
+    fetchAndRenderBalance();
   </script>
 </body>
 

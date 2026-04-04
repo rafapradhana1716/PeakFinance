@@ -42,8 +42,7 @@
       <div class="flex items-center justify-between mb-12">
         <div>
           <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
-          <h1 class="text-[64px] font-bold text-green-400">Rp<%= Number(balance ? balance : 0).toLocaleString('id-ID')
-            %></h1>
+          <h1 id="balance" class="text-[64px] font-bold text-green-400">Memuat..</h1>
         </div>
 
         <div class="flex gap-5">
@@ -302,6 +301,26 @@
           console.error("Gagal mengambil data grafik", error);
         }
       }
+
+      async function fetchAndRenderBalance() {
+        try {
+          const response = await fetch("/finance/balance-data");
+          const result = await response.json();
+
+          const formattedBalance = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(result.balance);
+          
+          document.querySelectorAll("[id='balance']").forEach(el => {
+            el.innerHTML = formattedBalance;
+          });
+        } catch (err) {
+          console.error("Gagal mengambil data keuangan", err);
+        }
+      }
+      fetchAndRenderBalance();
 
       fetchAndRenderChart();
     </script>

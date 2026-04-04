@@ -2,7 +2,7 @@ import express from "express";
 import db from "../config/database.js";
 const router = express.Router();
 
-export const getBalance = async (req, res, next) => {
+export const getBalance = async (userId) => {
     try {
         const rows = await db.query(
             `SELECT 
@@ -10,15 +10,12 @@ export const getBalance = async (req, res, next) => {
                 COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_balance
             FROM transactions 
             WHERE user_id = ?`,
-            [req.user.id]
+            [userId]
         );
-
-        res.locals.balance = rows[0].total_balance;
-        next();
+        return Number(rows[0].total_balance);
     } catch (err) {
         console.error("Error hitung saldo:", err);
-        res.locals.balance = 0;
-        next();
+        return 0;
     }
 };
 
@@ -61,6 +58,15 @@ export const getChartData = async (userId) => {
 
     return { labels, data };
 };
+
+router.get("/balance-data", async (req, res) => {
+    try {
+        const balanceData = await getBalance(req.user.id);
+        res.json({balance: balanceData});
+    } catch {
+        res.status(500).json({ error: "Gagal mengambil data keuangan" })
+    }
+});
 
 router.get("/chart-data", async (req, res) => {
     try {

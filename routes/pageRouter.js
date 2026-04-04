@@ -1,10 +1,9 @@
 import express from 'express';
 import db from '../config/database.js';
 import { verifyToken } from '../middleware/auth.js';
-import { getBalance } from './financeRouter.js';
 const router = express.Router();
 
-router.get('/', getBalance, (req, res) => {
+router.get('/', (req, res) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -21,20 +20,26 @@ router.get('/', getBalance, (req, res) => {
   }
 });
 
-router.get('/analisis', verifyToken, getBalance, (req, res) => {
+router.get('/analisis', verifyToken, (req, res) => {
   res.render('analitik', { page: 'analisis' });
 });
 
-router.get('/transaksi', verifyToken, getBalance, async (req, res) => {
-  const rows = await db.query(
-    'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
-    [req.user.id]
-  )
+router.get('/transaksi', verifyToken, async (req, res) => {
+  let rows = [];
+
+  try {
+    rows = await db.query(
+      'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
+      [req.user.id]
+    );
+  } catch (err) {
+    console.error("Database Error di /transaksi:", err);
+  }
 
   res.render('transaksi', { page: 'transaksi', transactions: rows });
 });
 
-router.get('/target', verifyToken, getBalance, (req, res) => {
+router.get('/target', verifyToken, (req, res) => {
   res.render('targetTabungan', { page: 'target' });
 });
 
