@@ -3,6 +3,7 @@ import usersRouter from './routes/authUser.js';
 import pageRouter from './routes/pageRouter.js';
 import transactionRouter from './routes/transactionsRouter.js';
 import financeRouter from './routes/financeRouter.js';
+import savingsRouter from './routes/pageRouter.js';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -43,6 +44,7 @@ app.use(async (req, res, next) => {
 app.use("/auth", usersRouter);
 app.use("/transaction",transactionRouter);
 app.use("/finance", financeRouter);
+app.use("/savings", savingsRouter);
 app.use("/", pageRouter);
 
 app.listen(port, () => {
