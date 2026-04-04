@@ -271,30 +271,39 @@
     <!-- CHART -->
     <script>
       const ctx = document.getElementById("myChart");
-      const chartLabels = JSON.parse('<%- JSON.stringify(labels) %>');
-      const chartData = JSON.parse('<%- JSON.stringify(data) %>');
 
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: chartLabels,
-          datasets: [
-            {
-              data: chartData,
-              borderColor: "#22c55e",
-              tension: 0.1,
-              pointBackgroundColor: "#22c55e",
+      async function fetchAndRenderChart() {
+        try {
+          const response = await fetch('/finance/chart-data');
+          const result = await response.json();
+
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: result.labels,
+              datasets: [
+                {
+                  data: result.data,
+                  borderColor: "#22c55e",
+                  tension: 0.1,
+                  pointBackgroundColor: "#22c55e",
+                },
+              ],
             },
-          ],
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: "#9ca3af" } },
-            y: { ticks: { color: "#9ca3af" } },
-          },
-        },
-      });
+            options: {
+              plugins: { legend: { display: false } },
+              scales: {
+                x: { ticks: { color: "#9ca3af" } },
+                y: { ticks: { color: "#9ca3af" } },
+              },
+            },
+          });
+        } catch (error) {
+          console.error("Gagal mengambil data grafik", error);
+        }
+      }
+
+      fetchAndRenderChart();
     </script>
   </body>
 </html>
