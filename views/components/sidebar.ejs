@@ -84,40 +84,45 @@
 </aside>
 
 <script>
-    const links = document.querySelectorAll('.nav-item');
-    const currentPath = window.location.pathname;
+    document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll('.nav-item');
+        const currentPath = window.location.pathname;
+        const btn = document.getElementById("toggleSidebar");
+        const sidebar = document.querySelector(".sidebar");
+        const mainContent = document.querySelector(".main-content");
 
-    links.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-            link.classList.add('active');
+        links.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
+        function syncSidebarState() {
+            if (!mainContent) return;
+
+            if (sidebar.classList.contains("collapsed")) {
+                localStorage.setItem("sidebar", "collapsed");
+                mainContent.classList.remove("ml-64");
+                mainContent.classList.add("ml-20");
+            } else {
+                localStorage.setItem("sidebar", "open");
+                mainContent.classList.remove("ml-20");
+                mainContent.classList.add("ml-64");
+            }
         }
-    });
 
-    const btn = document.getElementById("toggleSidebar");
-    const sidebar = document.querySelector(".sidebar");
-    const mainContent = document.querySelector(".main-content");
-
-    function syncSidebarState() {
-        if (sidebar.classList.contains("collapsed")) {
-            localStorage.setItem("sidebar", "collapsed");
-            if (mainContent) mainContent.style.marginLeft = "5rem";
-        } else {
-            localStorage.setItem("sidebar", "open");
-            if (mainContent) mainContent.style.marginLeft = "16rem";
+        if (localStorage.getItem("sidebar") === "collapsed") {
+            sidebar.classList.add("collapsed");
         }
-    }
 
-    if (localStorage.getItem("sidebar") === "collapsed") {
-        sidebar.classList.add("collapsed");
-    }
-
-    setTimeout(() => {
-        sidebar.classList.remove("no-transition");
         syncSidebarState();
-    }, 50);
+        requestAnimationFrame(() => {
+            sidebar.classList.remove("no-transition");
+        });
 
-    btn.addEventListener("click", () => {
-        sidebar.classList.toggle("collapsed");
-        syncSidebarState();
+        btn.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+            syncSidebarState();
+        });
     });
 </script>

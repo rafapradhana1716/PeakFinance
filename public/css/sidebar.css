@@ -26,7 +26,7 @@
     font-family: 'Plus Jakarta Sans', 'sans-serif;';
     color: var(--soft);
     position: relative;
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, background-color 0.25s ease;
 }
 
 .nav-item i {
@@ -69,7 +69,7 @@
 }
 
 .profile-container {
-    transition: all 0.3s ease;
+    transition: none;
     font-weight: 700;
     font-family: 'Plus Jakarta Sans', 'sans-serif;';
 }
@@ -101,10 +101,11 @@
     transition: none !important;
 }
 
-.no-transition * {
+.sidebar.no-transition *,
+.sidebar.no-transition {
     transition: none !important;
+    animation: none !important;
 }
-
 .sidebar.collapsed {
     width: 5rem !important;
 }
@@ -115,11 +116,6 @@
     opacity: 0;
     width: 0;
     overflow: hidden;
-}
-
-
-.sidebar.collapsed {
-    width: 80px;
 }
 
 .sidebar.collapsed .text {
@@ -157,4 +153,8 @@
 .sidebar.collapsed .profile-container {
     justify-content: center;
     padding: 0.5rem;
+}
+
+.main-content {
+    transition: margin-left 0.3s ease-out;
 }
