@@ -7,6 +7,23 @@
   <title>Dashboard - PeakFinance</title>
   <link rel="stylesheet" href="/css/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    #dropdownMenu::-webkit-scrollbar {
+      width: 8px;
+    }
+    #dropdownMenu::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.8);
+      border-radius: 4px;
+    }
+    #dropdownMenu::-webkit-scrollbar-thumb {
+      background: #22c55e;
+      border-radius: 4px;
+      border: 2px solid rgba(15, 23, 42, 0.8);
+    }
+    #dropdownMenu::-webkit-scrollbar-thumb:hover {
+      background: #16a34a;
+    }
+  </style>
 </head>
 
 <body class="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white">
@@ -254,16 +271,19 @@
             <div class="space-y-3 border-t border-gray-800 pt-4">
               <div>
                 <p class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Pilih Target Tabungan</p>
-                <div class="space-y-2">
-                  <button type="button" onclick="selectTabungan(this)"
-                    class="w-full rounded-xl border border-green-400/40 bg-slate-950/50 px-4 py-3 text-left text-sm text-green-300 transition hover:border-green-400 hover:bg-green-400/10">
-                    <span class="font-semibold">Sony WH-1000XM5</span>
+                <div class="relative w-full" id="dropdown-container">
+                  <button type="button" id="dropdownToggle" class="w-full flex items-center justify-between border border-green-400/40 bg-slate-950/50 text-green-300 px-4 py-3 rounded-xl text-sm transition hover:border-green-400" onclick="toggleDropdown()">
+                    <span id="selectedText">Pilih target tabungan...</span>
+                    <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
                   </button>
-                  <button type="button" onclick="selectTabungan(this)"
-                    class="w-full rounded-xl border border-green-400/40 bg-slate-950/50 px-4 py-3 text-left text-sm text-green-300 transition hover:border-green-400 hover:bg-green-400/10">
-                    <span class="font-semibold">Laptop Baru</span>
-                  </button>
+                  <div id="dropdownMenu" class="absolute top-full left-0 right-0 bg-slate-900 border border-green-400/40 rounded-xl mt-2 z-50 invisible opacity-0 transition-all duration-200 max-h-64 overflow-y-auto">
+                    <div class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition" onclick="selectTabunganDropdown('Sony WH-1000XM5')">Sony WH-1000XM5</div>
+                    <div class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition" onclick="selectTabunganDropdown('Laptop Baru')">Laptop Baru</div>
+                  </div>
                 </div>
+                <input type="hidden" id="targetTabunganValue" value="">
               </div>
 
               <div class="pt-2">
@@ -575,9 +595,55 @@
           return;
         }
         
+        // Tambah item ke dropdown menu
+        const menu = document.getElementById('dropdownMenu');
+        const newItem = document.createElement('div');
+        newItem.className = 'dropdown-item px-4 py-3 text-green-300 text-sm cursor-pointer border-b border-green-400/20 transition-all duration-200 hover:bg-green-400/15 hover:pl-6';
+        newItem.textContent = namaTabungan;
+        newItem.onclick = function() {
+          selectTabunganDropdown(namaTabungan);
+        };
+        menu.appendChild(newItem);
+        
+        // Pilih item yang baru ditambahkan
+        selectTabunganDropdown(namaTabungan);
+        
         showToast(`Tabungan '${namaTabungan}' berhasil ditambahkan!`, "success");
         input.value = "";
+        
+        // Sembunyikan form
+        document.getElementById('newTabunganForm').classList.add('hidden');
       }
+
+      function toggleDropdown() {
+        const menu = document.getElementById('dropdownMenu');
+        const isOpen = menu.classList.contains('visible');
+        
+        if (isOpen) {
+          menu.classList.remove('visible', 'opacity-100');
+          menu.classList.add('invisible', 'opacity-0');
+        } else {
+          menu.classList.add('visible', 'opacity-100');
+          menu.classList.remove('invisible', 'opacity-0');
+        }
+      }
+
+      function selectTabunganDropdown(value) {
+        document.getElementById('selectedText').textContent = value;
+        document.getElementById('targetTabunganValue').value = value;
+        toggleDropdown();
+      }
+
+      // Tutup dropdown saat klik di luar
+      document.addEventListener('click', function(e) {
+        const container = document.getElementById('dropdown-container');
+        const menu = document.getElementById('dropdownMenu');
+        
+        if (container && !container.contains(e.target) && menu.classList.contains('visible')) {
+          menu.classList.remove('visible', 'opacity-100');
+          menu.classList.add('invisible', 'opacity-0');
+        }
+      });
 
       function setKategori(el, nama) {
         document.querySelectorAll(".kategori-btn").forEach((b) => {
