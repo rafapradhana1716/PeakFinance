@@ -26,40 +26,117 @@
     <!-- MENU KIRI -->
     <div class="w-64 space-y-3">
 
-      <button class="w-full text-left px-4 py-2 bg-green-500/20 text-green-400 rounded-lg">
+      <button class="menu-btn w-full text-left px-4 py-2 bg-green-500/20 text-green-400 rounded-lg" data-menu="tampilan">
         Tampilan
       </button>
 
-      <button class="w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]">
+      <button class="menu-btn w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]" data-menu="aksesibilitas">
         Aksesibilitas
       </button>
 
-      <button class="w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]">
+      <button class="menu-btn w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]" data-menu="akun">
         Akun
       </button>
 
-      <button class="w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]">
+      <button class="menu-btn w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]" data-menu="bahasa">
         Bahasa
       </button>
 
-      <button class="w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]">
+      <button class="menu-btn w-full text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]" data-menu="personalisasi">
         Personalisasi
       </button>
 
     </div>
 
-   <div class="flex-1 bg-[#020617] border border-gray-800 rounded-2xl p-6">
+    <div class="flex-1 bg-[#020617] border border-gray-800 rounded-2xl p-6">
   
-  <!-- PANEL KOSONG -->
-  <div class="w-full h-[300px] rounded-xl bg-[#020617] border border-gray-800 flex items-center justify-center">
-    <p class="text-gray-500 text-sm">Pilih menu pengaturan di kiri</p>
-  </div>
+      <!-- TAMPILAN PANEL -->
+      <div id="tampilan" class="menu-content hidden">
+        <p class="text-gray-500 text-sm">Fitur tampilan akan dikembangkan</p>
+      </div>
 
-</div>
+      <!-- AKSESIBILITAS PANEL -->
+      <div id="aksesibilitas" class="menu-content hidden">
+        <p class="text-gray-500 text-sm">Fitur aksesibilitas akan dikembangkan</p>
+      </div>
+
+      <!-- AKUN PANEL -->
+      <div id="akun" class="menu-content hidden">
+        <div class="space-y-6">
+          <div>
+            <h2 class="text-xl font-semibold mb-4">Akun</h2>
+            <p class="text-gray-400 mb-6">Kelola pengaturan akun Anda</p>
+          </div>
+          
+          <div class="border-t border-gray-700 pt-6">
+            <h3 class="text-sm font-semibold text-gray-300 mb-4">Keamanan</h3>
+            <form id="logoutForm" method="POST" action="/logout">
+              <button type="submit" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition">
+                Logout
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAHASA PANEL -->
+      <div id="bahasa" class="menu-content hidden">
+        <p class="text-gray-500 text-sm">Fitur bahasa akan dikembangkan</p>
+      </div>
+
+      <!-- PERSONALISASI PANEL -->
+      <div id="personalisasi" class="menu-content hidden">
+        <p class="text-gray-500 text-sm">Fitur personalisasi akan dikembangkan</p>
+      </div>
+
+      <!-- PANEL KOSONG (DEFAULT) -->
+      <div id="empty" class="menu-content w-full h-[300px] rounded-xl bg-[#020617] border border-gray-800 flex items-center justify-center">
+        <p class="text-gray-500 text-sm">Pilih menu pengaturan di kiri</p>
+      </div>
+
+    </div>
 
   </div>
 
 </main>
+
+<script>
+  // Menu handler
+  const menuButtons = document.querySelectorAll('.menu-btn');
+  const menuContents = document.querySelectorAll('.menu-content');
+
+  menuButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const menuId = this.getAttribute('data-menu');
+      
+      // Hide all contents
+      menuContents.forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      // Remove active state from all buttons
+      menuButtons.forEach(btn => {
+        btn.classList.remove('bg-green-500/20', 'text-green-400');
+        btn.classList.add('bg-[#020617]', 'border', 'border-gray-800', 'hover:bg-[#0b1220]');
+      });
+      
+      // Show selected content
+      const selectedContent = document.getElementById(menuId);
+      if(selectedContent) {
+        selectedContent.classList.remove('hidden');
+      }
+      
+      // Set button as active
+      this.classList.remove('bg-[#020617]', 'border', 'border-gray-800', 'hover:bg-[#0b1220]');
+      this.classList.add('bg-green-500/20', 'text-green-400');
+    });
+  });
+
+  // Show default (empty) on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('empty').classList.remove('hidden');
+  });
+</script>
 
 </body>
 </html>
