@@ -295,6 +295,8 @@
                 <div id="newTabunganForm" class="hidden space-y-2 mt-3 pt-3 border-t border-gray-800">
                   <input type="text" id="namaTabunganInput" placeholder="Nama tujuan tabungan..."
                     class="w-full rounded-xl border border-gray-700 bg-[#0f172a] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none transition focus:border-green-400" />
+                  <input type="text" id="targetAmountInput" placeholder="Jumlah target tabungan..." oninput="formatRupiah(this)"
+                    class="w-full rounded-xl border border-gray-700 bg-[#0f172a] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none transition focus:border-green-400" />
                   <button type="button" onclick="addTabunganFromInput()"
                     class="w-full rounded-xl border border-green-400/50 bg-green-400/10 px-3 py-2 text-xs font-semibold text-green-300 transition hover:bg-green-400/20 hover:border-green-400">
                     Tambah
@@ -419,7 +421,6 @@
         }
       }
 
-      // Buat Notif Catat Uang
       function showToast(message, type = "success") {
         const container = document.getElementById("toast-container");
 
@@ -484,7 +485,7 @@
         }
       }
 
-      // Initialize Doughnut Chart
+      //chart doughnut
       let scoreChart;
       document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('scoreChart').getContext('2d');
@@ -557,21 +558,18 @@
         const typeInput = document.getElementById("typeInput").value;
         const amountInput = document.getElementById("amountActual").value;
 
-        // Jika pengeluaran, kurangi skor
         if(typeInput === "expense" && amountInput) {
-          // Konversi ke angka juta untuk mapping persentase
           const amount = parseInt(amountInput);
           let percentage = 100;
 
-          // Mapping pengeluaran ke persentase
           if(amount >= 0 && amount < 500000) {
-            percentage = 80; // Pengeluaran sedikit
+            percentage = 80; 
           } else if(amount >= 500000 && amount < 1000000) {
-            percentage = 60; // Pengeluaran sedang
+            percentage = 60; 
           } else if(amount >= 1000000 && amount < 1500000) {
-            percentage = 40; // Pengeluaran besar
+            percentage = 40; 
           } else if(amount >= 1500000) {
-            percentage = 20; // Pengeluaran sangat besar
+            percentage = 20; 
           }
 
           updateChartScore(percentage);
@@ -592,32 +590,43 @@
       }
 
       function addTabunganFromInput() {
-        const input = document.getElementById("namaTabunganInput");
-        const namaTabungan = input.value.trim();
+        const namaInput = document.getElementById("namaTabunganInput");
+        const targetInput = document.getElementById("targetAmountInput");
+        const namaTabungan = namaInput.value.trim();
+        const targetAmountStr = targetInput.value.replace(/[^0-9]/g, '');
+        const targetAmount = parseInt(targetAmountStr);
         
         if (!namaTabungan) {
           showToast("Nama tabungan tidak boleh kosong", "error");
           return;
         }
         
-        // Tambah item ke dropdown menu
-        const menu = document.getElementById('dropdownMenu');
-        const newItem = document.createElement('div');
-        newItem.className = 'dropdown-item px-4 py-3 text-green-300 text-sm cursor-pointer border-b border-green-400/20 transition-all duration-200 hover:bg-green-400/15 hover:pl-6';
-        newItem.textContent = namaTabungan;
-        newItem.onclick = function() {
-          selectTabunganDropdown(namaTabungan);
-        };
-        menu.appendChild(newItem);
+        if (!targetAmount || targetAmount <= 0) {
+          showToast("Jumlah target tabungan harus lebih dari 0", "error");
+          return;
+        }
         
-        // Pilih item yang baru ditambahkan
-        selectTabunganDropdown(namaTabungan);
-        
-        showToast(`Tabungan '${namaTabungan}' berhasil ditambahkan!`, "success");
-        input.value = "";
-        
-        // Sembunyikan form
-        document.getElementById('newTabunganForm').classList.add('hidden');
+        fetch('/savings/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: namaTabungan, target: targetAmount })
+        })
+        .then(response => {
+          if (response.ok) {
+            fetchAndRenderSavings();
+            showToast(`Tabungan '${namaTabungan}' berhasil ditambahkan!`, "success");
+            namaInput.value = "";
+            targetInput.value = "";
+            document.getElementById('newTabunganForm').classList.add('hidden');
+          } else {
+            return response.json().then(data => {
+              showToast(data.message || "Gagal menambahkan tabungan", "error");
+            });
+          }
+        })
+        .catch(err => {
+          showToast("Terjadi kesalahan sistem", "error");
+        });
       }
 
       function toggleDropdown() {
