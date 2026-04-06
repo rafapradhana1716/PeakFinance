@@ -22,55 +22,77 @@
 
       <!-- FILTER -->
       <div class="flex gap-3 mb-8">
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
-          3 hari terakhir
-        </button>
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+        <button onclick="fetchAndRenderTransactions(7)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
           7 hari terakhir
         </button>
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+        <button onclick="fetchAndRenderTransactions(30)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
           30 hari terakhir
         </button>
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+        <button onclick="fetchAndRenderTransactions(90)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
           90 hari terakhir
         </button>
       </div>
 
       <!-- ================= LIST TRANSAKSI ================= -->
-      <div class="space-y-4">
-        <% transactions.forEach(txn => { %>
-
-          <div
-            class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5"
-            >
-            <div>
-              <p class="font-semibold text-lg"><%= new Date(txn.created_at).toLocaleString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
-              <p class="text-sm text-gray-400">
-                  Kamu telah mencatat <%= txn.type === 'income' ? 'masukanmu' : 'pengeluaranmu' %> sebesar
-              </p>
-              <% if (txn.description) { %>
-                  <p class="text-xs text-gray-500 italic mt-1 max-w-md">
-                      "<%= txn.description %>"
-                  </p>
-              <% } %>
-              <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
-                  <%= txn.category || 'Umum' %>
-              </span>
-            </div>
-            
-            <p class="text-2xl font-bold <%= txn.type === 'income' ? 'text-green-400' : 'text-red-400' %>">
-              <%= txn.type === 'income' ? '+' : '-' %> 
-              Rp<%= Number(txn.amount).toLocaleString('id-ID') %>
-            </p>
-          </div>
-        <% }) %>
-
-        <% if (transactions.length === 0) { %>
-          <div class="text-center py-10 text-gray-500">
-            <p>Belum ada riwayat transaksi nih. Yuk mulai catat!</p>
-          </div>
-        <% } %>
+      <div id="transaction-container" class="space-y-4">
+        <div id="loading-state" class="text-center py-10 text-gray-500">
+          <p>Sedang memuat riwayat transaksi..</p>
+        </div>
       </div>
     </main>
+    <script>
+      async function fetchAndRenderTransactions(days = 30) {
+        const container = document.getElementById('transaction-container');
+        
+        updateButtonStyles(days);
+        try {
+          const response = await fetch(`/trx/transactions-data?days=${days}`);
+          const data = await response.json();
+
+          if(data.success && data.transactions.length > 0) {
+            container.innerHTML = '';
+
+            data.transactions.forEach(txn => {
+              const date = new Date(txn.created_at).toLocaleString('id-ID', {
+                day: 'numeric', month: 'long', year: 'numeric'
+              });
+              const amount = Number(txn.amount).toLocaleString('id-ID');
+              const typeClass = txn.type === 'income' ? 'text-green-400' : 'text-red-400';
+              const sign = txn.type === 'income' ? '+' : '-';
+
+              container.innerHTML += `
+                <div class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5">
+                  <div>
+                    <p class="font-semibold text-lg">${date}</p>
+                    <p class="text-sm text-gray-400">Kamu telah mencatat ${txn.type === 'income' ? 'masukanmu' : 'pengeluaranmu'} sebesar</p>
+                    <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
+                      ${txn.category || 'Umum'}
+                    </span>
+                  </div>
+                  <p class="text-2xl font-bold ${typeClass}">${sign} Rp${amount}</p>
+                </div>
+              `;
+            });
+          } else {
+            container.innerHTML = '<div class="text-center py-10 text-gray-500"><p>Tidak ada transaksi dalam ' + days + ' hari terakhir.</p></div>';
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          container.innerHTML = '<div class="text-center py-10 text-red-400"><p>Gagal memuat data. Silakan coba lagi nanti.</p></div>';
+        }
+      }
+
+      function updateButtonStyles(activeDays) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+          if(btn.innerText.includes(activeDays)) {
+            btn.classList.replace('bg-gray-800', 'bg-green-800');
+          } else {
+            btn.classList.replace('bg-green-800', 'bg-gray-800');
+          }
+        });
+      }
+      document.addEventListener('DOMContentLoaded', () => fetchAndRenderTransactions(30));
+    </script>
   </body>
 </html>

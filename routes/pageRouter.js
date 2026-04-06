@@ -25,18 +25,7 @@ router.get('/analisis', verifyToken, (req, res) => {
 });
 
 router.get('/transaksi', verifyToken, async (req, res) => {
-  let rows = [];
-
-  try {
-    rows = await db.query(
-      'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
-      [req.user.id]
-    );
-  } catch (err) {
-    console.error("Database Error di /transaksi:", err);
-  }
-
-  res.render('transaksi', { page: 'transaksi', transactions: rows });
+  res.render('transaksi', { page: 'transaksi' });
 });
 
 router.get('/target', verifyToken, (req, res) => {

@@ -42,7 +42,7 @@ app.use(async (req, res, next) => {
     next();
 });
 app.use("/auth", usersRouter);
-app.use("/transaction",transactionRouter);
+app.use("/trx",transactionRouter);
 app.use("/finance", financeRouter);
 app.use("/savings", savingsRouter);
 app.use("/", pageRouter);

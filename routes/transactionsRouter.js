@@ -27,4 +27,18 @@ router.post("/add", verifyToken, async (req, res) => {
     }
 });
 
+router.get("/transactions-data", async (req, res) => {
+    const days = req.query.days || 30;
+    try {
+        const rows = await db.query(
+            `SELECT * FROM transactions WHERE user_id = ? AND created_at >= DATE_SUB(NOW(), INTERVAL ? DAY) ORDER BY created_at DESC`,
+            [req.user.id, parseInt(days)]
+        );
+        res.json({ success: true, transactions: rows });
+    } catch (err) {
+        console.error("Database Error:", err);
+        res.status(500).json({ success: false, message: "Gagal mengambil data" });
+    }
+});
+
 export default router;
