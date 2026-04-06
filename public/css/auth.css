@@ -240,6 +240,37 @@
     gap: 6px;
 }
 
+.form-error {
+    font-size: 12px;
+    color: var(--coral);
+    margin-top: 4px;
+    display: none;
+}
+
+.form-error.show {
+    display: block;
+}
+
+.form-server-error {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid var(--coral);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--coral);
+    margin-bottom: 16px;
+    display: none;
+}
+
+.form-server-error.show {
+    display: block;
+}
+
+.form-input.error {
+    border-color: var(--coral);
+    background: rgba(255, 107, 107, 0.05);
+}
+
 .form-label {
     font-size: 12px;
     font-weight: 600;

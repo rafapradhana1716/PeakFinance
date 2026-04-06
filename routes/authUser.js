@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
             maxAge: selectedDuration * 1000,
         });
 
-        return res.redirect("/");
+        return res.status(200).json({ message: 'Login berhasil' });
 
     } catch (error) {
         console.error(error);
@@ -104,7 +104,7 @@ router.post("/register", async (req, res) => {
             maxAge: 3600000
         });
 
-        return res.redirect("/");
+        return res.status(200).json({ message: 'Registrasi berhasil' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Gagal registrasi user!" });

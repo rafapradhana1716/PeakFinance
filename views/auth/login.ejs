@@ -48,7 +48,9 @@
                     <p class="auth-subtitle">Masuk ke akun PeakFinance kamu</p>
                 </div>
 
-                <form action="auth/login" method="POST" class="auth-form">
+                <div class="form-server-error" id="server-error"></div>
+
+                <form class="auth-form">
 
                     <div class="form-group">
                         <label class="form-label" for="username">Username</label>
@@ -57,6 +59,7 @@
                             <input class="form-input" type="text" id="username" name="username"
                                 placeholder="Masukkan email atau username" autocomplete="off">
                         </div>
+                        <div class="form-error" id="error-username"></div>
                     </div>
 
                     <div class="form-group">
@@ -68,6 +71,7 @@
                             <button type="button" class="toggle-pw"
                                 onclick="togglePassword('password', this)">👁</button>
                         </div>
+                        <div class="form-error" id="error-password"></div>
                     </div>
 
                     <div class="form-row">
@@ -108,6 +112,89 @@
                 btn.textContent = '👁';
             }
         }
+
+        // Handle form submission errors
+        document.querySelector('.auth-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const rememberMe = document.getElementById('checkbox-remember');
+            const serverErrorEl = document.getElementById('server-error');
+            let hasError = false;
+
+            // Clear previous errors
+            document.querySelectorAll('.form-error').forEach(el => {
+                el.classList.remove('show');
+                el.textContent = '';
+            });
+            document.querySelectorAll('.form-input').forEach(el => {
+                el.classList.remove('error');
+            });
+            serverErrorEl.classList.remove('show');
+            serverErrorEl.textContent = '';
+
+            // Validate
+            if (!username.value.trim()) {
+                showError('username', 'Username atau email wajib diisi');
+                hasError = true;
+            }
+            if (!password.value.trim()) {
+                showError('password', 'Password wajib diisi');
+                hasError = true;
+            }
+
+            if (!hasError) {
+                try {
+                    const response = await fetch('/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username.value,
+                            password: password.value,
+                            rememberMe: rememberMe.checked
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        serverErrorEl.textContent = data.message;
+                        serverErrorEl.classList.add('show');
+                    } else {
+                        window.location.href = '/';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    serverErrorEl.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
+                    serverErrorEl.classList.add('show');
+                }
+            }
+        });
+
+        function showError(fieldId, message) {
+            const input = document.getElementById(fieldId);
+            const errorEl = document.getElementById('error-' + fieldId);
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.add('show');
+                input.classList.add('error');
+            }
+        }
+
+        // Clear error when user starts typing
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const errorId = 'error-' + this.id;
+                const errorEl = document.getElementById(errorId);
+                if (errorEl) {
+                    errorEl.classList.remove('show');
+                    this.classList.remove('error');
+                }
+            });
+        });
     </script>
 </body>
 
