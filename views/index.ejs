@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - PeakFinance</title>
   <link rel="stylesheet" href="/css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white">
@@ -83,13 +84,8 @@
 
           <!-- CONTENT -->
           <div class="flex flex-col items-center justify-center flex-1">
-            <div class="relative w-20 h-20 flex items-center justify-center mb-3">
-              <div class="absolute w-20 h-20 rounded-full bg-green-400/20 blur-lg"></div>
-
-              <div
-                class="w-16 h-16 rounded-full border-4 border-green-400 flex items-center justify-center text-sm font-bold text-green-400">
-                100
-              </div>
+            <div class="relative w-24 h-24 flex items-center justify-center mb-3">
+              <canvas id="scoreChart"></canvas>
             </div>
 
             <p class="font-semibold text-sm">Sehat Banget 🔥</p>
@@ -463,8 +459,98 @@
         }
       }
 
+      // Initialize Doughnut Chart
+      let scoreChart;
+      document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        scoreChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Skor Keuangan', 'Sisa Target'],
+            datasets: [{
+              data: [100, 0],
+              backgroundColor: [
+                '#4ade80',
+                '#1e293b'
+              ],
+              borderColor: [
+                '#22c55e',
+                '#334155'
+              ],
+              borderWidth: 1,
+              circumference: 360,
+              rotation: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            cutout: '70%',
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                enabled: false
+              }
+            }
+          },
+          plugins: [{
+            id: 'textCenter',
+            beforeDatasetsDraw(chart) {
+              const {width, height, ctx} = chart;
+              ctx.restore();
+              
+              const score = chart.data.datasets[0].data[0];
+              const fontSize = (height / 80).toFixed(2);
+              ctx.font = `bold ${fontSize}em sans-serif`;
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = '#4ade80';
+              
+              const text = score + '%';
+              const textX = Math.round((width - ctx.measureText(text).width) / 2);
+              const textY = height / 2;
+              
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+          }]
+        });
+      });
+
+      function updateChartScore(percentage) {
+        if(scoreChart) {
+          const remaining = 100 - percentage;
+          scoreChart.data.datasets[0].data = [percentage, remaining];
+          scoreChart.update();
+        }
+      }
+
       document.getElementById("transactionForm").addEventListener("submit", function (e) {
         e.preventDefault();
+
+        const typeInput = document.getElementById("typeInput").value;
+        const amountInput = document.getElementById("amountActual").value;
+
+        // Jika pengeluaran, kurangi skor
+        if(typeInput === "expense" && amountInput) {
+          // Konversi ke angka juta untuk mapping persentase
+          const amount = parseInt(amountInput);
+          let percentage = 100;
+
+          // Mapping pengeluaran ke persentase
+          if(amount >= 0 && amount < 500000) {
+            percentage = 80; // Pengeluaran sedikit
+          } else if(amount >= 500000 && amount < 1000000) {
+            percentage = 60; // Pengeluaran sedang
+          } else if(amount >= 1000000 && amount < 1500000) {
+            percentage = 40; // Pengeluaran besar
+          } else if(amount >= 1500000) {
+            percentage = 20; // Pengeluaran sangat besar
+          }
+
+          updateChartScore(percentage);
+        }
 
         showToast("Transaksi berhasil ditambahkan!", "success");
 
