@@ -3,7 +3,7 @@ import usersRouter from './routes/authUser.js';
 import pageRouter from './routes/pageRouter.js';
 import transactionRouter from './routes/transactionsRouter.js';
 import financeRouter from './routes/financeRouter.js';
-import savingsRouter from './routes/pageRouter.js';
+import savingsRouter from './routes/savingsRouter.js';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';

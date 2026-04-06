@@ -43,7 +43,7 @@ router.post("/add", verifyToken, async (req, res) => {
     try {
         await db.query(
             'INSERT INTO savings_goals (user_id, title, target_amount, current_amount, status) VALUES (?, ?, ?, ?, ?)',
-            [userId, title, target, current ? current : 0, current == target ? "achieved":"active"]
+            [userId, title, target, current ? current : 0, current >= target ? "achieved":"active"]
         );
 
         return res.redirect("/");
