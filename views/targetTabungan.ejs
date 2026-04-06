@@ -26,39 +26,23 @@
         <p class="text-sm text-gray-400 mb-4">Target Tabungan</p>
 
         <!-- ITEM -->
-         <%= savingsGoal.forEach %>
+        <% savingsGoal.forEach(goal => { %>
         <div class="mb-5">
           <div class="flex justify-between text-sm mb-1">
-            <span>🎧 Sony WH-1000XM5</span>
-            <span class="text-green-400">28%</span>
+            <span><%= goal.icon %> <%= goal.nama %></span>
+            <span class="<%= goal.textClass %>"><%= goal.progress %>%</span>
           </div>
 
           <div class="w-full h-2 bg-gray-800 rounded-full">
-            <div class="h-2 bg-green-400 rounded-full w-[28%]"></div>
+            <div class="h-2 <%= goal.bgClass %> rounded-full" style="width: <%= goal.progress %>%"></div>
           </div>
 
           <div class="flex justify-between text-xs text-gray-400 mt-1">
-            <span class="text-green-400">Rp1.000.000</span>
-            <span>dari Rp3.500.000</span>
+            <span class="<%= goal.textClass %>">Rp<%= goal.terkumpul.toLocaleString('id-ID') %></span>
+            <span>dari Rp<%= goal.target.toLocaleString('id-ID') %></span>
           </div>
         </div>
-
-        <!-- ITEM 2 -->
-        <div>
-          <div class="flex justify-between text-sm mb-1">
-            <span>💻 Laptop Baru</span>
-            <span class="text-yellow-400">5%</span>
-          </div>
-
-          <div class="w-full h-2 bg-gray-800 rounded-full">
-            <div class="h-2 bg-yellow-400 rounded-full w-[5%]"></div>
-          </div>
-
-          <div class="flex justify-between text-xs text-gray-400 mt-1">
-            <span class="text-yellow-400">Rp500.000</span>
-            <span>dari Rp10.000.000</span>
-          </div>
-        </div>
+        <% }) %>
       </div>
 
       <!-- ================= KALENDER ================= -->

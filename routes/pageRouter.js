@@ -29,7 +29,11 @@ router.get('/transaksi', verifyToken, async (req, res) => {
 });
 
 router.get('/target', verifyToken, (req, res) => {
-  res.render('targetTabungan', { page: 'target' });
+  const savingsGoal = [
+    { nama: "Sony WH-1000XM5", icon: "🎧", progress: 28, terkumpul: 1000000, target: 3500000, textClass: "text-green-400", bgClass: "bg-green-400" },
+    { nama: "Laptop Baru", icon: "💻", progress: 5, terkumpul: 500000, target: 10000000, textClass: "text-yellow-400", bgClass: "bg-yellow-400" }
+  ];
+  res.render('targetTabungan', { page: 'target', savingsGoal });
 });
 
 router.get('/profil', verifyToken, (req, res) => {
