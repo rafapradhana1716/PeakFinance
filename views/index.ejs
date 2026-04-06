@@ -279,6 +279,7 @@
                     </svg>
                   </button>
                   <div id="dropdownMenu" class="absolute top-full left-0 right-0 bg-slate-900 border border-green-400/40 rounded-xl mt-2 z-50 invisible opacity-0 transition-all duration-200 max-h-64 overflow-y-auto">
+                    <div class="px-4 py-3 text-gray-500 text-xs italic">Memuat data...</div>
                     <div class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition" onclick="selectTabunganDropdown('Sony WH-1000XM5')">Sony WH-1000XM5</div>
                     <div class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition" onclick="selectTabunganDropdown('Laptop Baru')">Laptop Baru</div>
                   </div>
@@ -313,7 +314,7 @@
                 class="flex-1 rounded-xl border border-red-400/50 bg-red-400/10 px-4 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-400/20 hover:border-red-400">
                 Batal
               </button>
-              <button type="button"
+              <button type="button" onclick="saveSavingsUpdate()"
                 class="flex-1 rounded-xl bg-green-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-green-300">
                 Simpan Tabungan
               </button>
@@ -370,6 +371,10 @@
         document.getElementById("page2").classList.toggle("hidden", page !== 2);
         document.getElementById("navTabungan").classList.toggle("hidden", page !== 1);
         document.getElementById("modalHeader").classList.toggle("hidden", page !== 1);
+
+        if(page === 2) {
+          fetchAndRenderSavings();
+        }
       }
 
       function nextPage() {
@@ -628,12 +633,6 @@
         }
       }
 
-      function selectTabunganDropdown(value) {
-        document.getElementById('selectedText').textContent = value;
-        document.getElementById('targetTabunganValue').value = value;
-        toggleDropdown();
-      }
-
       // Tutup dropdown saat klik di luar
       document.addEventListener('click', function(e) {
         const container = document.getElementById('dropdown-container');
@@ -679,8 +678,62 @@
         document.getElementById("selectedKategori").value = value;
       }
 
+      async function saveSavingsUpdate() {
+        const goalId = document.getElementById('targetTabunganValue').value;
+        const amountStr = document.getElementById('jumlahTabunganInput').value.replace(/[^0-9]/g, '');
+        const amount = parseInt(amountStr);
+
+        if(!goalId) return showToast("Pilih target tabungan dulu!", "error");
+        if(!amount || amount <= 0) return showToast("Masukkan jumlah uang yang valid!", "error");
+        
+        try {
+          const response = await fetch('/savings/update-goals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ goalId, amount })
+          });
+          const result = await response.json();
+
+          if(result.success) {
+            showToast("Tabungan berhasil ditambahkan!", "success");
+            setTimeout(() => location.reload(), 1000);
+          } else {
+            showToast("Gagal mengupdate tabungan!", "error");
+          }
+        } catch (err) {
+          showToast("Terjadi kesalahan sistem", "error")
+        }
+      }
+
       async function fetchAndRenderSavings() {
-        const select = document.getElementById("")
+        const menu = document.getElementById("dropdownMenu");
+        
+        try {
+          const respone = await fetch("/savings/goals");
+          const data = await respone.json();
+
+          if (data.success && data.goals.length > 0) {
+            menu.innerHTML = '';
+
+            data.goals.forEach(goal => {
+              const item = document.createElement('div');
+              item.className = "dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition";
+              item.textContent = goal.title;
+
+              item.onclick = function() {
+                document.getElementById('targetTabunganValue').value = goal.id;
+                document.getElementById('selectedText').textContent = goal.title;
+                toggleDropdown();
+              };
+
+              menu.appendChild(item);
+            });
+          } else {
+            menu.innerHTML = '<div class="px-4 py-3 text-gray-500 text-xs">Belum ada target.</div>';
+          }
+        } catch (err) {
+          menu.innerHTML = '<div class="px-4 py-3 text-red-400 text-xs">Gagal memuat data.</div>';
+        }
       }
 
       async function fetchAndRenderBalance() {
