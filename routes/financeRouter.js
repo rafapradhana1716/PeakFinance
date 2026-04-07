@@ -4,7 +4,7 @@ const router = express.Router();
 
 export const getBalance = async (userId) => {
     try {
-        const rows = await db.query(
+        const balance = await db.query(
             `SELECT 
                 COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) - 
                 COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_balance
@@ -12,7 +12,25 @@ export const getBalance = async (userId) => {
             WHERE user_id = ?`,
             [userId]
         );
-        return Number(rows[0].total_balance);
+
+        const income = await db.query(
+            `SELECT COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) AS total_income
+            FROM transactions
+            WHERE user_id = ?`,
+            [userId]
+        );
+
+        const expense = await db.query(
+            `SELECT COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_expense
+            FROM transactions
+            WHERE user_id = ?`,
+            [userId]
+        );
+
+        const totalBalance = Number(balance[0].total_balance);
+        const totalIncome = Number(income[0].total_income);
+        const totalExpense = Number(expense[0].total_expense);
+        return { totalBalance, totalIncome, totalExpense };
     } catch (err) {
         console.error("Error hitung saldo:", err);
         return 0;
@@ -62,7 +80,7 @@ export const getChartData = async (userId) => {
 router.get("/balance-data", async (req, res) => {
     try {
         const balanceData = await getBalance(req.user.id);
-        res.json({balance: balanceData});
+        res.json({balance: balanceData.totalBalance, income: balanceData.totalIncome, expense: balanceData.totalExpense});
     } catch {
         res.status(500).json({ error: "Gagal mengambil data keuangan" })
     }

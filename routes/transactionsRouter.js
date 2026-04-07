@@ -7,8 +7,8 @@ router.post("/add", verifyToken, async (req, res) => {
     const { name, type, category, amount, description } = req.body;
     const userId = req.user.id;
 
-    if(!name || !type || !category || !amount || !description) {
-        return res.status(400).json({ message: "Semua field wajib diisi!" });
+    if(!name || !type || !amount) {
+        return res.status(400).json({ message: "Nama dan jumlah uang wajib diisi!" });
     }
 
     if(amount <= 0) {

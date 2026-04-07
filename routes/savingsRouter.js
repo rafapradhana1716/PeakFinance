@@ -16,8 +16,14 @@ router.get("/goals", verifyToken, async (req, res) => {
 });
 
 router.post("/update-goals", verifyToken, async (req, res) => {
-    const { goalId, amount} = req.body;
+    const { goalId, amount, name} = req.body;
     try {
+        await db.query(
+            `INSERT INTO transactions (user_id, name, type, amount, savings_goal_id) VALUES
+            (?, ?, 'saving', ?, ?)`,
+            [req.user.id, `Kamu menabung untuk ${name}`, amount, goalId]
+        );
+
         await db.query(
             'UPDATE savings_goals SET current_amount = current_amount + ? WHERE id = ? AND user_id = ?',
             [amount, goalId, req.user.id]

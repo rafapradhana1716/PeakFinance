@@ -105,12 +105,12 @@
 
             <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
               <p class="text-xs text-gray-400">PENGELUARAN</p>
-              <p>-Rp0</p>
+              <p id="totalPengeluaran">-Rp0</p>
             </div>
 
             <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
               <p class="text-xs text-gray-400">TABUNGAN</p>
-              <p class="text-green-400">+Rp1.5jt</p>
+              <p id="totalPemasukan" class="text-green-400">Memuat..</p>
             </div>
           </div>
         </div>
@@ -697,10 +697,30 @@
         document.getElementById("selectedKategori").value = value;
       }
 
+      function formatRupiahRingkas(amount) {
+        if (amount === 0) return "Rp0";
+
+        const absAmount = Math.abs(amount);
+        let formatted = "";
+
+        if(absAmount >= 1000000000) {
+          formatted = (absAmount / 1000000000).toFixed(1).replace(/\.0$/, "") + "M";
+        } else if(absAmount >= 1000000) {
+          formatted = (absAmount / 1000000).toFixed(1).replace(/\.0$/, "") + "jt";
+        } else if(absAmount >= 1000) {
+          formatted = (absAmount / 1000).toFixed(1).replace(/\.0$/, "") + "rb";
+        } else {
+          formatted = absAmount.toString();
+        }
+
+        return `Rp${formatted}`;
+      }
+
       async function savingsUpdate() {
         const goalId = document.getElementById('targetTabunganValue').value;
         const amountStr = document.getElementById('jumlahTabunganInput').value.replace(/[^0-9]/g, '');
         const amount = parseInt(amountStr);
+        const name = document.getElementById('selectedText').textContent;
 
         if(!goalId) {
           closeModal();
@@ -715,7 +735,7 @@
           const response = await fetch('/savings/update-goals', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ goalId, amount })
+            body: JSON.stringify({ goalId, amount, name })
           });
           const result = await response.json();
 
@@ -774,10 +794,16 @@
             currency: 'IDR',
             minimumFractionDigits: 0
           }).format(result.balance);
+
+          const formattedIncome = formatRupiahRingkas(result.income);
+          const formattedExpense = formatRupiahRingkas(result.expense);
           
           document.querySelectorAll("[id='balance']").forEach(el => {
             el.innerHTML = formattedBalance;
           });
+
+          document.querySelector("[id='totalPemasukan']").innerHTML = `+${formattedIncome}`;
+          document.querySelector("[id='totalPengeluaran']").innerHTML = `-${formattedExpense}`;
         } catch (err) {
           console.error("Gagal mengambil data keuangan", err);
         }
