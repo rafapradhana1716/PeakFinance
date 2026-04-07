@@ -872,3 +872,55 @@ footer {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+@media (max-width: 768px) {
+  nav {
+    padding: 16px 32px;
+    gap: 16px;
+  }
+
+  .nav-logo {
+    gap: 8px;
+  }
+
+  .logo-name {
+    font-size: 24px;
+
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card.large {
+    grid-column: span 1;
+  }
+
+  .insight-section {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .marquee-track {
+    animation: marqueeMobile 15s linear infinite;
+  }
+
+  @keyframes marqueeMobile {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-20%);
+    }
+  }
+}
