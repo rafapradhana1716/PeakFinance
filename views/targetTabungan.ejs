@@ -26,38 +26,9 @@
         <p class="text-sm text-gray-400 mb-4">Target Tabungan</p>
 
         <!-- ITEM -->
-        <div class="mb-5">
-          <div class="flex justify-between text-sm mb-1">
-            <span>🎧 Sony WH-1000XM5</span>
-            <span class="text-green-400">28%</span>
-          </div>
-
-          <div class="w-full h-2 bg-gray-800 rounded-full">
-            <div class="h-2 bg-green-400 rounded-full w-[28%]"></div>
-          </div>
-
-          <div class="flex justify-between text-xs text-gray-400 mt-1">
-            <span class="text-green-400">Rp1.000.000</span>
-            <span>dari Rp3.500.000</span>
-          </div>
-        </div>
-
-        <!-- ITEM 2 -->
-        <div>
-          <div class="flex justify-between text-sm mb-1">
-            <span>💻 Laptop Baru</span>
-            <span class="text-yellow-400">5%</span>
-          </div>
-
-          <div class="w-full h-2 bg-gray-800 rounded-full">
-            <div class="h-2 bg-yellow-400 rounded-full w-[5%]"></div>
-          </div>
-
-          <div class="flex justify-between text-xs text-gray-400 mt-1">
-            <span class="text-yellow-400">Rp500.000</span>
-            <span>dari Rp10.000.000</span>
-          </div>
-        </div>
+         <div id="goals-list" class="space-y-5">
+          <p class="text-sm text-gray-500 italic">Memuat data target..</p>
+         </div>
       </div>
 
       <!-- ================= KALENDER ================= -->
@@ -129,5 +100,65 @@
         Target kamu dalam bulan ini adalah Rp1.500.000. Kerja bagus!
       </div>
     </main>
+    <script>
+      async function fetchAndRenderGoals() {
+        const goalsList = document.getElementById('goals-list');
+        if(!goalsList) return;
+
+        try {
+          const respone = await fetch('/savings/goals');
+          const data = await respone.json();
+
+          console.log("Data:", data);
+
+          if(data.success && data.goals && data.goals.length > 0) {
+            goalsList.innerHTML = '';
+
+            data.goals.forEach(goal => {
+              const target = parseFloat(goal.target_amount ) || 0;
+              const current = parseFloat(goal.current_amount) || 0;
+              const percentage = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
+
+              const barColor = percentage > 20 ? 'bg-green-400' : 'bg-yellow-400';
+              const textColor = percentage > 20 ? 'text-green-400' : 'text-yellow-400';
+
+              const goalItem = document.createElement('div');
+              goalItem.className = 'mb-5';
+              goalItem.innerHTML = `
+                <div class="flex justify-between text-sm mb-1">
+                  <span>${goal.title}</span>
+                  <span class="${textColor}">${percentage}%</span>
+                </div>
+
+                <div class="w-full h-2 bg-gray-800 rounded-full">
+                  <div class="h-2 ${barColor} rounded-full" style="width: ${percentage}%"></div>
+                </div>
+
+                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                  <span class="${textColor}">${formatRupiah(current)}</span>
+                  <span>dari ${formatRupiah(target)}</span>
+                </div>
+              `;
+              goalsList.appendChild(goalItem);
+            });
+          } else {
+            goalsList.innerHTML = '<p class="text-sm text-gray-500 italic">Belum ada target tabungan.</p>';
+          }
+        } catch (err) {
+          console.error('Error fetching goals:', err);
+          goalsList.innerHTML = '<p class="text-sm text-red-400 italic">Gagal memuat data.</p>';
+        }
+      }
+
+      function formatRupiah(amount) {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0
+        }).format(amount);
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchAndRenderGoals);
+    </script>
   </body>
 </html>

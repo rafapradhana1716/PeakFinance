@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get("/goals", verifyToken, async (req, res) => {
     try {
-        const rows = db.query(
-            'SELECT id, title FROM savings_goals WHERE user_id = ? AND status = "active"',
+        const rows = await db.query(
+            'SELECT id, title, target_amount, current_amount FROM savings_goals WHERE user_id = ? AND status = "active"',
             [req.user.id]
         );
         res.json({ success: true, goals: rows });

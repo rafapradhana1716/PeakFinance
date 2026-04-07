@@ -23,6 +23,33 @@
     #dropdownMenu::-webkit-scrollbar-thumb:hover {
       background: #16a34a;
     }
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: #0f172a;
+      border: 1px solid #22c55e;
+      border-radius: 12px;
+      padding: 12px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      animation: toastIn 0.3s ease-out;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
   </style>
 </head>
 
@@ -316,7 +343,7 @@
                 class="flex-1 rounded-xl border border-red-400/50 bg-red-400/10 px-4 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-400/20 hover:border-red-400">
                 Batal
               </button>
-              <button type="button" onclick="saveSavingsUpdate()"
+              <button type="button" onclick="savingsUpdate()"
                 class="flex-1 rounded-xl bg-green-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-green-300">
                 Simpan Tabungan
               </button>
@@ -419,25 +446,6 @@
             b.classList.add("border-gray-700", "text-gray-400");
           });
         }
-      }
-
-      function showToast(message, type = "success") {
-        const container = document.getElementById("toast-container");
-
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${type}`;
-
-        toast.innerHTML = `
-    <span>${type === "success" ? "✅" : "❌"}</span>
-    <span>${message}</span>
-  `;
-
-        container.appendChild(toast);
-
-        setTimeout(() => {
-          toast.style.animation = "toastOut 0.3s ease forwards";
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
       }
 
       function showToast(message, type = "success", duration = 5000) {
@@ -620,11 +628,13 @@
             document.getElementById('newTabunganForm').classList.add('hidden');
           } else {
             return response.json().then(data => {
+              closeModal();
               showToast(data.message || "Gagal menambahkan tabungan", "error");
             });
           }
         })
         .catch(err => {
+          closeModal();
           showToast("Terjadi kesalahan sistem", "error");
         });
       }
@@ -687,13 +697,19 @@
         document.getElementById("selectedKategori").value = value;
       }
 
-      async function saveSavingsUpdate() {
+      async function savingsUpdate() {
         const goalId = document.getElementById('targetTabunganValue').value;
         const amountStr = document.getElementById('jumlahTabunganInput').value.replace(/[^0-9]/g, '');
         const amount = parseInt(amountStr);
 
-        if(!goalId) return showToast("Pilih target tabungan dulu!", "error");
-        if(!amount || amount <= 0) return showToast("Masukkan jumlah uang yang valid!", "error");
+        if(!goalId) {
+          closeModal();
+          return showToast("Pilih target tabungan dulu!", "error");
+        }
+        if(!amount || amount <= 0) {
+          closeModal();
+          return showToast("Masukkan jumlah uang yang valid!", "error");
+        }
         
         try {
           const response = await fetch('/savings/update-goals', {
@@ -704,13 +720,16 @@
           const result = await response.json();
 
           if(result.success) {
+            closeModal();
             showToast("Tabungan berhasil ditambahkan!", "success");
-            setTimeout(() => location.reload(), 1000);
+            fetchAndRenderBalance();
           } else {
+            closeModal();
             showToast("Gagal mengupdate tabungan!", "error");
           }
         } catch (err) {
-          showToast("Terjadi kesalahan sistem", "error")
+          closeModal();
+          showToast("Terjadi kesalahan sistem", "error");
         }
       }
 
