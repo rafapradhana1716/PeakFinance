@@ -121,8 +121,8 @@
           <!-- HEADER -->
           <div class="flex justify-between items-center mb-2">
             <p class="text-xs text-gray-400 tracking-wide">SKOR KEUANGAN</p>
-            <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30">
-              ✓ HEMAT
+            <span id="ratingKeuangan" class="text-xs bg-gray-500/20 text-gray-400 px-2 py-1 rounded-lg border border-gray-500/30">
+              Memuat...
             </span>
           </div>
 
@@ -132,8 +132,8 @@
               <canvas id="scoreChart"></canvas>
             </div>
 
-            <p class="font-semibold text-sm">Sehat Banget 🔥</p>
-            <p class="text-xs text-gray-400">Saver Master</p>
+            <p id="labelKeuangan" class="font-semibold text-sm">Sehat Banget 🔥</p>
+            <p id="titleKeuangan" class="text-xs text-gray-400">Saver Master</p>
           </div>
         </div>
       </div>
@@ -539,7 +539,8 @@
               const fontSize = (height / 80).toFixed(2);
               ctx.font = `bold ${fontSize}em sans-serif`;
               ctx.textBaseline = 'middle';
-              ctx.fillStyle = '#4ade80';
+
+              ctx.fillStyle = chart.data.datasets[0].backgroundColor[0];
               
               const text = score + '%';
               const textX = Math.round((width - ctx.measureText(text).width) / 2);
@@ -555,36 +556,45 @@
       function updateChartScore(percentage) {
         if(scoreChart) {
           const remaining = 100 - percentage;
+
+          let color = '#4ade80';
+          let borderColor = '#22c55e';
+          let rating = "HEMAT";
+          let className = "text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30";
+          let label = "Sehat Banget 🔥";
+          let title = "Saver Master";
+
+          if(percentage <= 30) {
+            color = '#ef4444';
+            borderColor = '#dc2626';
+            rating = "BOROS";
+            className = "text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded-lg border border-red-500/30";
+            label = "Jaga Uangmu❗";
+            title = "Saver Beginner";
+          } else if (percentage <= 60) {
+            color = '#f59e0b';
+            borderColor = '#d97706';
+            rating = "HAMPIR";
+            className = "text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-lg border border-yellow-500/30";
+            label = "Ingat Tujuanmu ⚠️";
+            title = "Saver Intermediate";
+          }
+
           scoreChart.data.datasets[0].data = [percentage, remaining];
+          scoreChart.data.datasets[0].backgroundColor[0] = color;
+          scoreChart.data.datasets[0].borderColor[0] = borderColor;
+          document.getElementById("ratingKeuangan").textContent = `${rating}`;
+          document.getElementById("ratingKeuangan").className = className;
+          document.getElementById("labelKeuangan").textContent = `${label}`;
+          document.getElementById("titleKeuangan").textContent = `${title}`;
+
           scoreChart.update();
         }
       }
 
       document.getElementById("transactionForm").addEventListener("submit", function (e) {
         e.preventDefault();
-
-        const typeInput = document.getElementById("typeInput").value;
-        const amountInput = document.getElementById("amountActual").value;
-
-        if(typeInput === "expense" && amountInput) {
-          const amount = parseInt(amountInput);
-          let percentage = 100;
-
-          if(amount >= 0 && amount < 500000) {
-            percentage = 80; 
-          } else if(amount >= 500000 && amount < 1000000) {
-            percentage = 60; 
-          } else if(amount >= 1000000 && amount < 1500000) {
-            percentage = 40; 
-          } else if(amount >= 1500000) {
-            percentage = 20; 
-          }
-
-          updateChartScore(percentage);
-        }
-
         showToast("Transaksi berhasil ditambahkan!", "success");
-
         setTimeout(() => {
           this.submit();
         }, 800);
@@ -797,6 +807,21 @@
 
           const formattedIncome = formatRupiahRingkas(result.income);
           const formattedExpense = formatRupiahRingkas(result.expense);
+
+          const amount = result.expense;
+          let percentage = 100;
+
+          if(amount >= 0 && amount < 4500000) {
+            percentage = 80;
+          } else if(amount >= 4500000 && amount < 6000000) {
+            percentage = 60; 
+          } else if(amount >= 6000000 && amount < 7500000) {
+            percentage = 40; 
+          } else if(amount >= 9000000) {
+            percentage = 20;
+          }
+
+          updateChartScore(percentage);
           
           document.querySelectorAll("[id='balance']").forEach(el => {
             el.innerHTML = formattedBalance;

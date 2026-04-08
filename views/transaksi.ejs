@@ -64,7 +64,7 @@
                 <div class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5">
                   <div>
                     <p class="font-semibold text-lg">${date}</p>
-                    <p class="text-sm text-gray-400">Kamu telah mencatat ${txn.type === 'income' ? 'masukanmu' : 'pengeluaranmu'} sebesar</p>
+                    <p class="text-sm text-gray-400 font-medium">${txn.name}</p>
                     <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
                       ${txn.category || 'Umum'}
                     </span>
