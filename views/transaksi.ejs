@@ -58,8 +58,8 @@
                 day: 'numeric', month: 'long', year: 'numeric'
               });
               const amount = Number(txn.amount).toLocaleString('id-ID');
-              const typeClass = txn.type === 'income' ? 'text-green-400' : 'text-red-400';
-              const sign = txn.type === 'income' ? '+' : '-';
+              const typeClass = txn.type === 'income' || txn.type === 'saving' ? 'text-green-400' : 'text-red-400';
+              const sign = txn.type === 'income' || txn.type === 'saving' ? '+' : '-';
 
               container.innerHTML += `
                 <div class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5">

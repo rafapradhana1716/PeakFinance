@@ -15,13 +15,33 @@ router.get("/goals", verifyToken, async (req, res) => {
     }
 });
 
+router.get("/history", verifyToken, async (req, res) => {
+    try {
+        const rows = await db.query(
+            `SELECT
+            DATE_FORMAT(created_at, '%Y-%m-%d') AS date,
+            DAY(created_at) AS day,
+            SUM(amount) AS total_amount
+            FROM transactions
+            WHERE user_id = ? AND type = 'saving'
+            AND MONTH(created_at) = MONTH(CURRENT_DATE())
+            AND YEAR(created_at) = YEAR(CURRENT_DATE())
+            GROUP BY day`,
+            [req.user.id]
+        );
+        res.json({ success: true, history: rows });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+});
+
 router.post("/update-goals", verifyToken, async (req, res) => {
     const { goalId, amount, name} = req.body;
     try {
         await db.query(
             `INSERT INTO transactions (user_id, name, type, amount, savings_goal_id) VALUES
             (?, ?, 'saving', ?, ?)`,
-            [req.user.id, `Kamu menabung untuk ${name}`, amount, goalId]
+            [req.user.id, `Kamu telah menabung untuk ${name}`, amount, goalId]
         );
 
         await db.query(
