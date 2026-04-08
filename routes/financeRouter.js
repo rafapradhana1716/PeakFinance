@@ -38,16 +38,6 @@ export const getBalance = async (userId) => {
 };
 
 export const getChartData = async (userId, days = 30, type = "balance") => {
-    // const initialBalanceRow = await db.query(
-    //     `SELECT 
-    //         COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) -
-    //         COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS initial_balance
-    //     FROM transactions 
-    //     WHERE user_id = ? AND created_at < DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
-    //     [userId, days]
-    // );
-
-    // let currentBalance = Number(initialBalanceRow[0].initial_balance);
     let currentBalance = 0;
     let netCalculation = "SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)";
 

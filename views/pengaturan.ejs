@@ -5,6 +5,41 @@
     <title>Pengaturan - PeakFinance</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/main.css" />
+    <style>
+      #toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .toast {
+        background: #000000;
+        border: 1px solid #22c55e;
+        border-radius: 12px;
+        padding: 12px 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        animation: toastIn 0.3s ease-out;
+      }
+
+      @keyframes toastIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
 
   <body
@@ -107,7 +142,7 @@
                       class="bg-[#020617] border border-gray-800 rounded-lg px-4 py-2 w-64 text-gray-400"
                     />
 
-                    <button type="button"  class="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition">
+                    <button type="button" onclick="changeName()" class="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition">
                       Save Changes
                     </button>
                   </div>
@@ -152,7 +187,7 @@
         </div>
       </div>
     </main>
-
+    <div id="toast-container"></div>
     <script>
       // Menu handler
       const menuButtons = document.querySelectorAll(".menu-btn");
@@ -194,6 +229,73 @@
           this.classList.add("bg-green-500/20", "text-green-400");
         });
       });
+
+      function changeName() {
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+
+        fetch("/auth/change-name", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",            
+          },
+          body: JSON.stringify({ firstname: firstName, lastname: lastName }),
+        }).then((response) => {
+          if (response.ok) {
+            showToast("Name updated successfully!", "success");
+          } else {
+            showToast("Failed to update name.", "error");
+          }
+        }).catch((error) => {
+          console.error("Error:", error);
+          showToast("Internal Server Error", "error");
+        });
+      }
+
+      function showToast(message, type = "success", duration = 5000) {
+        const container = document.getElementById("toast-container");
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+
+        toast.innerHTML = `
+    <span style="font-size:20px">
+      ${type === "success" ? "✅" : "❌"}
+    </span>
+
+    <div style="flex:1">
+      <div style="font-weight:600; margin-bottom:2px">
+        ${type === "success" ? "Berhasil" : "Gagal"}
+      </div>
+      <div style="font-size:13px; color:var(--soft)">
+        ${message}
+      </div>
+    </div>
+
+    <button class="toast-close">✖</button>
+
+    <div class="toast-progress"></div>
+  `;
+
+        const progress = toast.querySelector(".toast-progress");
+        progress.style.animationDuration = duration + "ms";
+
+        const closeBtn = toast.querySelector(".toast-close");
+
+        closeBtn.onclick = () => removeToast(toast);
+
+        container.appendChild(toast);
+
+        const timeout = setTimeout(() => {
+          removeToast(toast);
+        }, duration);
+
+        function removeToast(el) {
+          el.style.animation = "toastOut 0.3s ease forwards";
+          clearTimeout(timeout);
+          setTimeout(() => el.remove(), 300);
+        }
+      }
 
       // Show default (empty) on page load
       document.addEventListener("DOMContentLoaded", function () {

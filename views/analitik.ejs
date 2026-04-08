@@ -493,20 +493,25 @@
           const formattedIncome = formatRupiahRingkas(result.income);
           const formattedExpense = formatRupiahRingkas(result.expense);
 
-          const amount = result.expense;
-          let percentage = 100;
+          const totalExpense = result.expense;
+          const totalIncome = result.income;
+          const totalBalance = result.balance;
+          let point = 0;
 
-          if (amount >= 0 && amount < 4500000) {
-            percentage = 80;
-          } else if (amount >= 4500000 && amount < 6000000) {
-            percentage = 60;
-          } else if (amount >= 6000000 && amount < 7500000) {
-            percentage = 40;
-          } else if (amount >= 9000000) {
-            percentage = 20;
+          if(totalBalance > 0) {
+            point += 40;
+          }
+          if(totalBalance > (totalIncome * 0.2)) {
+            point += 30;
+          }
+          if(totalExpense < (totalIncome * 0.5)) {
+            point += 20;
+          }
+          if(totalExpense < (totalIncome * 0.2)) {
+            point += 10;
           }
 
-          updateChartScore(percentage);
+          updateChartScore(point);
 
           if (formattedBalance < "Rp0") {
             document.getElementById("balance").classList.add("text-red-400");

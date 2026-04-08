@@ -72,12 +72,11 @@
             <i class="fa-solid fa-user"></i>
         </div>
         <div class="profile-text">
-            <p class="font-semibold">
-                <%= user.firstname %>
-                    <%= user.lastname %>
+            <p id="profile-name" class="font-semibold">
+                Memuat..
             </p>
-            <p class="text-xs text-gray-400">
-                <%= user.username %>
+            <p id="profile-username" class="text-xs text-gray-400">
+                Memuat..
             </p>
         </div>
     </div>
@@ -125,4 +124,22 @@
             syncSidebarState();
         });
     });
+
+    async function fetchAndRenderProfile() {
+        try {
+            const response = await fetch('/auth/profile');
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile');
+            }
+            const data = await response.json();
+            document.getElementById('profile-name').textContent = `${data.user.firstname} ${data.user.lastname}`;
+            document.getElementById('profile-username').textContent = data.user.user;
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+            document.getElementById('profile-name').textContent = 'Guest User';
+            document.getElementById('profile-username').textContent = 'user';
+        }
+    }
+
+    fetchAndRenderProfile();
 </script>

@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
 
     try {
         const rows = await db.query(
-            'SELECT * FROM users WHERE email = ? OR user = ?', [username, username]
+            'SELECT * FROM users WHERE email = ? OR username = ?', [username, username]
         );
 
         if(rows.length === 0) {
@@ -29,9 +29,7 @@ router.post("/login", async (req, res) => {
 
         const payload = {
             id: user.id,
-            username: user.user,
-            firstname: user.firstname,
-            lastname: user.lastname
+            username: user.username
         };
 
         const isRemembered = rememberMe === 'true';
@@ -83,15 +81,13 @@ router.post("/register", async (req, res) => {
         }
 
         const result = await db.query(
-            'INSERT INTO users (email, user, firstname, lastname, pass) VALUES (?, ?, ?, ?, ?)', [email, username, firstname, lastname, hashPass]
+            'INSERT INTO users (email, username, firstname, lastname, pass) VALUES (?, ?, ?, ?, ?)', [email, username, firstname, lastname, hashPass]
         );
         const newUserId = Number(result.insertId);
 
         const payload = {
             id:  newUserId,
-            username: username,
-            firstname: firstname,
-            lastname: lastname
+            username: username
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -114,6 +110,40 @@ router.post("/register", async (req, res) => {
 router.post("/logout", (req, res) => {
     res.clearCookie("token");
     return res.redirect("/login");
+});
+
+router.post("/change-name", async (req, res) => {
+    const { firstname, lastname } = req.body;
+
+    if(!firstname || !lastname) {
+        return res.status(400).json({ message: "Nama depan dan belakang wajib diisi!" });
+    }
+
+    try {
+        await db.query(
+            'UPDATE users SET firstname = ?, lastname = ? WHERE id = ?', [firstname, lastname, req.user.id]
+        );
+        return res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Gagal memperbarui nama!" });
+    }
+});
+
+router.get("/profile", async (req, res) => {
+    try {
+        const rows = await db.query(
+            'SELECT email, username, firstname, lastname FROM users WHERE id = ?', [req.user.id]
+        );
+        if(rows.length === 0) {
+            return res.status(404).json({ message: "User tidak ditemukan!" });
+        }
+        const user = rows[0];
+        return res.status(200).json({ user });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Gagal mengambil data user!" });
+    }
 });
 
 export default router;
