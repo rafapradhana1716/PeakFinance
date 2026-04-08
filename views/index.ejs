@@ -105,7 +105,7 @@
 
             <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
               <p class="text-xs text-gray-400">PENGELUARAN</p>
-              <p id="totalPengeluaran">-Rp0</p>
+              <p id="totalPengeluaran">Memuat..</p>
             </div>
 
             <div class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center">
@@ -117,7 +117,8 @@
 
         <!-- SCORE -->
         <div
-          class="bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg">
+          id="scoreCard"
+          class="bg-gradient-to-br from-gray-500/20 to-transparent border border-gray-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg">
           <!-- HEADER -->
           <div class="flex justify-between items-center mb-2">
             <p class="text-xs text-gray-400 tracking-wide">SKOR KEUANGAN</p>
@@ -132,8 +133,8 @@
               <canvas id="scoreChart"></canvas>
             </div>
 
-            <p id="labelKeuangan" class="font-semibold text-sm">Sehat Banget 🔥</p>
-            <p id="titleKeuangan" class="text-xs text-gray-400">Saver Master</p>
+            <p id="labelKeuangan" class="font-semibold text-sm">Memuat...</p>
+            <p id="titleKeuangan" class="text-xs text-gray-400">Memuat...</p>
           </div>
         </div>
       </div>
@@ -292,7 +293,7 @@
 
             <div class="rounded-2xl border border-green-400/30 bg-green-400/5 p-4 text-center">
               <p class="text-xs text-gray-400 mb-2">Saldo Tabungan Saat Ini</p>
-              <h1 id="balance" class="text-3xl font-bold text-green-400">Memuat..</h1>
+              <h1 id="balance" class="text-3xl font-bold text-gray-400">Memuat..</h1>
             </div>
 
             <div class="space-y-3 border-t border-gray-800 pt-4">
@@ -502,7 +503,7 @@
           data: {
             labels: ['Skor Keuangan', 'Sisa Target'],
             datasets: [{
-              data: [100, 0],
+              data: [0, 0],
               backgroundColor: [
                 '#4ade80',
                 '#1e293b'
@@ -563,6 +564,7 @@
           let className = "text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30";
           let label = "Sehat Banget 🔥";
           let title = "Saver Master";
+          let bgClass = "bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
 
           if(percentage <= 30) {
             color = '#ef4444';
@@ -571,6 +573,7 @@
             className = "text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded-lg border border-red-500/30";
             label = "Jaga Uangmu❗";
             title = "Saver Beginner";
+            bgClass = "bg-gradient-to-br from-red-500/20 to-transparent border border-red-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
           } else if (percentage <= 60) {
             color = '#f59e0b';
             borderColor = '#d97706';
@@ -578,6 +581,7 @@
             className = "text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-lg border border-yellow-500/30";
             label = "Ingat Tujuanmu ⚠️";
             title = "Saver Intermediate";
+            bgClass = "bg-gradient-to-br from-yellow-500/20 to-transparent border border-yellow-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
           }
 
           scoreChart.data.datasets[0].data = [percentage, remaining];
@@ -587,6 +591,7 @@
           document.getElementById("ratingKeuangan").className = className;
           document.getElementById("labelKeuangan").textContent = `${label}`;
           document.getElementById("titleKeuangan").textContent = `${title}`;
+          document.getElementById("scoreCard").className = bgClass;
 
           scoreChart.update();
         }
@@ -814,14 +819,24 @@
           if(amount >= 0 && amount < 4500000) {
             percentage = 80;
           } else if(amount >= 4500000 && amount < 6000000) {
-            percentage = 60; 
+            percentage = 60;
           } else if(amount >= 6000000 && amount < 7500000) {
-            percentage = 40; 
+            percentage = 40;
           } else if(amount >= 9000000) {
             percentage = 20;
           }
 
           updateChartScore(percentage);
+
+          if(formattedBalance < "Rp0") {
+            document.getElementById("balance").classList.add("text-red-400");
+            document.getElementById("balance").classList.remove("text-green-400");
+            document.getElementById("balance").classList.remove("text-gray-400");
+          } else {
+            document.getElementById("balance").classList.add("text-green-400");
+            document.getElementById("balance").classList.remove("text-red-400");
+            document.getElementById("balance").classList.remove("text-gray-400");
+          }
           
           document.querySelectorAll("[id='balance']").forEach(el => {
             el.innerHTML = formattedBalance;
