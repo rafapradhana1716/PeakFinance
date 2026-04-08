@@ -37,19 +37,29 @@ export const getBalance = async (userId) => {
     }
 };
 
-export const getChartData = async (userId) => {
+export const getChartData = async (userId, days = 30) => {
+    const initialBalanceRow = await db.query(
+        `SELECT 
+            COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) -
+            COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS initial_balance
+        FROM transactions 
+        WHERE user_id = ? AND created_at < DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
+        [userId, days]
+    );
+
+    let currentBalance = Number(initialBalanceRow[0].initial_balance);
+
     const rows = await db.query(
         `SELECT 
             DATE_FORMAT(created_at, '%Y-%m-%d') AS tanggal,
             SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS daily_net
         FROM transactions 
-        WHERE user_id = ?
+        WHERE user_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
         GROUP BY tanggal
         ORDER BY tanggal ASC`,
-        [userId]
-    )
+        [userId, days]
+    );
 
-    let currentBalance = 0;
     const labels = [];
     const data = [];
 
@@ -77,6 +87,34 @@ export const getChartData = async (userId) => {
     return { labels, data };
 };
 
+export const getCategoryData = async (userId) => {
+    const rows = await db.query(
+        `SELECT category, SUM(amount) AS total_amount
+        FROM transactions
+        WHERE user_id = ? AND type = 'expense'
+        GROUP BY category
+        ORDER BY total_amount DESC`,
+        [userId]
+    );
+
+    const totalRow = await db.query(
+        `SELECT SUM(amount) as total_all
+        FROM transactions
+        WHERE user_id = ? AND type = 'expense'`,
+        [userId]
+    );
+    const totalAll = Number(totalRow[0].total_all) || 0;
+
+    return {
+        categories: rows.map(r => ({
+            name: r.category || "Lainnya",
+            amount: Number(r.total_amount),
+            percentage: totalAll > 0 ? Math.round((Number(r.total_amount) / totalAll) * 100) : 0
+        })),
+        totalAll
+    };
+};
+
 router.get("/balance-data", async (req, res) => {
     try {
         const balanceData = await getBalance(req.user.id);
@@ -88,10 +126,20 @@ router.get("/balance-data", async (req, res) => {
 
 router.get("/chart-data", async (req, res) => {
     try {
-        const chartData = await getChartData(req.user.id);
+        const days = parseInt(req.query.days) || 30;
+        const chartData = await getChartData(req.user.id, days);
         res.json(chartData);
     } catch {
         res.status(500).json({ error: "Gagal mengambil data grafik" });
+    }
+});
+
+router.get("/category-data", async (req, res) => {
+    try {
+        const data = await getCategoryData(req.user.id);
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: "Gagal mengambil data kategori" });
     }
 });
 

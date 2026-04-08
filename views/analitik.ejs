@@ -16,24 +16,30 @@
     <!-- ================= MAIN ================= -->
     <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
       <!-- HEADER -->
-      <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
+      <div
+        class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
       >
         <h1 class="text-3xl font-semibold tracking-wide">Analisis</h1>
-
       </div>
 
       <!-- FILTER -->
       <div class="flex gap-3 mb-8">
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
-          3 hari terakhir
-        </button>
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+        <button
+          class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          onclick="changeFilter(this, 7)"
+        >
           7 hari terakhir
         </button>
-        <button class="px-4 py-2 bg-gray-800 rounded-lg text-sm">
+        <button
+          class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          onclick="changeFilter(this, 30)"
+        >
           30 hari terakhir
         </button>
-        <button class="px-4 py-2 bg-green-500 text-black rounded-lg text-sm">
+        <button
+          class="filter-btn px-4 py-2 bg-green-500 text-black rounded-lg text-sm"
+          onclick="changeFilter(this, 90)"
+        >
           90 hari terakhir
         </button>
       </div>
@@ -42,7 +48,9 @@
       <div class="flex items-center justify-between mb-12">
         <div>
           <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
-          <h1 id="balance" class="text-[64px] font-bold text-green-400">Memuat..</h1>
+          <h1 id="balance" class="text-[64px] font-bold text-green-400">
+            Memuat..
+          </h1>
         </div>
 
         <div class="flex gap-5">
@@ -57,18 +65,20 @@
             class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
           >
             <p class="text-xs text-gray-500 mb-2">PENGELUARAN</p>
-            <p class="text-gray-400 text-lg">-Rp0</p>
+            <p id="totalPengeluaran" class="text-gray-400 text-lg">Memuat..</p>
           </div>
 
           <div
             class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
           >
             <p class="text-xs text-gray-500 mb-2">TABUNGAN</p>
-            <p class="text-green-400 text-lg font-semibold">+Rp1.5 Jt</p>
+            <p id="totalPemasukan" class="text-green-400 text-lg font-semibold">
+              Memuat..
+            </p>
           </div>
         </div>
       </div>
-
+      
       <!-- ================= GRID FIX ================= -->
       <div class="grid grid-cols-3 gap-6 items-start">
         <!-- LEFT -->
@@ -81,33 +91,36 @@
 
           <!-- SKOR -->
           <div
+            id="scoreCard"
             class="bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border border-green-500/30 rounded-2xl p-6 flex items-center justify-between"
           >
-            <div class="flex items-center gap-6">
+            <div class="flex items-center justify-center gap-10">
               <div
-                class="w-20 h-20 rounded-full border-[6px] border-green-400 flex items-center justify-center text-green-400 text-xl font-bold"
+                class="relative w-24 h-24 flex items-center justify-center mb-3"
               >
-                100
+                <canvas id="scoreChart"></canvas>
               </div>
 
               <div>
                 <p class="text-xs text-gray-400 mb-1">SKOR KEUANGAN</p>
-                <p class="font-semibold">Sehat Banget 🔥</p>
-                <p class="text-xs text-gray-500 mb-2">Saver Master</p>
+                <p id="labelKeuangan" class="font-semibold">Memuat...</p>
+                <p id="titleKeuangan" class="text-xs text-gray-500 mb-2">
+                  Memuat...
+                </p>
 
                 <p class="text-xs text-gray-400 max-w-md">
-                  KAMU TELAH MENABUNG SEBANYAK 1.5 JUTA HANYA DALAM 30 HARI
-                  TERAKHIR! Sebagai pengguna baru, kamu langsung masuk ke dalam
-                  Top 1% orang dengan kemampuan menabung yang tinggi.
+                  Skor keuangan adalah indikator yang menunjukkan seberapa sehat
+                  kondisi keuanganmu berdasarkan perbandingan antara pemasukan
+                  dan pengeluaran. Semakin tinggi skor, semakin baik!
                 </p>
               </div>
+              <span
+                id="ratingKeuangan"
+                class="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-lg"
+              >
+                Memuat..
+              </span>
             </div>
-
-            <span
-              class="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-lg"
-            >
-              ✓ HEMAT
-            </span>
           </div>
         </div>
 
@@ -117,149 +130,23 @@
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
             <p class="text-gray-400 text-sm mb-5">KATEGORI PENGELUARAN</p>
 
-            <div class="space-y-4">
-              <!-- ITEM -->
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3 w-full">
-                  <div
-                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-500/10"
-                  >
-                    🍔
-                  </div>
+            <div class="flex h-[200px] mb-6 justify-center items-center">
+              <canvas id="categoryPieChart"></canvas>
+            </div>
 
-                  <div class="w-full">
-                    <div class="flex justify-between text-sm">
-                      <span>Makanan & Minuman</span>
-                      <span class="text-red-400">Rp0</span>
-                    </div>
-
-                    <div
-                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
-                    ></div>
-                  </div>
-                </div>
-                <span class="text-xs text-gray-400 ml-2">0%</span>
-              </div>
-
-              <!-- ITEM -->
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3 w-full">
-                  <div
-                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/10"
-                  >
-                    🚌
-                  </div>
-
-                  <div class="w-full">
-                    <div class="flex justify-between text-sm">
-                      <span>Transportasi</span>
-                      <span class="text-yellow-400">Rp0</span>
-                    </div>
-
-                    <div
-                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
-                    ></div>
-                  </div>
-                </div>
-                <span class="text-xs text-gray-400 ml-2">0%</span>
-              </div>
-
-              <!-- ITEM -->
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3 w-full">
-                  <div
-                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-purple-500/10"
-                  >
-                    🎮
-                  </div>
-
-                  <div class="w-full">
-                    <div class="flex justify-between text-sm">
-                      <span>Hiburan</span>
-                      <span class="text-purple-400">Rp0</span>
-                    </div>
-
-                    <div
-                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
-                    ></div>
-                  </div>
-                </div>
-                <span class="text-xs text-gray-400 ml-2">0%</span>
-              </div>
-
-              <!-- ITEM -->
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3 w-full">
-                  <div
-                    class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-400/10"
-                  >
-                    📚
-                  </div>
-
-                  <div class="w-full">
-                    <div class="flex justify-between text-sm">
-                      <span>Pendidikan</span>
-                      <span class="text-blue-400">Rp0</span>
-                    </div>
-
-                    <div
-                      class="w-full h-[4px] bg-gray-800 rounded-full mt-1"
-                    ></div>
-                  </div>
-                </div>
-                <span class="text-xs text-gray-400 ml-2">0%</span>
-              </div>
+            <div id="categoryList" class="space-y-4">
+              <p class="text-xs text-gray-500 italic">Memuat data...</p>
             </div>
           </div>
 
           <!-- TARGET -->
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
-            <p class="font-semibold mb-1">Target Tabungan</p>
-            <p class="text-xs text-gray-400 mb-4">2 target aktif</p>
+            <p class="font-semibold mb-4">Target Tabungan</p>
 
             <div class="space-y-5">
               <!-- ITEM -->
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <div>
-                    🎧 Sony WH-1000XM5
-                    <p class="text-xs text-gray-500">
-                      45 hari · Deadline 26 Apr
-                    </p>
-                  </div>
-                  <span class="text-green-400">28%</span>
-                </div>
-
-                <div class="w-full h-[6px] bg-gray-800 rounded-full">
-                  <div class="w-[28%] h-[6px] bg-green-400 rounded-full"></div>
-                </div>
-
-                <div class="flex justify-between text-xs mt-1 text-gray-400">
-                  <span class="text-green-400">Rp1.000.000</span>
-                  <span>dari Rp3.500.000</span>
-                </div>
-              </div>
-
-              <!-- ITEM -->
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <div>
-                    💻 Laptop Baru
-                    <p class="text-xs text-gray-500">
-                      90 hari · Deadline 10 Jun
-                    </p>
-                  </div>
-                  <span class="text-yellow-400">5%</span>
-                </div>
-
-                <div class="w-full h-[6px] bg-gray-800 rounded-full">
-                  <div class="w-[5%] h-[6px] bg-yellow-400 rounded-full"></div>
-                </div>
-
-                <div class="flex justify-between text-xs mt-1 text-gray-400">
-                  <span class="text-yellow-400">Rp500.000</span>
-                  <span>dari Rp10.000.000</span>
-                </div>
+              <div id="goals-list" class="space-y-5">
+                <p class="text-sm text-gray-500 italic">Memuat data target..</p>
               </div>
             </div>
           </div>
@@ -269,37 +156,281 @@
 
     <!-- CHART -->
     <script>
-      const ctx = document.getElementById("myChart");
+      function changeFilter(element, days) {
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("bg-green-500", "text-black");
+          btn.classList.add("bg-gray-800", "text-white");
+        });
 
-      async function fetchAndRenderChart() {
+        element.classList.remove("bg-gray-800", "text-white");
+        element.classList.add("bg-green-500", "text-black");
+
+        fetchAndRenderChart(days);
+      }
+
+      const ctx = document.getElementById("myChart");
+      let myChart;
+      async function fetchAndRenderChart(days = 30) {
         try {
-          const response = await fetch('/finance/chart-data');
+          const response = await fetch(`/finance/chart-data?days=${days}`);
           const result = await response.json();
 
-          new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: result.labels,
-              datasets: [
-                {
-                  data: result.data,
-                  borderColor: "#22c55e",
-                  tension: 0.1,
-                  pointBackgroundColor: "#22c55e",
-                },
-              ],
-            },
-            options: {
-              plugins: { legend: { display: false } },
-              scales: {
-                x: { ticks: { color: "#9ca3af" } },
-                y: { ticks: { color: "#9ca3af" } },
+          if (myChart) {
+            myChart.data.labels = result.labels;
+            myChart.data.datasets[0].data = result.data;
+            myChart.update();
+          } else {
+            myChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: result.labels,
+                datasets: [
+                  {
+                    data: result.data,
+                    borderColor: "#22c55e",
+                    tension: 0.1,
+                    pointBackgroundColor: "#22c55e",
+                  },
+                ],
               },
-            },
-          });
+              options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                  x: { ticks: { color: "#9ca3af" } },
+                  y: { ticks: { color: "#9ca3af" } },
+                },
+              },
+            });
+          }
         } catch (error) {
           console.error("Gagal mengambil data grafik", error);
         }
+      }
+
+      let scoreChart;
+      document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("scoreChart").getContext("2d");
+        scoreChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Skor Keuangan", "Sisa Target"],
+            datasets: [
+              {
+                data: [0, 0],
+                backgroundColor: ["#4ade80", "#1e293b"],
+                borderColor: ["#22c55e", "#334155"],
+                borderWidth: 1,
+                circumference: 360,
+                rotation: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            cutout: "70%",
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          },
+          plugins: [
+            {
+              id: "textCenter",
+              beforeDatasetsDraw(chart) {
+                const { width, height, ctx } = chart;
+                ctx.restore();
+
+                const score = chart.data.datasets[0].data[0];
+                const fontSize = (height / 80).toFixed(2);
+                ctx.font = `bold ${fontSize}em sans-serif`;
+                ctx.textBaseline = "middle";
+
+                ctx.fillStyle = chart.data.datasets[0].backgroundColor[0];
+
+                const text = score + "%";
+                const textX = Math.round(
+                  (width - ctx.measureText(text).width) / 2,
+                );
+                const textY = height / 2;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+              },
+            },
+          ],
+        });
+      });
+
+      let myPieChart;
+
+      async function fetchAndRenderCategoryChart() {
+        try {
+          const response = await fetch("/finance/category-data");
+          const result = await response.json();
+
+          const labels = result.categories.map((c) => c.name);
+          const data = result.categories.map((c) => c.amount);
+
+          const colors = [
+            '#4ade80', // Hijau
+            '#f87171', // Merah
+            '#fbbf24', // Kuning
+            '#60a5fa', // Biru
+            '#a78bfa', // Ungu
+            '#f472b6', // Pink
+            '#94a3b8', // Abu-abu
+          ];
+
+          const ctxPie = document.getElementById("categoryPieChart").getContext("2d");
+
+          if(myPieChart) {
+            myPieChart.data.labels = labels;
+            myPieChart.data.datasets[0].data = data;
+            myPieChart.update();
+          } else {
+            myPieChart = new Chart(ctxPie, {
+              type: 'pie',
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: data,
+                  backgroundColor: colors,
+                  borderWidth: 0,
+                  hoverOffset: 10
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                  legend: {
+                    display: false
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: function(context) {
+                        const label = context.label || '';
+                        const value = context.parsed || 0;
+                        return `${label}: ${formatRupiahRingkas(value)}`;
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+
+          renderCategoryList(result.categories);
+        } catch (err) {
+          console.error("Gagal mengambil data kategori", err);
+          document.getElementById("categoryList").innerHTML = '<p class="text-sm text-red-400 italic">Gagal memuat data kategori.</p>';
+        }
+      }
+
+      function renderCategoryList(categories) {
+        const container = document.getElementById("categoryList");
+        const emojis = {
+          "Makanan": "🍔",
+          "Transportasi": "🚌",
+          "Hiburan": "🎮",
+          "Belanja": "🛍️",
+          "Kesehatan": "💊",
+          "Pendidikan": "📚",
+          "Lainnya": "➕"
+        };
+
+        container.innerHTML = categories.map(cat => `
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span>${emojis[cat.name] || '💰'}</span>
+              <span class="text-gray-300">${cat.name}</span>
+            </div>
+            <span class="font-medium">${cat.percentage}%</span>
+          </div>
+        `).join('');
+      }
+
+      function formatRupiahRingkas(amount) {
+        if (amount === 0) return "Rp0";
+
+        const absAmount = Math.abs(amount);
+        let formatted = "";
+
+        if (absAmount >= 1000000000) {
+          formatted =
+            (absAmount / 1000000000).toFixed(1).replace(/\.0$/, "") + "M";
+        } else if (absAmount >= 1000000) {
+          formatted =
+            (absAmount / 1000000).toFixed(1).replace(/\.0$/, "") + "jt";
+        } else if (absAmount >= 1000) {
+          formatted = (absAmount / 1000).toFixed(1).replace(/\.0$/, "") + "rb";
+        } else {
+          formatted = absAmount.toString();
+        }
+
+        return `Rp${formatted}`;
+      }
+
+      function updateChartScore(percentage) {
+        if (scoreChart) {
+          const remaining = 100 - percentage;
+
+          let color = "#4ade80";
+          let borderColor = "#22c55e";
+          let rating = "HEMAT";
+          let className =
+            "text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30";
+          let label = "Sehat Banget 🔥";
+          let title = "Saver Master";
+          let bgClass =
+            "bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 flex flex-col shadow-lg";
+
+          if (percentage <= 30) {
+            color = "#ef4444";
+            borderColor = "#dc2626";
+            rating = "BOROS";
+            className =
+              "text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded-lg border border-red-500/30";
+            label = "Jaga Uangmu❗";
+            title = "Saver Beginner";
+            bgClass =
+              "bg-gradient-to-br from-red-500/20 to-transparent border border-red-500/30 rounded-2xl p-5 flex flex-col shadow-lg";
+          } else if (percentage <= 60) {
+            color = "#f59e0b";
+            borderColor = "#d97706";
+            rating = "HAMPIR";
+            className =
+              "text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-lg border border-yellow-500/30";
+            label = "Ingat Tujuanmu ⚠️";
+            title = "Saver Intermediate";
+            bgClass =
+              "bg-gradient-to-br from-yellow-500/20 to-transparent border border-yellow-500/30 rounded-2xl p-5 flex flex-col shadow-lg";
+          }
+
+          scoreChart.data.datasets[0].data = [percentage, remaining];
+          scoreChart.data.datasets[0].backgroundColor[0] = color;
+          scoreChart.data.datasets[0].borderColor[0] = borderColor;
+          document.getElementById("ratingKeuangan").textContent = `${rating}`;
+          document.getElementById("ratingKeuangan").className = className;
+          document.getElementById("labelKeuangan").textContent = `${label}`;
+          document.getElementById("titleKeuangan").textContent = `${title}`;
+          document.getElementById("scoreCard").className = bgClass;
+
+          scoreChart.update();
+        }
+      }
+
+      function formatRupiah(amount) {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0
+        }).format(amount);
       }
 
       async function fetchAndRenderBalance() {
@@ -307,19 +438,110 @@
           const response = await fetch("/finance/balance-data");
           const result = await response.json();
 
-          const formattedBalance = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
+          const formattedBalance = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
           }).format(result.balance);
-          
-          document.querySelectorAll("[id='balance']").forEach(el => {
+
+          const formattedIncome = formatRupiahRingkas(result.income);
+          const formattedExpense = formatRupiahRingkas(result.expense);
+
+          const amount = result.expense;
+          let percentage = 100;
+
+          if (amount >= 0 && amount < 4500000) {
+            percentage = 80;
+          } else if (amount >= 4500000 && amount < 6000000) {
+            percentage = 60;
+          } else if (amount >= 6000000 && amount < 7500000) {
+            percentage = 40;
+          } else if (amount >= 9000000) {
+            percentage = 20;
+          }
+
+          updateChartScore(percentage);
+
+          if (formattedBalance < "Rp0") {
+            document.getElementById("balance").classList.add("text-red-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-green-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-gray-400");
+          } else {
+            document.getElementById("balance").classList.add("text-green-400");
+            document.getElementById("balance").classList.remove("text-red-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-gray-400");
+          }
+
+          document.querySelectorAll("[id='balance']").forEach((el) => {
             el.innerHTML = formattedBalance;
           });
+
+          document.querySelector("[id='totalPemasukan']").innerHTML =
+            `+${formattedIncome}`;
+          document.querySelector("[id='totalPengeluaran']").innerHTML =
+            `-${formattedExpense}`;
         } catch (err) {
           console.error("Gagal mengambil data keuangan", err);
         }
       }
+
+      async function fetchAndRenderGoals() {
+        const goalsList = document.getElementById('goals-list');
+        if(!goalsList) return;
+
+        try {
+          const respone = await fetch('/savings/goals');
+          const data = await respone.json();
+
+          console.log("Data:", data);
+
+          if(data.success && data.goals && data.goals.length > 0) {
+            goalsList.innerHTML = '';
+
+            data.goals.forEach(goal => {
+              const target = parseFloat(goal.target_amount ) || 0;
+              const current = parseFloat(goal.current_amount) || 0;
+              const percentage = target > 0 ? Math.min(100, Math.round((current / target) * 100)) : 0;
+
+              const barColor = percentage > 20 ? 'bg-green-400' : 'bg-yellow-400';
+              const textColor = percentage > 20 ? 'text-green-400' : 'text-yellow-400';
+
+              const goalItem = document.createElement('div');
+              goalItem.className = 'mb-5';
+              goalItem.innerHTML = `
+                <div class="flex justify-between text-sm mb-1">
+                  <span>${goal.title}</span>
+                  <span class="${textColor}">${percentage}%</span>
+                </div>
+
+                <div class="w-full h-2 bg-gray-800 rounded-full">
+                  <div class="h-2 ${barColor} rounded-full" style="width: ${percentage}%"></div>
+                </div>
+
+                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                  <span class="${textColor}">${formatRupiah(current)}</span>
+                  <span>dari ${formatRupiah(target)}</span>
+                </div>
+              `;
+              goalsList.appendChild(goalItem);
+            });
+          } else {
+            goalsList.innerHTML = '<p class="text-sm text-gray-500 italic">Belum ada target tabungan.</p>';
+          }
+        } catch (err) {
+          console.error('Error fetching goals:', err);
+          goalsList.innerHTML = '<p class="text-sm text-red-400 italic">Gagal memuat data.</p>';
+        }
+      }
+
+      fetchAndRenderCategoryChart();
+      fetchAndRenderGoals();
       fetchAndRenderBalance();
 
       fetchAndRenderChart();
