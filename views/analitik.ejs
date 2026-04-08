@@ -149,7 +149,7 @@
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
             <p class="text-gray-400 text-sm mb-5">KATEGORI PENGELUARAN</p>
 
-            <div class="flex h-[200px] mb-6 justify-center items-center">
+            <div class="flex h-[250px] mb-6 justify-center items-center">
               <canvas id="categoryPieChart"></canvas>
             </div>
 
@@ -345,7 +345,9 @@
                   data: data,
                   backgroundColor: colors,
                   borderWidth: 0,
-                  hoverOffset: 10
+                  hoverOffset: 0,
+                  spacing: 1,
+                  offset: 1,
                 }]
               },
               options: {
