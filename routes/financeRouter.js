@@ -37,22 +37,30 @@ export const getBalance = async (userId) => {
     }
 };
 
-export const getChartData = async (userId, days = 30) => {
-    const initialBalanceRow = await db.query(
-        `SELECT 
-            COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) -
-            COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS initial_balance
-        FROM transactions 
-        WHERE user_id = ? AND created_at < DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
-        [userId, days]
-    );
+export const getChartData = async (userId, days = 30, type = "balance") => {
+    // const initialBalanceRow = await db.query(
+    //     `SELECT 
+    //         COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) -
+    //         COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS initial_balance
+    //     FROM transactions 
+    //     WHERE user_id = ? AND created_at < DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
+    //     [userId, days]
+    // );
 
-    let currentBalance = Number(initialBalanceRow[0].initial_balance);
+    // let currentBalance = Number(initialBalanceRow[0].initial_balance);
+    let currentBalance = 0;
+    let netCalculation = "SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) - SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)";
+
+    if(type === "income") {
+        netCalculation = "SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END)";
+    } else if(type === "expense") {
+        netCalculation = "SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)";
+    }
 
     const rows = await db.query(
         `SELECT 
             DATE_FORMAT(created_at, '%Y-%m-%d') AS tanggal,
-            SUM(CASE WHEN type = 'income' THEN amount ELSE -amount END) AS daily_net
+            ${netCalculation} AS daily_net
         FROM transactions 
         WHERE user_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
         GROUP BY tanggal
@@ -127,7 +135,8 @@ router.get("/balance-data", async (req, res) => {
 router.get("/chart-data", async (req, res) => {
     try {
         const days = parseInt(req.query.days) || 30;
-        const chartData = await getChartData(req.user.id, days);
+        const type = req.query.type || "balance";
+        const chartData = await getChartData(req.user.id, days, type);
         res.json(chartData);
     } catch {
         res.status(500).json({ error: "Gagal mengambil data grafik" });

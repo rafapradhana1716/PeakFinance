@@ -78,7 +78,26 @@
           </div>
         </div>
       </div>
-      
+      <div class="flex gap-3 mb-8">
+        <button
+          onclick="changeDataType(this, 'balance')"
+          class="type-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+        >
+          Tabungan
+        </button>
+        <button
+          onclick="changeDataType(this, 'expense')"
+          class="type-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+        >
+          Pengeluaran
+        </button>
+        <button
+          onclick="changeDataType(this, 'income')"
+          class="type-btn px-4 py-2 bg-green-500 text-black rounded-lg text-sm"
+        >
+          Pemasukan
+        </button>
+      </div>
       <!-- ================= GRID FIX ================= -->
       <div class="grid grid-cols-3 gap-6 items-start">
         <!-- LEFT -->
@@ -156,7 +175,12 @@
 
     <!-- CHART -->
     <script>
+
+      let currentType = "balance";
+      let currentDays = 30;
+
       function changeFilter(element, days) {
+        currentDays = days;
         document.querySelectorAll(".filter-btn").forEach((btn) => {
           btn.classList.remove("bg-green-500", "text-black");
           btn.classList.add("bg-gray-800", "text-white");
@@ -165,19 +189,35 @@
         element.classList.remove("bg-gray-800", "text-white");
         element.classList.add("bg-green-500", "text-black");
 
-        fetchAndRenderChart(days);
+        fetchAndRenderChart(currentDays, currentType);
+      }
+
+      function changeDataType(element, type) {
+        currentType = type;
+        document.querySelectorAll(".type-btn").forEach((btn) => {
+          btn.classList.remove("bg-green-500", "text-black");
+          btn.classList.add("bg-gray-800", "text-white");
+        });
+        element.classList.remove("bg-gray-800", "text-white");
+        element.classList.add("bg-green-500", "text-black");
+
+        fetchAndRenderChart(currentDays, currentType);
       }
 
       const ctx = document.getElementById("myChart");
       let myChart;
-      async function fetchAndRenderChart(days = 30) {
+      async function fetchAndRenderChart(days, type) {
         try {
-          const response = await fetch(`/finance/chart-data?days=${days}`);
+          const response = await fetch(`/finance/chart-data?days=${days}&type=${type}`);
           const result = await response.json();
 
           if (myChart) {
             myChart.data.labels = result.labels;
             myChart.data.datasets[0].data = result.data;
+
+            myChart.data.datasets[0].borderColor = type === "income" ? "#22c55e" : type === "expense" ? "#ef4444" : "#22c55e";
+            myChart.data.datasets[0].pointBackgroundColor = type === "income" ? "#22c55e" : type === "expense" ? "#ef4444" : "#22c55e";
+
             myChart.update();
           } else {
             myChart = new Chart(ctx, {
@@ -202,6 +242,10 @@
               },
             });
           }
+
+          const labelTeks = type === 'balance' ? 'TABUNGAN' : (type === 'income' ? 'PEMASUKAN' : 'PENGELUARAN');
+          document.querySelector(".bg-[#020617] p.text-gray-400").textContent = `${labelTeks} - ${days} HARI TERAKHIR`;
+          
         } catch (error) {
           console.error("Gagal mengambil data grafik", error);
         }
