@@ -2,9 +2,21 @@ import express from "express";
 import bcrypt from "bcrypt";
 import db from "../config/database.js";
 import jwt from "jsonwebtoken";
+import { verifyToken } from "../middleware/auth.js";
+import rateLimit from "express-rate-limit";
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 5,
+    message: {
+        message: "Terlalu banyak percobaan, coba lagi nanti!"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+router.post("/login", authLimiter, async (req, res) => {
     const { username, password, rememberMe } = req.body
 
     if(!username || !password) {
@@ -43,8 +55,9 @@ router.post("/login", async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false,
-            maxAge: selectedDuration * 1000,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: selectedDuration * 1000
         });
 
         return res.status(200).json({ message: 'Login berhasil' });
@@ -55,7 +68,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", authLimiter, async (req, res) => {
     const { email, username, firstname, lastname, password } = req.body
     
     if(!email || !username || !password || !firstname || !lastname) {
@@ -96,7 +109,8 @@ router.post("/register", async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
+            sameSite: 'strict',
             maxAge: 3600000
         });
 
@@ -107,12 +121,12 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.post("/logout", (req, res) => {
+router.post("/logout", verifyToken, (req, res) => {
     res.clearCookie("token");
     return res.redirect("/login");
 });
 
-router.post("/change-name", async (req, res) => {
+router.post("/change-name", verifyToken, async (req, res) => {
     const { firstname, lastname } = req.body;
 
     if(!firstname || !lastname) {
@@ -130,7 +144,7 @@ router.post("/change-name", async (req, res) => {
     }
 });
 
-router.get("/profile", async (req, res) => {
+router.get("/profile", verifyToken, async (req, res) => {
     try {
         const rows = await db.query(
             'SELECT email, username, firstname, lastname FROM users WHERE id = ?', [req.user.id]

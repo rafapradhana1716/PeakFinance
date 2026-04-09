@@ -1,5 +1,6 @@
 import express from "express";
 import db from "../config/database.js";
+import { verifyToken } from "../middleware/auth.js";
 const router = express.Router();
 
 export const getBalance = async (userId) => {
@@ -113,7 +114,7 @@ export const getCategoryData = async (userId) => {
     };
 };
 
-router.get("/balance-data", async (req, res) => {
+router.get("/balance-data", verifyToken, async (req, res) => {
     try {
         const balanceData = await getBalance(req.user.id);
         res.json({balance: balanceData.totalBalance, income: balanceData.totalIncome, expense: balanceData.totalExpense});
@@ -122,7 +123,7 @@ router.get("/balance-data", async (req, res) => {
     }
 });
 
-router.get("/chart-data", async (req, res) => {
+router.get("/chart-data", verifyToken, async (req, res) => {
     try {
         const days = parseInt(req.query.days) || 30;
         const type = req.query.type || "balance";
@@ -133,7 +134,7 @@ router.get("/chart-data", async (req, res) => {
     }
 });
 
-router.get("/category-data", async (req, res) => {
+router.get("/category-data", verifyToken, async (req, res) => {
     try {
         const data = await getCategoryData(req.user.id);
         res.json(data);

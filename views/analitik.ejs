@@ -104,7 +104,7 @@
         <div class="col-span-2 space-y-6">
           <!-- CHART -->
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
-            <p class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
+            <p id="labelDays" class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
             <canvas id="myChart" class="h-[250px]"></canvas>
           </div>
 
@@ -177,7 +177,7 @@
     <script>
 
       let currentType = "balance";
-      let currentDays = 30;
+      let currentDays = 90;
 
       function changeFilter(element, days) {
         currentDays = days;
@@ -244,7 +244,7 @@
           }
 
           const labelTeks = type === 'balance' ? 'TABUNGAN' : (type === 'income' ? 'PEMASUKAN' : 'PENGELUARAN');
-          document.querySelector(".bg-[#020617] p.text-gray-400").textContent = `${labelTeks} - ${days} HARI TERAKHIR`;
+          document.querySelector("#labelDays").textContent = `${labelTeks} - ${days} HARI TERAKHIR`;
           
         } catch (error) {
           console.error("Gagal mengambil data grafik", error);
@@ -436,7 +436,7 @@
           let bgClass =
             "bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 flex flex-col shadow-lg";
 
-          if (percentage <= 30) {
+          if (percentage <= 40) {
             color = "#ef4444";
             borderColor = "#dc2626";
             rating = "BOROS";
@@ -446,7 +446,7 @@
             title = "Saver Beginner";
             bgClass =
               "bg-gradient-to-br from-red-500/20 to-transparent border border-red-500/30 rounded-2xl p-5 flex flex-col shadow-lg";
-          } else if (percentage <= 60) {
+          } else if (percentage <= 70) {
             color = "#f59e0b";
             borderColor = "#d97706";
             rating = "HAMPIR";
@@ -550,8 +550,6 @@
           const respone = await fetch('/savings/goals');
           const data = await respone.json();
 
-          console.log("Data:", data);
-
           if(data.success && data.goals && data.goals.length > 0) {
             goalsList.innerHTML = '';
 
@@ -595,7 +593,7 @@
       fetchAndRenderGoals();
       fetchAndRenderBalance();
 
-      fetchAndRenderChart();
+      fetchAndRenderChart(currentDays, currentType);
     </script>
   </body>
 </html>

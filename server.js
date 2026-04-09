@@ -8,7 +8,6 @@ import 'dotenv/config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-import jwt from 'jsonwebtoken';
 
 const app = express();
 const port = process.env.PORT;
@@ -24,23 +23,6 @@ app.use(cors({
 }));
 
 app.use(express.static(path.resolve('public')));
-app.use(async (req, res, next) => {
-    const token = req.cookies.token;
-    if(token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            res.locals.user = decoded;
-        } catch (err) {
-            req.user = null;
-            res.locals.user = null;
-        }
-    } else {
-        req.user = null;
-        res.locals.user = null;
-    }
-    next();
-});
 app.use("/auth", usersRouter);
 app.use("/trx",transactionRouter);
 app.use("/finance", financeRouter);

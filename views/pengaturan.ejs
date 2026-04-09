@@ -237,7 +237,7 @@
         fetch("/auth/change-name", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",            
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ firstname: firstName, lastname: lastName }),
         }).then((response) => {

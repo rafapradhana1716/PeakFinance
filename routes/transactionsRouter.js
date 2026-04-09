@@ -23,11 +23,11 @@ router.post("/add", verifyToken, async (req, res) => {
 
         return res.redirect("/");
     } catch (err) {
-        return res.status(500).send(err);
+        return res.status(500).json({ message: "Gagal menambahkan transaksi!" });
     }
 });
 
-router.get("/transactions-data", async (req, res) => {
+router.get("/transactions-data", verifyToken, async (req, res) => {
     const days = req.query.days || 30;
     try {
         const rows = await db.query(

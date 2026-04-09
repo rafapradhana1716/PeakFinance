@@ -571,7 +571,7 @@
         const greeting = getGreeting();
         const response = await fetch("/auth/profile");
         const data = await response.json();
-        document.getElementById("greeting").textContent = greeting + data.user.user;
+        document.getElementById("greeting").textContent = greeting + data.user.username;
       }
 
       initializeGreeting();
