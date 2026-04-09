@@ -1,76 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Insight - PeakFinance</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/main.css">
-</head>
- <body
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insight - PeakFinance</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body
     class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
   >
     <!-- ================= SIDEBAR ================= -->
     <%- include('components/sidebar') %>
 
-  <!-- ================= MAIN ================= -->
-  <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+    <!-- ================= MAIN ================= -->
+    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+      <div class="grid grid-cols-3 gap-6">
+        <!-- CARD -->
+        <a
+          href="/insight/detail/1"
+          class="group block bg-[#020617] border border-gray-800 rounded-2xl overflow-hidden hover:scale-[1.02] transition duration-300"
+        >
+          <!-- IMAGE -->
+          <div class="h-40 overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1554224155-6726b3ff858f"
+              class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+            />
+          </div>
 
-     <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-3xl font-semibold tracking-wide">Insight</h1>
-</div>
+          <!-- CONTENT -->
+          <div class="p-4 space-y-2">
+            <span
+              class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded"
+            >
+              Insight
+            </span>
 
-    <!-- POPULER -->
-    <h2 class="text-green-400 text-3xl font-bold mb-8">
-      Insight Populer Bulan Ini 💡
-    </h2>
+            <!-- TITLE -->
+            <p class="font-semibold text-white line-clamp-2">
+              Kamu terlalu sering jajan di luar
+            </p>
 
-    <a href="/insight/detail/0"
-      class="block p-6 rounded-2xl mb-12
-      bg-gradient-to-r from-green-500/25 via-green-500/10 to-transparent
-      border border-green-400/30
-      shadow-[0_0_40px_rgba(34,197,94,0.15)]
-      hover:scale-[1.01] transition">
+            <p class="text-sm text-gray-400 line-clamp-2">
+              Pengeluaran makanan mencapai 72% dari total pengeluaranmu minggu
+              ini.
+            </p>
 
-      <div class="flex items-start gap-3 mb-3">
-        <div class="text-green-400 text-xl">✔</div>
-
-        <div>
-          <p class="text-xl font-semibold">Mengatasi Pemborosan THR Yang Realistis</p>
-          <p class="text-xs text-gray-400 mt-1">Ditulis oleh Rahmanto • Maret 2026</p>
-        </div>
+            <div
+              class="flex justify-between items-center pt-2 text-xs text-gray-500"
+            >
+              <span>👁 20.1K</span>
+              <span class="text-green-400">Lihat →</span>
+            </div>
+          </div>
+        </a>
       </div>
-
-      <p class="text-sm text-gray-300">
-        Insight ini menjelaskan cara mengatasi pemborosan dan spending berlebihan saat mendapat THR.
-      </p>
-
-      <p class="text-xs text-gray-500 mt-4">Dibaca 20.102 kali</p>
-
-    </a>
-
-    <!-- LIST -->
-    <div class="space-y-5">
-
-      <a href="/insight/detail/1" class="flex items-center gap-3 p-4 rounded-xl bg-[#020617] border border-gray-800 hover:bg-[#0b1220] transition">
-        <div class="text-green-400">✔</div>
-        <div>
-          <p class="font-medium">Tips Menghindari Pajak (Legal)</p>
-          <p class="text-xs text-gray-500">Rahmanto • 29 Maret 2026 • Dibaca 10.045 kali</p>
-        </div>
-      </a>
-
-      <a href="/insight/detail/2" class="flex items-center gap-3 p-4 rounded-xl bg-[#020617] border border-gray-800 hover:bg-[#0b1220] transition">
-        <div class="text-green-400">✔</div>
-        <div>
-          <p class="font-medium">Strategi Menabung Untuk Abroad ke Jerman</p>
-          <p class="text-xs text-gray-500">Schmidt • 16 Maret 2026 • Dibaca 9.010 kali</p>
-        </div>
-      </a>
-
-    </div>
-
-  </main>
-
-</body>
+    </main>
+  </body>
 </html>
