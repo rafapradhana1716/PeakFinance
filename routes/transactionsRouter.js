@@ -3,7 +3,7 @@ import db from '../config/database.js';
 import { verifyToken } from '../middleware/auth.js';
 const router = express.Router();
 
-router.post("/add", verifyToken, async (req, res) => {
+router.post("/transactions", verifyToken, async (req, res) => {
     const { name, type, category, amount, description } = req.body;
     const userId = req.user.id;
 
@@ -27,7 +27,7 @@ router.post("/add", verifyToken, async (req, res) => {
     }
 });
 
-router.get("/transactions-data", verifyToken, async (req, res) => {
+router.get("/transactions", verifyToken, async (req, res) => {
     const days = req.query.days || 30;
     try {
         const rows = await db.query(

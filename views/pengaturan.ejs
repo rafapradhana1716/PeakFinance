@@ -231,11 +231,11 @@
       });
 
       function changeName() {
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
 
-        fetch("/auth/change-name", {
-          method: "POST",
+        fetch("/auth/profile", {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json"
           },

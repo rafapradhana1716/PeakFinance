@@ -47,7 +47,7 @@
         
         updateButtonStyles(days);
         try {
-          const response = await fetch(`/trx/transactions-data?days=${days}`);
+          const response = await fetch(`/trx/transactions?days=${days}`);
           const data = await response.json();
 
           if(data.success && data.transactions.length > 0) {

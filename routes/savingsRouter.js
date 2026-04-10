@@ -15,7 +15,7 @@ router.get("/goals", verifyToken, async (req, res) => {
     }
 });
 
-router.get("/history", verifyToken, async (req, res) => {
+router.get("/transactions", verifyToken, async (req, res) => {
     try {
         const rows = await db.query(
             `SELECT
@@ -35,8 +35,18 @@ router.get("/history", verifyToken, async (req, res) => {
     }
 });
 
-router.post("/update-goals", verifyToken, async (req, res) => {
-    const { goalId, amount, name} = req.body;
+router.post("/goals/:id/invest", verifyToken, async (req, res) => {
+    const { amount, name} = req.body;
+    const goalId = req.params.id;
+
+    if(!amount || !name) {
+        return res.status(400).json({ success: false, message: "Semua field wajib diisi!" });
+    }
+
+    if(amount <= 0) {
+        return res.status(400).json({ success: false, message: "Jumlah tabungan harus lebih dari 0!" });
+    }
+
     try {
         await db.query(
             `INSERT INTO transactions (user_id, name, type, amount, savings_goal_id) VALUES
@@ -44,17 +54,22 @@ router.post("/update-goals", verifyToken, async (req, res) => {
             [req.user.id, `Kamu telah menabung untuk ${name}`, amount, goalId]
         );
 
-        await db.query(
-            'UPDATE savings_goals SET current_amount = current_amount + ? WHERE id = ? AND user_id = ?',
-            [amount, goalId, req.user.id]
+        const result = await db.query(
+            'UPDATE savings_goals SET current_amount = current_amount + ?, status = CASE WHEN current_amount + ? >= target_amount THEN "achieved" ELSE status END WHERE id = ? AND user_id = ?',
+            [amount, amount, goalId, req.user.id]
         );
+
+        if(result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: "Target tabungan tidak ditemukan!" });
+        }
+
         res.json({ success: true, message: "Tabungan berhasil ditambahkan!" });
     } catch (err) {
         res.status(500).json({ success: false, message: "Gagal update tabungan!" });
     }
 });
 
-router.post("/add", verifyToken, async (req, res) => {
+router.post("/goals", verifyToken, async (req, res) => {
     const { title, target, current } = req.body;
     const userId = req.user.id;
 

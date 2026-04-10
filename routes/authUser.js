@@ -126,7 +126,7 @@ router.post("/logout", verifyToken, (req, res) => {
     return res.redirect("/login");
 });
 
-router.post("/change-name", verifyToken, async (req, res) => {
+router.patch("/profile", verifyToken, async (req, res) => {
     const { firstname, lastname } = req.body;
 
     if(!firstname || !lastname) {
@@ -137,10 +137,10 @@ router.post("/change-name", verifyToken, async (req, res) => {
         await db.query(
             'UPDATE users SET firstname = ?, lastname = ? WHERE id = ?', [firstname, lastname, req.user.id]
         );
-        return res.redirect("/");
+        return res.status(200).json({ success: true, message: "Nama berhasil diperbarui!" });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Gagal memperbarui nama!" });
+        return res.status(500).json({ success: false, message: "Gagal memperbarui nama!" });
     }
 });
 
@@ -150,13 +150,13 @@ router.get("/profile", verifyToken, async (req, res) => {
             'SELECT email, username, firstname, lastname FROM users WHERE id = ?', [req.user.id]
         );
         if(rows.length === 0) {
-            return res.status(404).json({ message: "User tidak ditemukan!" });
+            return res.status(404).json({ success: false, message: "User tidak ditemukan!" });
         }
         const user = rows[0];
-        return res.status(200).json({ user });
+        return res.status(200).json({ success: true, user });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Gagal mengambil data user!" });
+        return res.status(500).json({ success: false, message: "Gagal mengambil data user!" });
     }
 });
 

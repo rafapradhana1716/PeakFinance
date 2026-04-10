@@ -208,7 +208,7 @@
       let myChart;
       async function fetchAndRenderChart(days, type) {
         try {
-          const response = await fetch(`/finance/chart-data?days=${days}&type=${type}`);
+          const response = await fetch(`/finance/statistics?days=${days}&type=${type}`);
           const result = await response.json();
 
           if (myChart) {
@@ -314,7 +314,7 @@
 
       async function fetchAndRenderCategoryChart() {
         try {
-          const response = await fetch("/finance/category-data");
+          const response = await fetch("/finance/category");
           const result = await response.json();
 
           const labels = result.categories.map((c) => c.name);
@@ -481,7 +481,7 @@
 
       async function fetchAndRenderBalance() {
         try {
-          const response = await fetch("/finance/balance-data");
+          const response = await fetch("/finance/balance");
           const result = await response.json();
 
           const formattedBalance = new Intl.NumberFormat("id-ID", {
