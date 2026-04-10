@@ -33,18 +33,16 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Noise Overlay ── */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 1000;
   opacity: 0.4;
 }
 
-/* ── NAV ── */
+/* ini navbar */
 nav {
   position: fixed;
   top: 0;
@@ -70,8 +68,8 @@ nav {
 
 .logo-name {
   font-family: "Clash Display", sans-serif;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .logo-name span {
@@ -126,8 +124,8 @@ nav {
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
   font-family: "Clash Display", sans-serif;
   transition: all 0.2s;
@@ -140,7 +138,7 @@ nav {
   box-shadow: 0 6px 20px rgba(0, 229, 160, 0.3);
 }
 
-/* ── HERO ── */
+/* ── hero ── */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -155,76 +153,6 @@ nav {
   position: absolute;
   inset: 0;
   pointer-events: none;
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-}
-
-.orb-1 {
-  width: 600px;
-  height: 600px;
-  background: var(--mint);
-  top: -100px;
-  left: -200px;
-  animation: drift1 12s ease-in-out infinite;
-}
-
-.orb-2 {
-  width: 400px;
-  height: 400px;
-  background: var(--blue);
-  top: 100px;
-  right: -100px;
-  animation: drift2 15s ease-in-out infinite;
-}
-
-.orb-3 {
-  width: 300px;
-  height: 300px;
-  background: var(--lime);
-  bottom: 0;
-  left: 50%;
-  animation: drift3 10s ease-in-out infinite;
-}
-
-@keyframes drift1 {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(40px, 30px);
-  }
-}
-
-@keyframes drift2 {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(-30px, 40px);
-  }
-}
-
-@keyframes drift3 {
-
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-
-  50% {
-    transform: translate(-50%, -30px);
-  }
 }
 
 .grid-lines {
@@ -265,21 +193,6 @@ nav {
   height: 6px;
   border-radius: 50%;
   background: var(--mint);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
 }
 
 .hero-title {
@@ -407,7 +320,7 @@ nav {
   }
 }
 
-/* ── MARQUEE ── */
+/* ── marquee animation ── */
 .marquee-section {
   padding: 32px 0;
   border-top: 1px solid var(--border);
@@ -447,11 +360,11 @@ nav {
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-40%);
   }
 }
 
-/* ── FEATURES ── */
+/* ── bagian fitur ── */
 .features {
   padding: 120px 64px;
   max-width: 1200px;
@@ -908,35 +821,7 @@ nav {
   color: var(--soft);
 }
 
-/* ── CTA ── */
-.cta-section {
-  padding: 160px 64px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center,
-      rgba(0, 229, 160, 0.06) 0%,
-      transparent 60%);
-}
-
-.cta-section .section-title {
-  font-size: clamp(36px, 5vw, 64px);
-  margin-bottom: 20px;
-}
-
-.cta-section .section-desc {
-  font-size: 18px;
-  color: var(--soft);
-  margin: 0 auto 40px;
-  max-width: 440px;
-}
-
-/* ── FOOTER ── */
+/* ── footer kaki ── */
 footer {
   padding: 64px;
   border-top: 1px solid var(--border);
@@ -986,4 +871,56 @@ footer {
   color: var(--muted);
   max-width: 1200px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 16px 32px;
+    gap: 16px;
+  }
+
+  .nav-logo {
+    gap: 8px;
+  }
+
+  .logo-name {
+    font-size: 24px;
+
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card.large {
+    grid-column: span 1;
+  }
+
+  .insight-section {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .marquee-track {
+    animation: marqueeMobile 15s linear infinite;
+  }
+
+  @keyframes marqueeMobile {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-20%);
+    }
+  }
 }

@@ -1,0 +1,160 @@
+:root {
+  --mint: #00e5a0;
+  --mint-dim: #00c488;
+  --lime: #c8f135;
+  --coral: #ff6b6b;
+  --amber: #ffb830;
+  --blue: #00a3ff;
+  --bg: #080a0c;
+  --card: #0f1215;
+  --card2: #161b20;
+  --border: #1e2428;
+  --text: #eff3f7;
+  --soft: #7a8793;
+  --muted: #3d4750;
+}
+
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: 'Plus Jakarta Sans', 'sans-serif;';
+    color: var(--soft);
+    position: relative;
+    transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+.nav-item i {
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover i {
+    transform: scale(1.15);
+}
+
+.nav-item.active i {
+    color: var(--mint);
+}
+
+.nav-item:hover {
+    color: var(--mint);
+    background: rgba(0, 229, 160, 0.08);
+}
+
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 4px;
+    background: var(--mint);
+    box-shadow: 0 0 10px var(--mint);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--text);
+}
+
+.profile-container {
+    transition: none;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', 'sans-serif;';
+}
+
+.avatar {
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar i {
+    font-size: 18px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16rem !important;
+    height: 100vh;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 50;
+}
+
+.sidebar.no-transition {
+    transition: none !important;
+}
+
+.sidebar.no-transition *,
+.sidebar.no-transition {
+    transition: none !important;
+    animation: none !important;
+}
+.sidebar.collapsed {
+    width: 5rem !important;
+}
+
+.sidebar.collapsed .text,
+.sidebar.collapsed p,
+.sidebar.collapsed h2 {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+    width: 100%;
+}
+
+.sidebar.collapsed p {
+    display: none;
+}
+
+.sidebar.collapsed h2 {
+    display: none;
+}
+
+.sidebar.collapsed .profile-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed #toggleSidebar {
+    display: block;
+    margin: 0 auto 1rem auto;
+}
+
+.sidebar.collapsed .profile-container {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.main-content {
+    transition: margin-left 0.3s ease-out;
+}

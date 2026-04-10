@@ -1,0 +1,140 @@
+<link rel="stylesheet" href="/css/sidebar.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link
+    href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+<aside
+    class="sidebar no-transition fixed h-screen left-0 top-0 w-64 bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between">
+    <div>
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold tracking-wide">
+                Peak<span class="text-green-400">Finance</span>
+            </h2>
+
+            <button id="toggleSidebar" class="text-gray-400 hover:text-white transition text-lg">
+                ☰
+            </button>
+        </div>
+
+        <div class="space-y-2 text-sm">
+            <a href="/"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'home' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/20' %>">
+                <span class="icon"><i class="fa-solid fa-house"></i></span>
+                <span class="text">Dashboard</span>
+            </a>
+
+            <a href="/analisis"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'analisis' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+                <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
+                <span class="text">Analisis</span>
+            </a>
+
+            <a href="/transaksi"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'transaksi' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+                <span class="icon"><i class="fa-solid fa-wallet"></i></span>
+                <span class="text">Transaksi</span>
+            </a>
+
+            <a href="/target"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+                <span class="icon"><i class="fa-solid fa-bullseye"></i></span>
+                <span class="text">Target Tabungan</span>
+
+            </a>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
+
+        <div class="space-y-2 text-sm">
+            <a href="/insight"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'insight' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+                <span class="icon"><i class="fa-solid fa-lightbulb"></i></span>
+                <span class="text">Insight</span>
+            </a>
+            <a href="/pengaturan"
+                class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'pengaturan' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
+                <span class="icon"><i class="fa-solid fa-gear"></i></span>
+                <span class="text">Pengaturan</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile-container flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800">
+        <div
+            class="avatar w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="profile-text">
+            <p id="profile-name" class="font-semibold">
+                Memuat..
+            </p>
+            <p id="profile-username" class="text-xs text-gray-400">
+                Memuat..
+            </p>
+        </div>
+    </div>
+</aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll('.nav-item');
+        const currentPath = window.location.pathname;
+        const btn = document.getElementById("toggleSidebar");
+        const sidebar = document.querySelector(".sidebar");
+        const mainContent = document.querySelector(".main-content");
+
+        links.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+
+        function syncSidebarState() {
+            if (!mainContent) return;
+
+            if (sidebar.classList.contains("collapsed")) {
+                localStorage.setItem("sidebar", "collapsed");
+                mainContent.classList.remove("ml-64");
+                mainContent.classList.add("ml-20");
+            } else {
+                localStorage.setItem("sidebar", "open");
+                mainContent.classList.remove("ml-20");
+                mainContent.classList.add("ml-64");
+            }
+        }
+
+        if (localStorage.getItem("sidebar") === "collapsed") {
+            sidebar.classList.add("collapsed");
+        }
+
+        syncSidebarState();
+        requestAnimationFrame(() => {
+            sidebar.classList.remove("no-transition");
+        });
+
+        btn.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+            syncSidebarState();
+        });
+    });
+
+    async function fetchAndRenderProfile() {
+        try {
+            const response = await fetch('/auth/profile');
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile');
+            }
+            const data = await response.json();
+            document.getElementById('profile-name').textContent = `${data.user.firstname} ${data.user.lastname}`;
+            document.getElementById('profile-username').textContent = data.user.user;
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+            document.getElementById('profile-name').textContent = 'Guest User';
+            document.getElementById('profile-username').textContent = 'user';
+        }
+    }
+
+    fetchAndRenderProfile();
+</script>

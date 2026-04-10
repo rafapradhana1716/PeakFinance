@@ -22,6 +22,7 @@
 
     <div class="auth-wrapper">
 
+
         <!-- Left Panel -->
         <div class="auth-left">
             <div class="brand">
@@ -48,24 +49,27 @@
                     <p class="auth-subtitle">Isi data berikut untuk mulai</p>
                 </div>
 
-                <form action="auth/register" method="POST" class="auth-form">
+                <div class="form-server-error" id="server-error"></div>
+
+                <form class="auth-form">
 
                     <div class="form-row-2">
                         <div class="form-group">
                             <label class="form-label" for="firstname">Nama Depan</label>
                             <div class="input-wrap">
                                 <span class="input-icon">✏️</span>
-                                <input class="form-input" type="text" id="firstname" name="firstname"
-                                    placeholder="Nama depan" autocomplete="off">
+                                <input class="form-input" type="text" id="firstname" name="firstname" placeholder="Jojo"
+                                    autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="lastname">Nama Belakang</label>
                             <div class="input-wrap">
                                 <span class="input-icon">✏️</span>
-                                <input class="form-input" type="text" id="lastname" name="lastname"
-                                    placeholder="Nama belakang" autocomplete="off">
+                                <input class="form-input" type="text" id="lastname" name="lastname" placeholder="Willy"
+                                    autocomplete="off">
                             </div>
+                            <div class="form-error" id="error-lastname"></div>
                         </div>
                     </div>
 
@@ -74,17 +78,19 @@
                         <div class="input-wrap">
                             <span class="input-icon">👤</span>
                             <input class="form-input" type="text" id="reg-username" name="username"
-                                placeholder="Pilih username unik" autocomplete="off">
+                                placeholder="JoWilly" autocomplete="off">
                         </div>
+                        <div class="form-error" id="error-username"></div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="email">Email</label>
                         <div class="input-wrap">
                             <span class="input-icon">📧</span>
-                            <input class="form-input" type="email" id="email" name="email" placeholder="email@kamu.com"
+                            <input class="form-input" type="email" id="email" name="email" placeholder="nama@email.com"
                                 autocomplete="off">
                         </div>
+                        <div class="form-error" id="error-email"></div>
                     </div>
 
                     <div class="form-group">
@@ -102,6 +108,7 @@
                             </div>
                             <span class="pw-label" id="pw-label">Kekuatan password</span>
                         </div>
+                        <div class="form-error" id="error-password"></div>
                     </div>
 
                     <div class="form-group">
@@ -113,12 +120,14 @@
                             <button type="button" class="toggle-pw"
                                 onclick="togglePassword('confirm-password', this)">👁</button>
                         </div>
+                        <div class="form-error" id="error-confirm-password"></div>
                     </div>
 
                     <label class="checkbox-label" style="margin-bottom:20px">
                         <input type="checkbox" class="checkbox-input" required>
                         <span class="checkbox-custom"></span>
-                        Saya setuju dengan <a href="#" class="auth-switch-link">Syarat & Ketentuan</a>
+                        Saya setuju dengan <a href="#" onclick="openSyarat(); return false;"
+                            class="auth-switch-link">Syarat & Ketentuan</a>
                     </label>
 
                     <button type="submit" class="btn-submit">
@@ -136,10 +145,79 @@
 
             </div>
         </div>
+        <!-- Modal Syarat & Ketentuan -->
+        <div id="modalSyarat" class="modal hidden">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Syarat & Ketentuan</h3>
+                    <button onclick="closeSyarat()" class="modal-close">✖</button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Dengan menggunakan Peak Finance, kamu setuju bahwa:
+                    </p>
+                    <ul>
+                        <li>Data yang kamu masukkan adalah benar.</li>
+                        <li>Kami menjaga keamanan data kamu.</li>
+                        <li>Kamu bertanggung jawab atas akunmu sendiri.</li>
+                    </ul>
+                    <p>
+                        Detail lengkap akan dikembangkan nanti sesuai kebutuhan aplikasi.
+                    </p>
+                    <br>
+                    <p>
+                        Terus apa lagi yh?
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button onclick="setujuSyarat()" class="btn-submit">
+                        Saya Setuju
+                    </button>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
+
     <script>
+        const checkbox = document.querySelector('.checkbox-input');
+        const btnSubmit = document.querySelector('.btn-submit');
+
+        checkbox.addEventListener('change', () => {
+            btnSubmit.classList.toggle('active', checkbox.checked);
+        });
+
+        function openSyarat() {
+            const m = document.getElementById('modalSyarat');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeSyarat() {
+            const m = document.getElementById('modalSyarat');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        function setujuSyarat() {
+            // Centang otomatis checkbox
+            document.querySelector('.checkbox-input').checked = true;
+            closeSyarat();
+        }
+
+        // Klik luar modal = tutup
+        const modal = document.getElementById('modalSyarat');
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) closeSyarat();
+            });
+        }
+
         function togglePassword(id, btn) {
             const input = document.getElementById(id);
             if (input.type === 'password') {
@@ -167,13 +245,126 @@
                 { width: '25%', color: 'var(--coral)', text: 'Lemah' },
                 { width: '50%', color: 'var(--amber)', text: 'Cukup' },
                 { width: '75%', color: 'var(--blue)', text: 'Kuat' },
-                { width: '100%', color: 'var(--mint)', text: 'Sangat Kuat ✓' },
+                { width: '100%', color: 'var(--mint)', text: 'Sangat Kuat!' },
             ];
             const c = configs[strength];
             fill.style.width = c.width;
             fill.style.background = c.color;
             label.textContent = c.text;
             label.style.color = c.color;
+        });
+
+        // Handle form submission errors
+        document.querySelector('.auth-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const firstname = document.getElementById('firstname');
+            const lastname = document.getElementById('lastname');
+            const username = document.getElementById('reg-username');
+            const email = document.getElementById('email');
+            const password = document.getElementById('reg-password');
+            const confirmPassword = document.getElementById('confirm-password');
+            const serverErrorEl = document.getElementById('server-error');
+            let hasError = false;
+
+            // Clear previous errors
+            document.querySelectorAll('.form-error').forEach(el => {
+                el.classList.remove('show');
+                el.textContent = '';
+            });
+            document.querySelectorAll('.form-input').forEach(el => {
+                el.classList.remove('error');
+            });
+            serverErrorEl.classList.remove('show');
+            serverErrorEl.textContent = '';
+
+            // Validate
+            if (!firstname.value.trim()) {
+                showError('firstname', 'Nama depan wajib diisi');
+                hasError = true;
+            }
+            if (!lastname.value.trim()) {
+                showError('lastname', 'Nama belakang wajib diisi');
+                hasError = true;
+            }
+            if (!username.value.trim()) {
+                showError('username', 'Username wajib diisi');
+                hasError = true;
+            }
+            if (!email.value.trim()) {
+                showError('email', 'Email wajib diisi');
+                hasError = true;
+            } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+                showError('email', 'Format email tidak valid');
+                hasError = true;
+            }
+            if (!password.value.trim()) {
+                showError('password', 'Password wajib diisi');
+                hasError = true;
+            } else if (password.value.length < 8) {
+                showError('password', 'Password minimal 8 karakter');
+                hasError = true;
+            }
+            if (!confirmPassword.value.trim()) {
+                showError('confirm-password', 'Konfirmasi password wajib diisi');
+                hasError = true;
+            } else if (password.value !== confirmPassword.value) {
+                showError('confirm-password', 'Password tidak sesuai');
+                hasError = true;
+            }
+
+            if (!hasError) {
+                try {
+                    const response = await fetch('/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            firstname: firstname.value,
+                            lastname: lastname.value,
+                            username: username.value,
+                            email: email.value,
+                            password: password.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        serverErrorEl.textContent = data.message;
+                        serverErrorEl.classList.add('show');
+                    } else {
+                        window.location.href = '/';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    serverErrorEl.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
+                    serverErrorEl.classList.add('show');
+                }
+            }
+        });
+
+        function showError(fieldId, message) {
+            const input = document.getElementById(fieldId);
+            const errorEl = document.getElementById('error-' + fieldId);
+            if (errorEl) {
+                errorEl.textContent = message;
+                errorEl.classList.add('show');
+                input.classList.add('error');
+            }
+        }
+
+        // Clear error when user starts typing
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const errorId = 'error-' + this.id;
+                const errorEl = document.getElementById(errorId);
+                if (errorEl) {
+                    errorEl.classList.remove('show');
+                    this.classList.remove('error');
+                }
+            });
         });
     </script>
 </body>

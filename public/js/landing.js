@@ -2,7 +2,6 @@ function goDashboard() {
   window.location.href = "dashboard.ejs";
 }
 
-// contoh animasi sederhana
 const cards = document.querySelectorAll('.feature-card');
 
 cards.forEach(card => {

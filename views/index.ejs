@@ -3,99 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css" />
+    <title>Dashboard - PeakFinance</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      #dropdownMenu::-webkit-scrollbar {
+        width: 8px;
+      }
+      #dropdownMenu::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 4px;
+      }
+      #dropdownMenu::-webkit-scrollbar-thumb {
+        background: #22c55e;
+        border-radius: 4px;
+        border: 2px solid rgba(15, 23, 42, 0.8);
+      }
+      #dropdownMenu::-webkit-scrollbar-thumb:hover {
+        background: #16a34a;
+      }
+      #toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .toast {
+        background: #0f172a;
+        border: 1px solid #22c55e;
+        border-radius: 12px;
+        padding: 12px 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        animation: toastIn 0.3s ease-out;
+      }
+
+      @keyframes toastIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
+
   <body
     class="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617] text-white"
   >
     <!-- ================= SIDEBAR ================= -->
-    <aside
-      class="w-64 min-h-screen bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between sticky top-0"
-    >
-      <div>
-        <h2 class="text-2xl font-bold mb-8 tracking-wide">
-          Peak<span class="text-green-400">Finance</span>
-        </h2>
-
-        <div class="space-y-2 text-sm">
-          <a
-            href="/"
-            class="flex items-center justify-between px-3 py-2 rounded-lg <%= page === 'dashboard' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 text-green-400 bg-green-500/20' %>"
-          >
-            <div class="flex items-center">
-              <span>🏠 Dashboard</span>
-            </div>
-          </a>
-
-          <a
-            href="/analitik"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'analitik' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>"
-          >
-            📊 Analitik
-          </a>
-
-          <a
-            href="/transaksi"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'transaksi' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>"
-          >
-            💸 Transaksi
-          </a>
-
-          <a
-            href="/target"
-            class="flex gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400' %>"
-          >
-            🎯 Target Tabungan
-          </a>
-        </div>
-
-        <p class="text-xs text-gray-500 mt-8 mb-3">LAINNYA</p>
-
-        <div class="space-y-2 text-sm">
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
-            💡 Insight
-          </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
-            📄 Laporan
-          </div>
-          <div
-            class="px-3 py-2 text-gray-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg cursor-pointer"
-          >
-            ⚙️ Pengaturan
-          </div>
-        </div>
-      </div>
-
-      <!-- PROFILE -->
-      <div
-        class="flex items-center gap-3 p-3 rounded-xl bg-black/40 border border-gray-800"
-      >
-        <div
-          class="w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold"
-        >
-          R
-        </div>
-        <div>
-          <p class="font-semibold"><%= user.firstname %> <%= user.lastname %></p>
-          <p class="text-xs text-gray-400"><%= user.username %></p>
-        </div>
-      </div>
-    </aside>
+    <%- include('components/sidebar') %>
 
     <!-- Main-Content -->
-    <main class="flex-1 px-10 py-8 min-h-screen">
+    <main
+      id="mainContent"
+      class="main-content flex-1 px-12 py-10 overflow-y-auto"
+    >
       <!-- HEADER -->
       <div
         class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
       >
         <h1 class="text-3xl font-semibold tracking-wide">Dashboard</h1>
 
-        <div class="flex items-center gap-4">
+        <div
+          class="flex items-center gap-3 bg-[#020617] border border-gray-800 px-4 py-2 rounded-xl"
+        >
           <span class="text-sm text-gray-400">Catat uangmu di sini</span>
           <button
             onclick="openModal()"
@@ -109,7 +92,7 @@
       <!-- HERO -->
       <div class="flex justify-between items-start mb-10">
         <h2 class="text-4xl font-bold leading-tight" id="greeting">
-          Selamat Pagi, Rafi! ☀️
+          Memuat..
         </h2>
 
         <div class="text-right">
@@ -128,7 +111,9 @@
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
             TABUNGAN BULAN INI
           </p>
-          <h2 class="text-3xl text-green-400 font-bold mb-2">Rp1.500.000</h2>
+          <h2 id="balance" class="text-3xl text-green-400 font-bold mb-2">
+            Memuat..
+          </h2>
           <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
           <div class="grid grid-cols-3 gap-4">
@@ -143,50 +128,44 @@
               class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
             >
               <p class="text-xs text-gray-400">PENGELUARAN</p>
-              <p>-Rp0</p>
+              <p id="totalPengeluaran">Memuat..</p>
             </div>
 
             <div
               class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
             >
               <p class="text-xs text-gray-400">TABUNGAN</p>
-              <p class="text-green-400">+Rp1.5jt</p>
+              <p id="totalPemasukan" class="text-green-400">Memuat..</p>
             </div>
           </div>
         </div>
 
         <!-- SCORE -->
         <div
-          class="bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg"
+          id="scoreCard"
+          class="bg-gradient-to-br from-gray-500/20 to-transparent border border-gray-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg"
         >
           <!-- HEADER -->
           <div class="flex justify-between items-center mb-2">
             <p class="text-xs text-gray-400 tracking-wide">SKOR KEUANGAN</p>
             <span
-              class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30"
+              id="ratingKeuangan"
+              class="text-xs bg-gray-500/20 text-gray-400 px-2 py-1 rounded-lg border border-gray-500/30"
             >
-              ✓ HEMAT
+              Memuat...
             </span>
           </div>
 
           <!-- CONTENT -->
           <div class="flex flex-col items-center justify-center flex-1">
             <div
-              class="relative w-20 h-20 flex items-center justify-center mb-3"
+              class="relative w-24 h-24 flex items-center justify-center mb-3"
             >
-              <div
-                class="absolute w-20 h-20 rounded-full bg-green-400/20 blur-lg"
-              ></div>
-
-              <div
-                class="w-16 h-16 rounded-full border-4 border-green-400 flex items-center justify-center text-sm font-bold text-green-400"
-              >
-                100
-              </div>
+              <canvas id="scoreChart"></canvas>
             </div>
 
-            <p class="font-semibold text-sm">Sehat Banget 🔥</p>
-            <p class="text-xs text-gray-400">Saver Master</p>
+            <p id="labelKeuangan" class="font-semibold text-sm">Memuat...</p>
+            <p id="titleKeuangan" class="text-xs text-gray-400">Memuat...</p>
           </div>
         </div>
       </div>
@@ -251,122 +230,326 @@
     <!-- Modal-Content -->
     <div
       id="modal"
-      class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 px-4 py-6"
     >
       <div
-        class="relative w-[420px] overflow-hidden rounded-2xl border border-green-400/40 shadow-[0_0_40px_rgba(34,197,94,0.4)]"
+        class="w-full max-w-lg overflow-hidden rounded-3xl border border-green-400/10 bg-[#020617]"
       >
-        <!-- SLIDER -->
-        <div id="slider" class="flex w-[840px] transition duration-500">
-          <!-- Catat Uang pg1 -->
-          <div
-            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <p class="text-xs text-gray-300">CATAT KEUANGANMU HARI INI</p>
-              <button onclick="nextPage()" class="text-xl">></button>
-            </div>
-
-            <div class="space-y-3">
-              <input
-                placeholder="Nama transaksi..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
-              />
-
-              <input
-                type="number"
-                placeholder="Jumlah uang..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
-              />
-
-              <!-- TOGGLE -->
-              <div
-                class="bg-[#020617] border border-gray-800 rounded-xl p-3 space-y-2"
+        <div class="px-6 py-6">
+          <div class="mb-5" id="modalHeader">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-green-300/70">
+                  Catat Keuangan
+                </p>
+                <h2 class="text-2xl font-semibold text-white">
+                  Tambah Transaksi
+                </h2>
+              </div>
+              <button
+                type="button"
+                id="navTabungan"
+                onclick="showPage(2)"
+                class="rounded-2xl border border-green-400 px-4 py-3 text-sm font-semibold text-green-300 transition hover:bg-green-400/10"
               >
+                Tabungan <span class="text-lg">›</span>
+              </button>
+            </div>
+          </div>
+
+          <form
+            action="/trx/add"
+            method="POST"
+            id="transactionForm"
+            class="space-y-4"
+          >
+            <div id="page1" class="space-y-4">
+              <input
+                type="text"
+                placeholder="Nama transaksi"
+                name="name"
+                required
+                class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-4 text-white outline-none transition focus:border-green-400"
+              />
+
+              <input
+                type="text"
+                id="amountDisplay"
+                placeholder="Jumlah uang"
+                oninput="formatRupiah(this)"
+                required
+                class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-4 text-white outline-none transition focus:border-green-400"
+              />
+              <input type="hidden" name="amount" id="amountActual" />
+              <input type="hidden" name="type" id="typeInput" value="income" />
+              <input
+                type="hidden"
+                id="selectedKategori"
+                name="category"
+                value=""
+              />
+
+              <div class="grid gap-3 sm:grid-cols-2">
                 <button
+                  type="button"
                   id="pemasukanBtn"
-                  onclick="setType('pemasukan')"
-                  class="w-full py-2 rounded-xl bg-green-400 text-black font-semibold"
+                  onclick="setType('income')"
+                  class="w-full rounded-2xl bg-green-400 px-4 py-3 text-sm font-semibold text-black transition hover:bg-green-300"
                 >
                   Pemasukan
                 </button>
-
                 <button
+                  type="button"
                   id="pengeluaranBtn"
-                  onclick="setType('pengeluaran')"
-                  class="w-full py-2 rounded-xl border border-green-400 text-green-400 font-semibold"
+                  onclick="setType('expense')"
+                  class="w-full rounded-2xl border border-green-400 px-4 py-3 text-sm font-semibold text-green-300 transition hover:bg-green-400/10"
                 >
                   Pengeluaran
                 </button>
               </div>
 
-              <input type="hidden" id="typeInput" value="pemasukan" />
+              <div id="kategoriSection" class="hidden space-y-3">
+                <p class="text-xs uppercase tracking-[0.2em] text-gray-500">
+                  Kategori
+                </p>
+                <div class="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Makanan')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    🍔 Makanan
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Transport')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    🚌 Transport
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Hiburan')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    🎮 Hiburan
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Belanja')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    🛍️ Belanja
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Pendidikan')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    📚 Pendidikan
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Kesehatan')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    💊 Kesehatan
+                  </button>
+                  <button
+                    type="button"
+                    onclick="setKategori(this, 'Lainnya')"
+                    class="kategori-btn rounded-2xl border border-gray-700 bg-slate-950/90 px-2 py-3 text-xs font-semibold text-gray-400 transition hover:border-green-400 hover:text-green-400"
+                  >
+                    ➕ Lainnya
+                  </button>
+                </div>
+
+                <div id="lainnyaInput" class="hidden">
+                  <input
+                    type="text"
+                    id="kategoriLainnya"
+                    placeholder="Tulis kategori..."
+                    class="w-full rounded-2xl border border-gray-700 bg-[#0f172a] px-4 py-3 text-white placeholder-gray-500 outline-none transition focus:border-green-400"
+                    oninput="setKategoriLainnya(this.value)"
+                  />
+                </div>
+              </div>
 
               <textarea
+                name="description"
                 placeholder="Catatan..."
-                class="w-full bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"
+                class="w-full min-h-[120px] rounded-3xl border border-gray-800 bg-[#020617] px-4 py-4 text-white outline-none transition focus:border-green-400"
               ></textarea>
-            </div>
 
-            <div class="flex justify-between mt-6">
+              <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
+                <button
+                  type="button"
+                  onclick="closeModal()"
+                  class="w-full rounded-2xl border border-red-400 bg-red-400/10 px-5 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-400/20 sm:w-auto"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  class="w-full rounded-2xl bg-green-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-green-300 sm:w-auto"
+                >
+                  Simpan
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div id="page2" class="hidden space-y-5">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-[0.2em] text-green-300/70">
+                  Tabungan
+                </p>
+                <h2 class="text-2xl font-semibold text-white">
+                  Pilih Target Tabungan
+                </h2>
+              </div>
               <button
-                onclick="closeModal()"
-                class="w-12 h-12 bg-red-400 rounded-xl text-black"
+                type="button"
+                onclick="
+                  event.preventDefault();
+                  showPage(1);
+                "
+                class="rounded-2xl border border-green-400 px-4 py-3 text-sm font-semibold text-green-300 transition hover:bg-green-400/10"
               >
-                ✕
-              </button>
-              <button class="w-12 h-12 bg-green-400 rounded-xl text-black">
-                +
+                Kembali <span class="text-lg">‹</span>
               </button>
             </div>
-          </div>
 
-          <!-- Catat Tabungan pg2 -->
-          <div
-            class="w-[420px] p-6 bg-gradient-to-br from-green-500/20 to-[#020617]"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <p class="text-xs text-gray-300">CATAT TABUNGAN HARI INI</p>
-              <button onclick="prevPage()" class="text-xl"><</button>
+            <div
+              class="rounded-2xl border border-green-400/30 bg-green-400/5 p-4 text-center"
+            >
+              <p class="text-xs text-gray-400 mb-2">Saldo Tabungan Saat Ini</p>
+              <h1 id="balance" class="text-3xl font-bold text-gray-400">
+                Memuat..
+              </h1>
             </div>
 
-            <div class="bg-black rounded-xl p-4 mb-4 text-center">
-              <p class="text-xs text-gray-400">Saldo Uang</p>
-              <h1 class="text-3xl font-bold text-green-400">Rp1.500.000</h1>
+            <div class="space-y-3 border-t border-gray-800 pt-4">
+              <div>
+                <p
+                  class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3"
+                >
+                  Pilih Target Tabungan
+                </p>
+                <div class="relative w-full" id="dropdown-container">
+                  <button
+                    type="button"
+                    id="dropdownToggle"
+                    class="w-full flex items-center justify-between border border-green-400/40 bg-slate-950/50 text-green-300 px-4 py-3 rounded-xl text-sm transition hover:border-green-400"
+                    onclick="toggleDropdown()"
+                  >
+                    <span id="selectedText">Pilih target tabungan...</span>
+                    <svg
+                      class="w-4 h-4 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                      ></path>
+                    </svg>
+                  </button>
+                  <div
+                    id="dropdownMenu"
+                    class="absolute top-full left-0 right-0 bg-slate-900 border border-green-400/40 rounded-xl mt-2 z-50 invisible opacity-0 transition-all duration-200 max-h-64 overflow-y-auto"
+                  >
+                    <div class="px-4 py-3 text-gray-500 text-xs italic">
+                      Memuat data...
+                    </div>
+                    <div
+                      class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition"
+                      onclick="selectTabunganDropdown('Sony WH-1000XM5')"
+                    >
+                      Sony WH-1000XM5
+                    </div>
+                    <div
+                      class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition"
+                      onclick="selectTabunganDropdown('Laptop Baru')"
+                    >
+                      Laptop Baru
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="targetTabunganValue" value="" />
+              </div>
+
+              <div class="pt-2">
+                <button
+                  type="button"
+                  onclick="
+                    document
+                      .getElementById('newTabunganForm')
+                      .classList.toggle('hidden')
+                  "
+                  class="text-xs text-green-400 hover:text-green-300 transition font-semibold"
+                >
+                  + Tambah Target Baru
+                </button>
+                <div
+                  id="newTabunganForm"
+                  class="hidden space-y-2 mt-3 pt-3 border-t border-gray-800"
+                >
+                  <input
+                    type="text"
+                    id="namaTabunganInput"
+                    placeholder="Nama tujuan tabungan..."
+                    class="w-full rounded-xl border border-gray-700 bg-[#0f172a] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none transition focus:border-green-400"
+                  />
+                  <input
+                    type="text"
+                    id="targetAmountInput"
+                    placeholder="Jumlah target tabungan..."
+                    oninput="formatRupiah(this)"
+                    class="w-full rounded-xl border border-gray-700 bg-[#0f172a] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none transition focus:border-green-400"
+                  />
+                  <button
+                    type="button"
+                    onclick="addTabunganFromInput()"
+                    class="w-full rounded-xl border border-green-400/50 bg-green-400/10 px-3 py-2 text-xs font-semibold text-green-300 transition hover:bg-green-400/20 hover:border-green-400"
+                  >
+                    Tambah
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <input
-              placeholder="Jumlah uang..."
-              class="w-full mb-3 p-3 rounded-lg bg-[#020617] border border-gray-800"
-            />
+            <div class="space-y-3 border-t border-gray-800 pt-4">
+              <label class="text-xs uppercase tracking-[0.2em] text-gray-500"
+                >Jumlah Untuk Tabungan Ini</label
+              >
+              <input
+                type="text"
+                id="jumlahTabunganInput"
+                placeholder="Masukkan jumlah..."
+                oninput="formatRupiah(this)"
+                class="w-full rounded-xl border border-gray-700 bg-[#0f172a] px-4 py-3 text-white placeholder-gray-600 outline-none transition focus:border-green-400"
+              />
+            </div>
 
-            <p class="text-xs text-gray-400 mb-2">Pilih Tabungan</p>
-
-            <button
-              onclick="selectTabungan(this)"
-              class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition"
-            >
-              Sony WH-1000XM5
-            </button>
-
-            <button
-              onclick="selectTabungan(this)"
-              class="tabungan-btn w-full mb-2 p-3 rounded-xl border border-green-400 text-green-400 hover:bg-green-400 hover:text-black transition"
-            >
-              Laptop Baru
-            </button>
-
-            <button class="text-green-400 text-sm mt-1">+ Tambah</button>
-
-            <div class="flex justify-between mt-6">
+            <div class="flex gap-3 pt-2">
               <button
+                type="button"
                 onclick="closeModal()"
-                class="w-12 h-12 bg-red-400 rounded-xl text-black"
+                class="flex-1 rounded-xl border border-red-400/50 bg-red-400/10 px-4 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-400/20 hover:border-red-400"
               >
-                ✕
+                Batal
               </button>
-              <button class="w-12 h-12 bg-green-400 rounded-xl text-black">
-                +
+              <button
+                type="button"
+                onclick="savingsUpdate()"
+                class="flex-1 rounded-xl bg-green-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-green-300"
+              >
+                Simpan Tabungan
               </button>
             </div>
           </div>
@@ -374,25 +557,46 @@
       </div>
     </div>
 
+    <div id="toast-container"></div>
     <script>
       function getGreeting() {
         const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return "Selamat Pagi ☀️";
-        if (hour >= 12 && hour < 15) return "Selamat Siang 🌤️";
-        if (hour >= 15 && hour < 19) return "Selamat Sore 🌇";
-        return "Selamat Malam 🌙";
+        if (hour >= 5 && hour < 12) return "Selamat Pagi!";
+        if (hour >= 12 && hour < 15) return "Selamat Siang! ";
+        if (hour >= 15 && hour < 19) return "Selamat Sore! ";
+        return "Selamat Malam! ";
       }
 
-      document.getElementById("greeting").textContent =
-        getGreeting() + ", Rafi 👋";
+      async function initializeGreeting() {
+        const greeting = getGreeting();
+        const response = await fetch("/auth/profile");
+        const data = await response.json();
+        document.getElementById("greeting").textContent = greeting + data.user.username;
+      }
+
+      initializeGreeting();
+
+      function formatRupiah(el) {
+        let rawValue = el.value.replace(/[^0-9]/g, "");
+        const hiddenInput = document.getElementById("amountActual");
+        if (hiddenInput) {
+          hiddenInput.value = rawValue;
+        }
+
+        if (!rawValue) {
+          el.value = "";
+          return;
+        }
+
+        let formatted = new Intl.NumberFormat("id-ID").format(rawValue);
+        el.value = formatted;
+      }
 
       function openModal() {
         const m = document.getElementById("modal");
         m.classList.remove("hidden");
         m.classList.add("flex");
-
-        // reset ke page awal
-        document.getElementById("slider").style.transform = "translateX(0)";
+        showPage(1);
       }
 
       function closeModal() {
@@ -401,37 +605,507 @@
         m.classList.remove("flex");
       }
 
+      function showPage(page) {
+        document.getElementById("page1").classList.toggle("hidden", page !== 1);
+        document.getElementById("page2").classList.toggle("hidden", page !== 2);
+        document
+          .getElementById("navTabungan")
+          .classList.toggle("hidden", page !== 1);
+        document
+          .getElementById("modalHeader")
+          .classList.toggle("hidden", page !== 1);
+
+        if (page === 2) {
+          fetchAndRenderSavings();
+        }
+      }
+
       function nextPage() {
-        document.getElementById("slider").style.transform =
-          "translateX(-420px)";
+        showPage(2);
       }
 
       function prevPage() {
-        document.getElementById("slider").style.transform = "translateX(0)";
+        showPage(1);
       }
 
       /* TOGGLE */
       function setType(type) {
-        const pemasukan = document.getElementById("pemasukanBtn");
-        const pengeluaran = document.getElementById("pengeluaranBtn");
-        const input = document.getElementById("typeInput");
+        const typeInput = document.getElementById("typeInput");
+        const kategoriSection = document.getElementById("kategoriSection");
+        const pemasukanBtn = document.getElementById("pemasukanBtn");
+        const pengeluaranBtn = document.getElementById("pengeluaranBtn");
 
-        input.value = type;
+        typeInput.value = type;
 
-        if (type === "pemasukan") {
-          pemasukan.classList.add("bg-green-400", "text-black");
-          pemasukan.classList.remove("border", "text-green-400");
-
-          pengeluaran.classList.remove("bg-green-400", "text-black");
-          pengeluaran.classList.add("border", "text-green-400");
+        if (type === "expense") {
+          pengeluaranBtn.className =
+            "w-full rounded-2xl bg-green-400 px-4 py-3 text-sm font-semibold text-black transition hover:bg-green-300";
+          pemasukanBtn.className =
+            "w-full rounded-2xl border border-green-400 px-4 py-3 text-sm font-semibold text-green-300 transition hover:bg-green-400/10";
+          kategoriSection.classList.remove("hidden");
         } else {
-          pengeluaran.classList.add("bg-green-400", "text-black");
-          pengeluaran.classList.remove("border", "text-green-400");
+          pemasukanBtn.className =
+            "w-full rounded-2xl bg-green-400 px-4 py-3 text-sm font-semibold text-black transition hover:bg-green-300";
+          pengeluaranBtn.className =
+            "w-full rounded-2xl border border-green-400 px-4 py-3 text-sm font-semibold text-green-300 transition hover:bg-green-400/10";
 
-          pemasukan.classList.remove("bg-green-400", "text-black");
-          pemasukan.classList.add("border", "text-green-400");
+          kategoriSection.classList.add("hidden");
+          document.getElementById("selectedKategori").value = "";
+          document.querySelectorAll(".kategori-btn").forEach((b) => {
+            b.classList.remove(
+              "border-green-400",
+              "text-green-400",
+              "bg-green-400/10",
+            );
+            b.classList.add("border-gray-700", "text-gray-400");
+          });
         }
       }
+
+      function showToast(message, type = "success", duration = 5000) {
+        const container = document.getElementById("toast-container");
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+
+        toast.innerHTML = `
+    <span style="font-size:20px">
+      ${type === "success" ? "✅" : "❌"}
+    </span>
+
+    <div style="flex:1">
+      <div style="font-weight:600; margin-bottom:2px">
+        ${type === "success" ? "Berhasil" : "Gagal"}
+      </div>
+      <div style="font-size:13px; color:var(--soft)">
+        ${message}
+      </div>
+    </div>
+
+    <button class="toast-close">✖</button>
+
+    <div class="toast-progress"></div>
+  `;
+
+        const progress = toast.querySelector(".toast-progress");
+        progress.style.animationDuration = duration + "ms";
+
+        const closeBtn = toast.querySelector(".toast-close");
+
+        closeBtn.onclick = () => removeToast(toast);
+
+        container.appendChild(toast);
+
+        const timeout = setTimeout(() => {
+          removeToast(toast);
+        }, duration);
+
+        function removeToast(el) {
+          el.style.animation = "toastOut 0.3s ease forwards";
+          clearTimeout(timeout);
+          setTimeout(() => el.remove(), 300);
+        }
+      }
+
+      //chart doughnut
+      let scoreChart;
+      document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("scoreChart").getContext("2d");
+        scoreChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Skor Keuangan", "Sisa Target"],
+            datasets: [
+              {
+                data: [0, 0],
+                backgroundColor: ["#4ade80", "#1e293b"],
+                borderColor: ["#22c55e", "#334155"],
+                borderWidth: 1,
+                circumference: 360,
+                rotation: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            cutout: "70%",
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          },
+          plugins: [
+            {
+              id: "textCenter",
+              beforeDatasetsDraw(chart) {
+                const { width, height, ctx } = chart;
+                ctx.restore();
+
+                const score = chart.data.datasets[0].data[0];
+                const fontSize = (height / 80).toFixed(2);
+                ctx.font = `bold ${fontSize}em sans-serif`;
+                ctx.textBaseline = "middle";
+
+                ctx.fillStyle = chart.data.datasets[0].backgroundColor[0];
+
+                const text = score + "%";
+                const textX = Math.round(
+                  (width - ctx.measureText(text).width) / 2,
+                );
+                const textY = height / 2;
+
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+              },
+            },
+          ],
+        });
+      });
+
+      function updateChartScore(percentage) {
+        if (scoreChart) {
+          const remaining = 100 - percentage;
+
+          let color = "#4ade80";
+          let borderColor = "#22c55e";
+          let rating = "HEMAT";
+          let className =
+            "text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-lg border border-green-500/30";
+          let label = "Sehat Banget 🔥";
+          let title = "Saver Master";
+          let bgClass =
+            "bg-gradient-to-br from-green-500/20 to-transparent border border-green-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
+
+          if (percentage <= 40) {
+            color = "#ef4444";
+            borderColor = "#dc2626";
+            rating = "BOROS";
+            className =
+              "text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded-lg border border-red-500/30";
+            label = "Jaga Uangmu❗";
+            title = "Saver Beginner";
+            bgClass =
+              "bg-gradient-to-br from-red-500/20 to-transparent border border-red-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
+          } else if (percentage <= 70) {
+            color = "#f59e0b";
+            borderColor = "#d97706";
+            rating = "HAMPIR";
+            className =
+              "text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-lg border border-yellow-500/30";
+            label = "Ingat Tujuanmu ⚠️";
+            title = "Saver Intermediate";
+            bgClass =
+              "bg-gradient-to-br from-yellow-500/20 to-transparent border border-yellow-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg";
+          }
+
+          scoreChart.data.datasets[0].data = [percentage, remaining];
+          scoreChart.data.datasets[0].backgroundColor[0] = color;
+          scoreChart.data.datasets[0].borderColor[0] = borderColor;
+          document.getElementById("ratingKeuangan").textContent = `${rating}`;
+          document.getElementById("ratingKeuangan").className = className;
+          document.getElementById("labelKeuangan").textContent = `${label}`;
+          document.getElementById("titleKeuangan").textContent = `${title}`;
+          document.getElementById("scoreCard").className = bgClass;
+
+          scoreChart.update();
+        }
+      }
+
+      document
+        .getElementById("transactionForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          showToast("Transaksi berhasil ditambahkan!", "success");
+          setTimeout(() => {
+            this.submit();
+          }, 800);
+        });
+
+      function openAddTabunganForm() {
+        const namaTabungan = prompt("Masukkan nama tujuan tabungan:");
+        if (namaTabungan && namaTabungan.trim()) {
+          showToast(
+            `Tabungan '${namaTabungan}' berhasil ditambahkan!`,
+            "success",
+          );
+        }
+      }
+
+      function addTabunganFromInput() {
+        const namaInput = document.getElementById("namaTabunganInput");
+        const targetInput = document.getElementById("targetAmountInput");
+        const namaTabungan = namaInput.value.trim();
+        const targetAmountStr = targetInput.value.replace(/[^0-9]/g, "");
+        const targetAmount = parseInt(targetAmountStr);
+
+        if (!namaTabungan) {
+          showToast("Nama tabungan tidak boleh kosong", "error");
+          return;
+        }
+
+        if (!targetAmount || targetAmount <= 0) {
+          showToast("Jumlah target tabungan harus lebih dari 0", "error");
+          return;
+        }
+
+        fetch("/savings/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: namaTabungan, target: targetAmount }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              fetchAndRenderSavings();
+              showToast(
+                `Tabungan '${namaTabungan}' berhasil ditambahkan!`,
+                "success",
+              );
+              namaInput.value = "";
+              targetInput.value = "";
+              document
+                .getElementById("newTabunganForm")
+                .classList.add("hidden");
+            } else {
+              return response.json().then((data) => {
+                closeModal();
+                showToast(
+                  data.message || "Gagal menambahkan tabungan",
+                  "error",
+                );
+              });
+            }
+          })
+          .catch((err) => {
+            closeModal();
+            showToast("Terjadi kesalahan sistem", "error");
+          });
+      }
+
+      function toggleDropdown() {
+        const menu = document.getElementById("dropdownMenu");
+        const isOpen = menu.classList.contains("visible");
+
+        if (isOpen) {
+          menu.classList.remove("visible", "opacity-100");
+          menu.classList.add("invisible", "opacity-0");
+        } else {
+          menu.classList.add("visible", "opacity-100");
+          menu.classList.remove("invisible", "opacity-0");
+        }
+      }
+
+      // Tutup dropdown saat klik di luar
+      document.addEventListener("click", function (e) {
+        const container = document.getElementById("dropdown-container");
+        const menu = document.getElementById("dropdownMenu");
+
+        if (
+          container &&
+          !container.contains(e.target) &&
+          menu.classList.contains("visible")
+        ) {
+          menu.classList.remove("visible", "opacity-100");
+          menu.classList.add("invisible", "opacity-0");
+        }
+      });
+
+      function setKategori(el, nama) {
+        document.querySelectorAll(".kategori-btn").forEach((b) => {
+          b.classList.remove(
+            "border-green-400",
+            "text-green-400",
+            "bg-green-400/10",
+          );
+          b.classList.add("border-gray-700", "text-gray-400");
+        });
+
+        el.classList.remove("border-gray-700", "text-gray-400");
+        el.classList.add(
+          "border-green-400",
+          "text-green-400",
+          "bg-green-400/10",
+        );
+
+        // Tampilin sama sembunyikan input yang lain
+        const lainnyaInput = document.getElementById("lainnyaInput");
+        if (nama === "Lainnya") {
+          lainnyaInput.classList.remove("hidden");
+          document.getElementById("selectedKategori").value = "";
+          document.getElementById("kategoriLainnya").focus();
+        } else {
+          lainnyaInput.classList.add("hidden");
+          document.getElementById("kategoriLainnya").value = "";
+          document.getElementById("selectedKategori").value = nama;
+        }
+      }
+
+      function setKategoriLainnya(value) {
+        document.getElementById("selectedKategori").value = value;
+      }
+
+      function formatRupiahRingkas(amount) {
+        if (amount === 0) return "Rp0";
+
+        const absAmount = Math.abs(amount);
+        let formatted = "";
+
+        if (absAmount >= 1000000000) {
+          formatted =
+            (absAmount / 1000000000).toFixed(1).replace(/\.0$/, "") + "M";
+        } else if (absAmount >= 1000000) {
+          formatted =
+            (absAmount / 1000000).toFixed(1).replace(/\.0$/, "") + "jt";
+        } else if (absAmount >= 1000) {
+          formatted = (absAmount / 1000).toFixed(1).replace(/\.0$/, "") + "rb";
+        } else {
+          formatted = absAmount.toString();
+        }
+
+        return `Rp${formatted}`;
+      }
+
+      async function savingsUpdate() {
+        const goalId = document.getElementById("targetTabunganValue").value;
+        const amountStr = document
+          .getElementById("jumlahTabunganInput")
+          .value.replace(/[^0-9]/g, "");
+        const amount = parseInt(amountStr);
+        const name = document.getElementById("selectedText").textContent;
+
+        if (!goalId) {
+          closeModal();
+          return showToast("Pilih target tabungan dulu!", "error");
+        }
+        if (!amount || amount <= 0) {
+          closeModal();
+          return showToast("Masukkan jumlah uang yang valid!", "error");
+        }
+
+        try {
+          const response = await fetch("/savings/update-goals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ goalId, amount, name }),
+          });
+          const result = await response.json();
+
+          if (result.success) {
+            closeModal();
+            showToast("Tabungan berhasil ditambahkan!", "success");
+            fetchAndRenderBalance();
+          } else {
+            closeModal();
+            showToast("Gagal mengupdate tabungan!", "error");
+          }
+        } catch (err) {
+          closeModal();
+          showToast("Terjadi kesalahan sistem", "error");
+        }
+      }
+
+      async function fetchAndRenderSavings() {
+        const menu = document.getElementById("dropdownMenu");
+
+        try {
+          const respone = await fetch("/savings/goals");
+          const data = await respone.json();
+
+          if (data.success && data.goals.length > 0) {
+            menu.innerHTML = "";
+
+            data.goals.forEach((goal) => {
+              const item = document.createElement("div");
+              item.className =
+                "dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition";
+              item.textContent = goal.title;
+
+              item.onclick = function () {
+                document.getElementById("targetTabunganValue").value = goal.id;
+                document.getElementById("selectedText").textContent =
+                  goal.title;
+                toggleDropdown();
+              };
+
+              menu.appendChild(item);
+            });
+          } else {
+            menu.innerHTML =
+              '<div class="px-4 py-3 text-gray-500 text-xs">Belum ada target.</div>';
+          }
+        } catch (err) {
+          menu.innerHTML =
+            '<div class="px-4 py-3 text-red-400 text-xs">Gagal memuat data.</div>';
+        }
+      }
+
+      async function fetchAndRenderBalance() {
+        try {
+          const response = await fetch("/finance/balance-data");
+          const result = await response.json();
+
+          const formattedBalance = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+          }).format(result.balance);
+
+          const formattedIncome = formatRupiahRingkas(result.income);
+          const formattedExpense = formatRupiahRingkas(result.expense);
+
+          const totalExpense = result.expense;
+          const totalIncome = result.income;
+          const totalBalance = result.balance;
+          let point = 0;
+
+          if (totalBalance > 0) {
+            point += 40;
+          }
+          if (totalBalance > totalIncome * 0.2) {
+            point += 30;
+          }
+          if (totalExpense < totalIncome * 0.5) {
+            point += 20;
+          }
+          if (totalExpense < totalIncome * 0.2) {
+            point += 10;
+          }
+
+          updateChartScore(point);
+
+          if (formattedBalance < "Rp0") {
+            document.getElementById("balance").classList.add("text-red-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-green-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-gray-400");
+          } else {
+            document.getElementById("balance").classList.add("text-green-400");
+            document.getElementById("balance").classList.remove("text-red-400");
+            document
+              .getElementById("balance")
+              .classList.remove("text-gray-400");
+          }
+
+          document.querySelectorAll("[id='balance']").forEach((el) => {
+            el.innerHTML = formattedBalance;
+          });
+
+          document.querySelector("[id='totalPemasukan']").innerHTML =
+            `+${formattedIncome}`;
+          document.querySelector("[id='totalPengeluaran']").innerHTML =
+            `-${formattedExpense}`;
+        } catch (err) {
+          console.error("Gagal mengambil data keuangan", err);
+        }
+      }
+      fetchAndRenderBalance();
     </script>
   </body>
 </html>
