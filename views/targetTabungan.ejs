@@ -111,7 +111,7 @@
       async function fetchAndRenderCalendar() {
         const grid = document.getElementById('calendar-grid');
         try {
-          const response = await fetch('/savings/history');
+          const response = await fetch('/savings/transactions');
           const result = await response.json();
           const savingData = {};
 

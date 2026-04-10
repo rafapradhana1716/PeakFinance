@@ -114,7 +114,7 @@ export const getCategoryData = async (userId) => {
     };
 };
 
-router.get("/balance-data", verifyToken, async (req, res) => {
+router.get("/balance", verifyToken, async (req, res) => {
     try {
         const balanceData = await getBalance(req.user.id);
         res.json({balance: balanceData.totalBalance, income: balanceData.totalIncome, expense: balanceData.totalExpense});
@@ -123,7 +123,7 @@ router.get("/balance-data", verifyToken, async (req, res) => {
     }
 });
 
-router.get("/chart-data", verifyToken, async (req, res) => {
+router.get("/statistics", verifyToken, async (req, res) => {
     try {
         const days = parseInt(req.query.days) || 30;
         const type = req.query.type || "balance";
@@ -134,7 +134,7 @@ router.get("/chart-data", verifyToken, async (req, res) => {
     }
 });
 
-router.get("/category-data", verifyToken, async (req, res) => {
+router.get("/category", verifyToken, async (req, res) => {
     try {
         const data = await getCategoryData(req.user.id);
         res.json(data);

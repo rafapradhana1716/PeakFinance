@@ -258,7 +258,7 @@
           </div>
 
           <form
-            action="/trx/add"
+            action="/trx/transactions"
             method="POST"
             id="transactionForm"
             class="space-y-4"
@@ -465,18 +465,6 @@
                   >
                     <div class="px-4 py-3 text-gray-500 text-xs italic">
                       Memuat data...
-                    </div>
-                    <div
-                      class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition"
-                      onclick="selectTabunganDropdown('Sony WH-1000XM5')"
-                    >
-                      Sony WH-1000XM5
-                    </div>
-                    <div
-                      class="dropdown-item px-4 py-2.5 text-green-300 text-sm cursor-pointer border-b border-green-400/10 last:border-b-0 hover:bg-green-400/10 transition"
-                      onclick="selectTabunganDropdown('Laptop Baru')"
-                    >
-                      Laptop Baru
                     </div>
                   </div>
                 </div>
@@ -853,7 +841,7 @@
           return;
         }
 
-        fetch("/savings/add", {
+        fetch("/savings/goals", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title: namaTabungan, target: targetAmount }),
@@ -987,10 +975,10 @@
         }
 
         try {
-          const response = await fetch("/savings/update-goals", {
+          const response = await fetch(`/savings/goals/${goalId}/invest`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ goalId, amount, name }),
+            body: JSON.stringify({ amount, name }),
           });
           const result = await response.json();
 
@@ -1045,7 +1033,7 @@
 
       async function fetchAndRenderBalance() {
         try {
-          const response = await fetch("/finance/balance-data");
+          const response = await fetch("/finance/balance");
           const result = await response.json();
 
           const formattedBalance = new Intl.NumberFormat("id-ID", {

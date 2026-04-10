@@ -128,7 +128,7 @@
             }
             const data = await response.json();
             document.getElementById('profile-name').textContent = `${data.user.firstname} ${data.user.lastname}`;
-            document.getElementById('profile-username').textContent = data.user.user;
+            document.getElementById('profile-username').textContent = data.user.username;
         } catch (error) {
             console.error('Error fetching profile:', error);
             document.getElementById('profile-name').textContent = 'Guest User';
