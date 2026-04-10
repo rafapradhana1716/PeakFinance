@@ -22,6 +22,14 @@ app.use(cors({
     credentials: true
 }));
 
+app.use((req, res, next) => {
+    res.locals.env = {
+        BASEURL_VITE: process.env.BASEURL_VITE,
+        PROJECT_NAME: "PeakFinance"
+    };
+    next();
+});
+
 app.use(express.static(path.resolve('public')));
 app.use("/auth", usersRouter);
 app.use("/trx",transactionRouter);
