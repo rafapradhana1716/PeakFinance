@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
-    "dev-css": "postcss ./public/css/input.css -o ./public/css/styles.css --watch",
-    "build-css": "postcss ./public/css/input.css -o ./public/css/styles.css",
-    "dev": "concurrently \"npm run dev-css\" \"npm run start-dev\""
+    "dev-vite": "vite",
+    "build-vite": "vite build",
+    "dev": "concurrently \"npm run dev-vite\" \"npm run start-dev\""
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "concurrently": "^9.2.1",
     "postcss": "^8.5.8",
     "postcss-cli": "^11.0.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "vite": "^8.0.8"
   }
 }

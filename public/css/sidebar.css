@@ -1,17 +1,17 @@
 :root {
-  --mint: #00e5a0;
-  --mint-dim: #00c488;
-  --lime: #c8f135;
-  --coral: #ff6b6b;
-  --amber: #ffb830;
-  --blue: #00a3ff;
-  --bg: #080a0c;
-  --card: #0f1215;
-  --card2: #161b20;
-  --border: #1e2428;
-  --text: #eff3f7;
-  --soft: #7a8793;
-  --muted: #3d4750;
+    --mint: #00e5a0;
+    --mint-dim: #00c488;
+    --lime: #c8f135;
+    --coral: #ff6b6b;
+    --amber: #ffb830;
+    --blue: #00a3ff;
+    --bg: #080a0c;
+    --card: #0f1215;
+    --card2: #161b20;
+    --border: #1e2428;
+    --text: #eff3f7;
+    --soft: #7a8793;
+    --muted: #3d4750;
 }
 
 
@@ -106,6 +106,7 @@
     transition: none !important;
     animation: none !important;
 }
+
 .sidebar.collapsed {
     width: 5rem !important;
 }

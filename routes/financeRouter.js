@@ -28,10 +28,16 @@ export const getBalance = async (userId) => {
             [userId]
         );
 
+        const currentAmount = await db.query(
+            `SELECT current_amount FROM savings_goals WHERE user_id = ? AND id = (SELECT selected_goal FROM users WHERE id = ?)`,
+            [userId, userId]
+        );
+
         const totalBalance = Number(balance[0].total_balance);
         const totalIncome = Number(income[0].total_income);
         const totalExpense = Number(expense[0].total_expense);
-        return { totalBalance, totalIncome, totalExpense };
+        const targetAmount = currentAmount.length > 0 ? Number(currentAmount[0].current_amount) : 0;
+        return { totalBalance, totalIncome, totalExpense, targetAmount };
     } catch (err) {
         console.error("Error hitung saldo:", err);
         return 0;
@@ -117,7 +123,7 @@ export const getCategoryData = async (userId) => {
 router.get("/balance", verifyToken, async (req, res) => {
     try {
         const balanceData = await getBalance(req.user.id);
-        res.json({balance: balanceData.totalBalance, income: balanceData.totalIncome, expense: balanceData.totalExpense});
+        res.json({balance: balanceData.totalBalance, income: balanceData.totalIncome, expense: balanceData.totalExpense, target: balanceData.targetAmount});
     } catch {
         res.status(500).json({ error: "Gagal mengambil data keuangan" })
     }

@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - PeakFinance</title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="http://localhost:5173/public/css/input.css">
     <link rel="stylesheet" href="/css/main.css" />
+    <script type="module" src="http://localhost:5173/@vite/client"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       #dropdownMenu::-webkit-scrollbar {
@@ -121,7 +122,7 @@
               class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
             >
               <p class="text-xs text-gray-400">TARGET</p>
-              <p class="text-yellow-400 font-semibold">+Rp1.5jt</p>
+              <p id="targetAmount" class="text-yellow-400 font-semibold">Memuat..</p>
             </div>
 
             <div
@@ -1044,6 +1045,7 @@
 
           const formattedIncome = formatRupiahRingkas(result.income);
           const formattedExpense = formatRupiahRingkas(result.expense);
+          const formattedTarget = formatRupiahRingkas(result.target);
 
           const totalExpense = result.expense;
           const totalIncome = result.income;
@@ -1085,6 +1087,7 @@
             el.innerHTML = formattedBalance;
           });
 
+          document.querySelector("[id='targetAmount']").innerHTML = `+${formattedTarget}`;
           document.querySelector("[id='totalPemasukan']").innerHTML =
             `+${formattedIncome}`;
           document.querySelector("[id='totalPengeluaran']").innerHTML =

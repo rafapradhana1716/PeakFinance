@@ -3,8 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <title>Target Tabungan</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="http://localhost:5173/public/css/input.css">
+    <script type="module" src="http://localhost:5173/@vite/client"></script>
     <link rel="stylesheet" href="/css/main.css">
+    
+    <style>
+      #toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .toast {
+        background: #0f172a;
+        border: 1px solid #22c55e;
+        border-radius: 12px;
+        padding: 12px 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        animation: toastIn 0.3s ease-out;
+      }
+
+      @keyframes toastIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
 
   <body
@@ -30,6 +67,17 @@
         <div id="goals-list" class="space-y-5">
           <p class="text-sm text-gray-500 italic">Memuat data target..</p>
         </div>
+        <!-- <div id="goal-options" class="flex gap-3 overflow-x-auto pb-2 mb-5"> -->
+
+        <!-- <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition">
+          <span class="text-sm">Laptop</span>
+        </button>
+
+        <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition">
+          <span class="text-sm">Motor</span>
+        </button> -->
+
+</div>
       </div>
 
       <!-- ================= KALENDER ================= -->
@@ -59,6 +107,8 @@
       >
         Target kamu dalam bulan ini adalah Rp1.500.000. Kerja bagus!
       </div>
+
+      <div id="toast-container"></div>
     </main>
     <script>
       async function fetchAndRenderGoals() {
@@ -83,10 +133,14 @@
               const goalItem = document.createElement('div');
               goalItem.className = 'mb-5';
               goalItem.innerHTML = `
-                <div class="flex justify-between text-sm mb-1">
+                <div class="flex items-center justify-between gap-4 text-sm mb-1">
                   <span>${goal.title}</span>
-                  <span class="${textColor}">${percentage}%</span>
+                  <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition" onclick="updateTarget(${goal.id})">
+                        <span class="text-sm">${goal.title}</span>
+                        <span class="${textColor}">${percentage}%</span>
+                      </button>
                 </div>
+
 
                 <div class="w-full h-2 bg-gray-800 rounded-full">
                   <div class="h-2 ${barColor} rounded-full" style="width: ${percentage}%"></div>
@@ -150,12 +204,70 @@
         }
       }
 
+      async function updateTarget(goalId) {
+        const response = await fetch(`/savings/goals/${goalId}`, {
+          method: 'PATCH'
+        });
+
+        if(response.ok) {
+          showToast('Target tabungan berhasil diperbarui!', 'success');
+          fetchAndRenderGoals();
+        } else {
+          showToast('Gagal memperbarui target tabungan. Silakan coba lagi.', 'error');
+        }
+      }
+
       function formatRupiah(amount) {
         return new Intl.NumberFormat('id-ID', {
           style: 'currency',
           currency: 'IDR',
           minimumFractionDigits: 0
         }).format(amount);
+      }
+
+      function showToast(message, type = "success", duration = 5000) {
+        const container = document.getElementById("toast-container");
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+
+        toast.innerHTML = `
+    <span style="font-size:20px">
+      ${type === "success" ? "✅" : "❌"}
+    </span>
+
+    <div style="flex:1">
+      <div style="font-weight:600; margin-bottom:2px">
+        ${type === "success" ? "Berhasil" : "Gagal"}
+      </div>
+      <div style="font-size:13px; color:var(--soft)">
+        ${message}
+      </div>
+    </div>
+
+    <button class="toast-close">✖</button>
+
+    <div class="toast-progress"></div>
+  `;
+
+        const progress = toast.querySelector(".toast-progress");
+        progress.style.animationDuration = duration + "ms";
+
+        const closeBtn = toast.querySelector(".toast-close");
+
+        closeBtn.onclick = () => removeToast(toast);
+
+        container.appendChild(toast);
+
+        const timeout = setTimeout(() => {
+          removeToast(toast);
+        }, duration);
+
+        function removeToast(el) {
+          el.style.animation = "toastOut 0.3s ease forwards";
+          clearTimeout(timeout);
+          setTimeout(() => el.remove(), 300);
+        }
       }
 
       document.addEventListener('DOMContentLoaded', () => {
