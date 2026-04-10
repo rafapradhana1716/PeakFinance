@@ -87,9 +87,26 @@ router.post("/goals", verifyToken, async (req, res) => {
             [userId, title, target, current ? current : 0, current >= target ? "achieved":"active"]
         );
 
-        return res.redirect("/");
+        return res.json({ message: "Target tabungan berhasil dibuat!" });
     } catch (err) {
         return res.status(500).json({ message: "Gagal menambahkan savings goal!", error: err });
+    }
+});
+
+router.patch("/goals/:id", verifyToken, async (req, res) => {
+    const userId = req.user.id;
+    const goalId = req.params.id;
+
+    try {
+        await db.query(
+            `UPDATE users SET selected_goal = ? WHERE id = ?`,
+            [goalId, userId]
+        );
+
+        return res.json({ success: true, message: "Target tabungan berhasil diperbarui!" });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: "Gagal memperbarui target tabungan!" });
     }
 });
 

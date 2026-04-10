@@ -122,7 +122,7 @@
               class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
             >
               <p class="text-xs text-gray-400">TARGET</p>
-              <p class="text-yellow-400 font-semibold">+Rp1.5jt</p>
+              <p id="targetAmount" class="text-yellow-400 font-semibold">Memuat..</p>
             </div>
 
             <div
@@ -1045,6 +1045,7 @@
 
           const formattedIncome = formatRupiahRingkas(result.income);
           const formattedExpense = formatRupiahRingkas(result.expense);
+          const formattedTarget = formatRupiahRingkas(result.target);
 
           const totalExpense = result.expense;
           const totalIncome = result.income;
@@ -1086,6 +1087,7 @@
             el.innerHTML = formattedBalance;
           });
 
+          document.querySelector("[id='targetAmount']").innerHTML = `+${formattedTarget}`;
           document.querySelector("[id='totalPemasukan']").innerHTML =
             `+${formattedIncome}`;
           document.querySelector("[id='totalPengeluaran']").innerHTML =
