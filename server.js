@@ -11,6 +11,13 @@ import path from 'path';
 
 const app = express();
 const port = process.env.PORT;
+const requiredEnv = ['DB_HOST', 'DB_USER', 'JWT_SECRET', 'BASEURL_VITE'];
+requiredEnv.forEach((key) => {
+    if(!process.env[key]) {
+        console.error(`Error: Missing required environment variable ${key}`);
+        process.exit(1);
+    }
+});
 
 app.set('view engine', 'ejs');
 
