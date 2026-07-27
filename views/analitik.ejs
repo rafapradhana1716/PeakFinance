@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Analisis - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
-    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
+    <link rel="stylesheet" href="<%= env.CSS_URL %>">
+    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
@@ -15,7 +16,7 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
       <!-- HEADER -->
       <div
         class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
@@ -100,9 +101,9 @@
         </button>
       </div>
       <!-- ================= GRID FIX ================= -->
-      <div class="grid grid-cols-3 gap-6 items-start">
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
         <!-- LEFT -->
-        <div class="col-span-2 space-y-6">
+        <div class="xl:col-span-2 space-y-6">
           <!-- CHART -->
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
             <p id="labelDays" class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
@@ -114,7 +115,7 @@
             id="scoreCard"
             class="bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border border-green-500/30 rounded-2xl p-6 flex items-center justify-between"
           >
-            <div class="flex items-center justify-center gap-10">
+            <div class="flex flex-wrap items-center justify-center gap-6 lg:gap-10">
               <div
                 class="relative w-24 h-24 flex items-center justify-center mb-3"
               >
@@ -176,6 +177,12 @@
 
     <!-- CHART -->
     <script>
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, character => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[character]);
+      }
+
 
       let currentType = "balance";
       let currentDays = 90;
@@ -395,7 +402,7 @@
           <div class="flex items-center justify-between text-xs">
             <div class="flex items-center gap-2">
               <span>${emojis[cat.name] || '💰'}</span>
-              <span class="text-gray-300">${cat.name}</span>
+              <span class="text-gray-300">${escapeHtml(cat.name)}</span>
             </div>
             <span class="font-medium">${cat.percentage}%</span>
           </div>
@@ -515,7 +522,7 @@
 
           updateChartScore(point);
 
-          if (formattedBalance < "Rp0") {
+          if (totalBalance < 0) {
             document.getElementById("balance").classList.add("text-red-400");
             document
               .getElementById("balance")
@@ -568,7 +575,7 @@
               goalItem.className = 'mb-5';
               goalItem.innerHTML = `
                 <div class="flex justify-between text-sm mb-1">
-                  <span>${goal.title}</span>
+                  <span>${escapeHtml(goal.title)}</span>
                   <span class="${textColor}">${percentage}%</span>
                 </div>
 

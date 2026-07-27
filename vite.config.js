@@ -2,11 +2,16 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
     build: {
-        rollupOptions: {
-            input: './public/css/input.css'
-        },
-        outDir: 'dist',
+        outDir: 'public/dist',
         manifest: true,
+        rollupOptions: {
+            input: './public/css/input.css',
+            output: {
+                assetFileNames: (assetInfo) => assetInfo.name?.endsWith('.css')
+                    ? 'assets/styles.css'
+                    : 'assets/[name]-[hash][extname]'
+            }
+        },
     },
     server: {
         origin: 'http://localhost:5173',

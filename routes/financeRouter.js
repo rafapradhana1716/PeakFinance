@@ -4,44 +4,28 @@ import { verifyToken } from "../middleware/auth.js";
 const router = express.Router();
 
 export const getBalance = async (userId) => {
-    try {
-        const balance = await db.query(
-            `SELECT 
-                COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) - 
-                COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_balance
-            FROM transactions 
-            WHERE user_id = ?`,
-            [userId]
-        );
+    const rows = await db.query(
+        `SELECT totals.total_income, totals.total_expense, COALESCE(sg.current_amount, 0) AS target_amount
+         FROM (
+             SELECT
+                 COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) AS total_income,
+                 COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_expense
+             FROM transactions
+             WHERE user_id = ?
+         ) totals
+         LEFT JOIN users u ON u.id = ?
+         LEFT JOIN savings_goals sg ON sg.id = u.selected_goal AND sg.user_id = u.id`,
+        [userId, userId]
+    );
 
-        const income = await db.query(
-            `SELECT COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) AS total_income
-            FROM transactions
-            WHERE user_id = ?`,
-            [userId]
-        );
-
-        const expense = await db.query(
-            `SELECT COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS total_expense
-            FROM transactions
-            WHERE user_id = ?`,
-            [userId]
-        );
-
-        const currentAmount = await db.query(
-            `SELECT current_amount FROM savings_goals WHERE user_id = ? AND id = (SELECT selected_goal FROM users WHERE id = ?)`,
-            [userId, userId]
-        );
-
-        const totalBalance = Number(balance[0].total_balance);
-        const totalIncome = Number(income[0].total_income);
-        const totalExpense = Number(expense[0].total_expense);
-        const targetAmount = currentAmount.length > 0 ? Number(currentAmount[0].current_amount) : 0;
-        return { totalBalance, totalIncome, totalExpense, targetAmount };
-    } catch (err) {
-        console.error("Error hitung saldo:", err);
-        return 0;
-    }
+    const totalIncome = Number(rows[0].total_income);
+    const totalExpense = Number(rows[0].total_expense);
+    return {
+        totalBalance: totalIncome - totalExpense,
+        totalIncome,
+        totalExpense,
+        targetAmount: Number(rows[0].target_amount)
+    };
 };
 
 export const getChartData = async (userId, days = 30, type = "balance") => {
@@ -54,10 +38,20 @@ export const getChartData = async (userId, days = 30, type = "balance") => {
         netCalculation = "SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)";
     }
 
+    if (type === 'balance') {
+        const openingRows = await db.query(
+            `SELECT COALESCE(SUM(CASE WHEN type = 'income' THEN amount WHEN type = 'expense' THEN -amount ELSE 0 END), 0) AS opening_balance
+             FROM transactions
+             WHERE user_id = ? AND created_at < DATE_SUB(CURDATE(), INTERVAL ? DAY)`,
+            [userId, days]
+        );
+        currentBalance = Number(openingRows[0].opening_balance);
+    }
+
     const rows = await db.query(
         `SELECT 
             DATE_FORMAT(created_at, '%Y-%m-%d') AS tanggal,
-            ${netCalculation} AS daily_net
+            COALESCE(${netCalculation}, 0) AS daily_net
         FROM transactions 
         WHERE user_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
         GROUP BY tanggal
@@ -131,8 +125,11 @@ router.get("/balance", verifyToken, async (req, res) => {
 
 router.get("/statistics", verifyToken, async (req, res) => {
     try {
-        const days = parseInt(req.query.days) || 30;
-        const type = req.query.type || "balance";
+        const days = Number(req.query.days ?? 30);
+        const type = req.query.type ?? "balance";
+        if (!Number.isInteger(days) || days < 1 || days > 365 || !['balance', 'income', 'expense'].includes(type)) {
+            return res.status(400).json({ error: "Parameter statistik tidak valid." });
+        }
         const chartData = await getChartData(req.user.id, days, type);
         res.json(chartData);
     } catch {

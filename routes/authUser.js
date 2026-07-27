@@ -2,7 +2,8 @@ import express from "express";
 import bcrypt from "bcrypt";
 import db from "../config/database.js";
 import jwt from "jsonwebtoken";
-import { verifyToken } from "../middleware/auth.js";
+import { clearAuthCookie, setAuthCookie, verifyToken } from "../middleware/auth.js";
+import { cleanText } from "../middleware/validation.js";
 import rateLimit from "express-rate-limit";
 const router = express.Router();
 
@@ -17,15 +18,16 @@ const authLimiter = rateLimit({
 });
 
 router.post("/login", authLimiter, async (req, res) => {
-    const { username, password, rememberMe } = req.body
+    const username = cleanText(req.body.username, 255);
+    const { password, rememberMe } = req.body;
 
-    if(!username || !password) {
+    if(!username || typeof password !== 'string' || !password) {
         return res.status(400).json({ message: "Email dan Password wajib diisi!" });
     }
 
     try {
         const rows = await db.query(
-            'SELECT * FROM users WHERE email = ? OR username = ?', [username, username]
+            'SELECT id, username, pass FROM users WHERE email = ? OR username = ? LIMIT 1', [username.toLowerCase(), username]
         );
 
         if(rows.length === 0) {
@@ -53,12 +55,7 @@ router.post("/login", authLimiter, async (req, res) => {
             expiresIn: selectedDuration
         });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: selectedDuration * 1000
-        });
+        setAuthCookie(res, token, selectedDuration * 1000);
 
         return res.status(200).json({ message: 'Login berhasil' });
 
@@ -69,7 +66,11 @@ router.post("/login", authLimiter, async (req, res) => {
 });
 
 router.post("/register", authLimiter, async (req, res) => {
-    const { email, username, firstname, lastname, password } = req.body
+    const email = cleanText(req.body.email, 255)?.toLowerCase();
+    const username = cleanText(req.body.username, 50);
+    const firstname = cleanText(req.body.firstname, 60);
+    const lastname = cleanText(req.body.lastname, 60);
+    const { password } = req.body;
     
     if(!email || !username || !password || !firstname || !lastname) {
         return res.status(400).json({ message: "Semua field wajib diisi!" });
@@ -79,19 +80,20 @@ router.post("/register", authLimiter, async (req, res) => {
     if(!emailRegex.test(email)) {
         return res.status(400).json({ message: "Format email tidak valid!" });
     }
-    if(password.length < 8) {
-        return res.status(400).json({ message: "Password harus lebih dari 8 karakter" });
+    if(typeof password !== 'string' || password.length < 8 || password.length > 72) {
+        return res.status(400).json({ message: "Password harus terdiri dari 8-72 karakter." });
     }
-    const hashPass = await bcrypt.hash(password, 10);
 
     try {
         const existedUser = await db.query(
-            'SELECT * FROM users WHERE email = ?', [email]
+            'SELECT id, email, username FROM users WHERE email = ? OR username = ? LIMIT 1', [email, username]
         );
 
         if (existedUser.length > 0) {
-            return res.status(400).json({ message: "Email terdaftar!" });
+            return res.status(409).json({ message: "Email atau username sudah terdaftar!" });
         }
+
+        const hashPass = await bcrypt.hash(password, 10);
 
         const result = await db.query(
             'INSERT INTO users (email, username, firstname, lastname, pass) VALUES (?, ?, ?, ?, ?)', [email, username, firstname, lastname, hashPass]
@@ -107,27 +109,26 @@ router.post("/register", authLimiter, async (req, res) => {
             expiresIn: "1h"
         });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 3600000
-        });
+        setAuthCookie(res, token, 3600000);
 
-        return res.status(200).json({ message: 'Registrasi berhasil' });
+        return res.status(201).json({ message: 'Registrasi berhasil' });
     } catch (error) {
+        if (error?.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ message: "Email atau username sudah terdaftar!" });
+        }
         console.error(error);
-        res.status(500).json({ message: "Gagal registrasi user!" });
+        return res.status(500).json({ message: "Gagal registrasi user!" });
     }
 });
 
 router.post("/logout", verifyToken, (req, res) => {
-    res.clearCookie("token");
+    clearAuthCookie(res);
     return res.redirect("/login");
 });
 
 router.patch("/profile", verifyToken, async (req, res) => {
-    const { firstname, lastname } = req.body;
+    const firstname = cleanText(req.body.firstname, 60);
+    const lastname = cleanText(req.body.lastname, 60);
 
     if(!firstname || !lastname) {
         return res.status(400).json({ message: "Nama depan dan belakang wajib diisi!" });

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Target Tabungan</title>
-    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
-    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
+    <link rel="stylesheet" href="<%= env.CSS_URL %>">
+    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
     <link rel="stylesheet" href="/css/main.css">
     
     <style>
@@ -51,7 +52,7 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
       <!-- HEADER -->
       <div  class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
       >
@@ -105,12 +106,18 @@
       <div
         class="bg-green-500/10 border border-green-500/30 text-green-400 text-center py-4 rounded-xl"
       >
-        Target kamu dalam bulan ini adalah Rp1.500.000. Kerja bagus!
+        Pilih target utama dan pantau progres tabunganmu secara berkala.
       </div>
 
       <div id="toast-container"></div>
     </main>
     <script>
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, character => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[character]);
+      }
+
       async function fetchAndRenderGoals() {
         const goalsList = document.getElementById('goals-list');
         if(!goalsList) return;
@@ -134,9 +141,9 @@
               goalItem.className = 'mb-5';
               goalItem.innerHTML = `
                 <div class="flex items-center justify-between gap-4 text-sm mb-1">
-                  <span>${goal.title}</span>
+                  <span>${escapeHtml(goal.title)}</span>
                   <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition" onclick="updateTarget(${goal.id})">
-                        <span class="text-sm">${goal.title}</span>
+                        <span class="text-sm">${escapeHtml(goal.title)}</span>
                         <span class="${textColor}">${percentage}%</span>
                       </button>
                 </div>
@@ -241,7 +248,7 @@
         ${type === "success" ? "Berhasil" : "Gagal"}
       </div>
       <div style="font-size:13px; color:var(--soft)">
-        ${message}
+        ${escapeHtml(message)}
       </div>
     </div>
 

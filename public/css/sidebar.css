@@ -159,3 +159,27 @@
 .main-content {
     transition: margin-left 0.3s ease-out;
 }
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 5rem !important;
+        padding: 1rem 0.5rem;
+    }
+
+    .sidebar h2,
+    .sidebar .text,
+    .sidebar > div > p,
+    .sidebar .profile-text,
+    .sidebar #toggleSidebar {
+        display: none;
+    }
+
+    .sidebar .nav-item,
+    .sidebar .profile-container {
+        justify-content: center;
+    }
+
+    .main-content {
+        margin-left: 5rem !important;
+    }
+}

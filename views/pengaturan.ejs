@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pengaturan - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
-    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
+    <link rel="stylesheet" href="<%= env.CSS_URL %>">
+    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
     <link rel="stylesheet" href="/css/main.css" />
     <style>
       #toast-container {
@@ -50,7 +51,7 @@
     <%- include('components/sidebar') %>
 
     <!-- MAIN -->
-    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
       <!-- HEADER -->
       <div
         class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
@@ -190,6 +191,11 @@
     </main>
     <div id="toast-container"></div>
     <script>
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, character => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[character]);
+      }
       // Menu handler
       const menuButtons = document.querySelectorAll(".menu-btn");
       const menuContents = document.querySelectorAll(".menu-content");
@@ -269,7 +275,7 @@
         ${type === "success" ? "Berhasil" : "Gagal"}
       </div>
       <div style="font-size:13px; color:var(--soft)">
-        ${message}
+        ${escapeHtml(message)}
       </div>
     </div>
 

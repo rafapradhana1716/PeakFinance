@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Insight - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
+    <link rel="stylesheet" href="<%= env.CSS_URL %>">
     <link rel="stylesheet" href="/css/main.css" />
-    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
+    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
   </head>
   <body
     class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
@@ -14,11 +15,10 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
-      <div class="grid grid-cols-3 gap-6">
+    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <!-- CARD -->
-        <a
-          href="/insight/detail/1"
+        <article
           class="group block bg-[#020617] border border-gray-800 rounded-2xl overflow-hidden hover:scale-[1.02] transition duration-300"
         >
           <!-- IMAGE -->
@@ -54,10 +54,9 @@
               <span class="text-green-400">Lihat →</span>
             </div>
           </div>
-        </a>
+        </article>
 
-        <a
-          href="/insight/detail/1"
+        <article
           class="group block bg-[#020617] border border-gray-800 rounded-2xl overflow-hidden hover:scale-[1.02] transition duration-300"
         >
           <!-- IMAGE -->
@@ -93,10 +92,9 @@
               <span class="text-green-400">Lihat →</span>
             </div>
           </div>
-        </a>
+        </article>
 
-        <a
-          href="/insight/detail/1"
+        <article
           class="group block bg-[#020617] border border-gray-800 rounded-2xl overflow-hidden hover:scale-[1.02] transition duration-300"
         >
           <!-- IMAGE -->
@@ -132,7 +130,7 @@
               <span class="text-green-400">Lihat →</span>
             </div>
           </div>
-        </a>
+        </article>
       </div>
     </main>
   </body>
