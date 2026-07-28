@@ -7,11 +7,11 @@ const router = express.Router();
 const transactionTypes = new Set(['income', 'expense']);
 
 router.post("/transactions", verifyToken, async (req, res) => {
-    const name = cleanText(req.body.name, 50);
-    const type = cleanText(req.body.type, 20);
-    const category = optionalText(req.body.category, 50);
-    const description = optionalText(req.body.description, 2000);
-    const amount = positiveAmount(req.body.amount);
+    const name = cleanText(req.body?.name, 50);
+    const type = cleanText(req.body?.type, 20);
+    const category = optionalText(req.body?.category, 50);
+    const description = optionalText(req.body?.description, 2000);
+    const amount = positiveAmount(req.body?.amount);
     const userId = req.user.id;
 
     if(!name || !transactionTypes.has(type) || category === null || description === null || amount === null) {
