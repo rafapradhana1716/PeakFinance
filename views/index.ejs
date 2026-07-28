@@ -843,8 +843,6 @@
             closeModal();
             showToast(result.message, 'success');
             fetchAndRenderBalance();
-            fetchAndRenderChart(currentDays, currentType);
-            fetchAndRenderCategoryChart();
           } catch (error) {
             showToast(error.message || 'Terjadi kesalahan sistem.', 'error');
           } finally {
@@ -1134,51 +1132,6 @@
         }
       }
 
-      async function fetchAndRenderChart(days, type) {
-        try {
-          const response = await fetch(`/finance/statistics?days=${days}&type=${type}`);
-          const result = await response.json();
-
-          if (myChart) {
-            myChart.data.labels = result.labels;
-            myChart.data.datasets[0].data = result.data;
-
-            myChart.data.datasets[0].borderColor = type === "income" ? "#22c55e" : type === "expense" ? "#ef4444" : "#22c55e";
-            myChart.data.datasets[0].pointBackgroundColor = type === "income" ? "#22c55e" : type === "expense" ? "#ef4444" : "#22c55e";
-
-            myChart.update();
-          } else {
-            myChart = new Chart(ctx, {
-              type: "line",
-              data: {
-                labels: result.labels,
-                datasets: [
-                  {
-                    data: result.data,
-                    borderColor: "#22c55e",
-                    tension: 0.1,
-                    pointBackgroundColor: "#22c55e",
-                  },
-                ],
-              },
-              options: {
-                plugins: { legend: { display: false } },
-                scales: {
-                  x: { ticks: { color: "#9ca3af" } },
-                  y: { ticks: { color: "#9ca3af" } },
-                },
-              },
-            });
-          }
-
-          const labelTeks = type === 'balance' ? 'TABUNGAN' : (type === 'income' ? 'PEMASUKAN' : 'PENGELUARAN');
-          document.querySelector("#labelDays").textContent = `${labelTeks} - ${days} HARI TERAKHIR`;
-          
-        } catch (error) {
-          console.error("Gagal mengambil data grafik", error);
-        }
-      }
-      
       fetchAndRenderBalance();
     </script>
   </body>
