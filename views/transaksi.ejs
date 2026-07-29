@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,15 +16,17 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
+    <main class="main-content">
       <!-- HEADER -->
-      <div  class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-2xl sm:text-3xl font-semibold tracking-wide">Transaksi</h1>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Transaksi</h1>
+          <p class="page-subtitle">Telusuri riwayat pemasukan, pengeluaran, dan tabungan.</p>
+        </div>
       </div>
 
       <!-- FILTER -->
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="filter-row mobile-scroll-row" aria-label="Filter transaksi">
         <button onclick="fetchAndRenderTransactions(7)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
           7 hari
         </button>
@@ -37,8 +39,8 @@
       </div>
 
       <!-- ================= LIST TRANSAKSI ================= -->
-      <div id="transaction-container" class="space-y-4">
-        <div id="loading-state" class="text-center py-10 text-gray-500">
+      <div id="transaction-container" class="transaction-list">
+        <div id="loading-state" class="empty-state app-panel">
           <p>Sedang memuat riwayat transaksi..</p>
         </div>
       </div>
@@ -64,24 +66,24 @@
               const sign = txn.type === 'income' || txn.type === 'saving' ? '+' : '-';
 
               container.innerHTML += `
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 bg-[#020617] border border-gray-800 rounded-2xl px-4 sm:px-6 py-4 sm:py-5">
-                  <div>
+                <article class="transaction-card transaction-row">
+                  <div class="transaction-copy">
                     <p class="font-semibold">${date}</p>
                     <p class="text-sm text-gray-400 font-medium">${txn.name}</p>
                     <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
                       ${txn.category || 'Umum'}
                     </span>
                   </div>
-                  <p class="text-xl sm:text-2xl font-bold ${typeClass}">${sign} Rp${amount}</p>
-                </div>
+                  <p class="transaction-amount ${typeClass}">${sign} Rp${amount}</p>
+                </article>
               `;
             });
           } else {
-            container.innerHTML = '<div class="text-center py-10 text-gray-500"><p>Tidak ada transaksi dalam ' + days + ' hari terakhir.</p></div>';
+            container.innerHTML = '<div class="empty-state app-panel"><p>Tidak ada transaksi dalam ' + days + ' hari terakhir.</p></div>';
           }
         } catch (error) {
           console.error('Error:', error);
-          container.innerHTML = '<div class="text-center py-10 text-red-400"><p>Gagal memuat data. Silakan coba lagi nanti.</p></div>';
+          container.innerHTML = '<div class="empty-state app-panel text-red-400"><p>Gagal memuat data. Silakan coba lagi nanti.</p></div>';
         }
       }
 

@@ -24,6 +24,7 @@
 
 html {
   scroll-behavior: smooth;
+  min-width: 320px;
 }
 
 body {
@@ -31,6 +32,10 @@ body {
   color: var(--text);
   font-family: "Plus Jakarta Sans", sans-serif;
   overflow-x: hidden;
+}
+
+section[id] {
+  scroll-margin-top: 90px;
 }
 
 body::before {
@@ -111,6 +116,7 @@ nav {
   cursor: pointer;
   font-family: "Plus Jakarta Sans", sans-serif;
   transition: all 0.2s;
+  text-decoration: none;
 }
 
 .btn-ghost:hover {
@@ -130,6 +136,7 @@ nav {
   font-family: "Clash Display", sans-serif;
   transition: all 0.2s;
   letter-spacing: 0.3px;
+  text-decoration: none;
 }
 
 .btn-primary-sm:hover {
@@ -140,7 +147,7 @@ nav {
 
 /* ── hero ── */
 .hero {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,6 +229,44 @@ nav {
   margin: 0 auto 40px;
   animation: fadeUp 0.8s 0.2s ease both;
   font-weight: 400;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.hero-primary,
+.hero-secondary {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.hero-primary {
+  color: #020617;
+  background: var(--mint);
+}
+
+.hero-secondary {
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: rgba(15, 18, 21, 0.7);
+}
+
+.hero-primary:hover,
+.hero-secondary:hover {
+  transform: translateY(-2px);
 }
 
 .hero-actions {
@@ -920,6 +965,10 @@ footer {
     font-size: 15px;
   }
 
+  .hero-actions {
+    margin-top: 24px;
+  }
+
   .hero-stats {
     gap: 24px;
     flex-wrap: wrap;
@@ -996,4 +1045,30 @@ footer {
   .hero-title {
     font-size: clamp(32px, 11vw, 48px);
   }
-}
+
+  .hero-badge {
+    max-width: 100%;
+    padding-inline: 12px;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-primary,
+  .hero-secondary {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

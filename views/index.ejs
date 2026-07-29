@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,56 +8,6 @@
     <link rel="stylesheet" href="/css/main.css" />
     <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-      #dropdownMenu::-webkit-scrollbar {
-        width: 8px;
-      }
-      #dropdownMenu::-webkit-scrollbar-track {
-        background: rgba(15, 23, 42, 0.8);
-        border-radius: 4px;
-      }
-      #dropdownMenu::-webkit-scrollbar-thumb {
-        background: #22c55e;
-        border-radius: 4px;
-        border: 2px solid rgba(15, 23, 42, 0.8);
-      }
-      #dropdownMenu::-webkit-scrollbar-thumb:hover {
-        background: #16a34a;
-      }
-      #toast-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .toast {
-        background: #0f172a;
-        border: 1px solid #22c55e;
-        border-radius: 12px;
-        padding: 12px 20px;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        animation: toastIn 0.3s ease-out;
-      }
-
-      @keyframes toastIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    </style>
   </head>
 
   <body
@@ -72,17 +22,20 @@
       class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto"
     >
       <!-- HEADER -->
-      <div
-        class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-3xl font-semibold tracking-wide">Dashboard</h1>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Ringkasan kondisi keuanganmu hari ini.</p>
+        </div>
 
         <div
           class="flex items-center gap-3 bg-[#020617] border border-gray-800 px-4 py-2 rounded-xl"
         >
-          <span class="text-sm text-gray-400">Catat uangmu di sini</span>
+          <span class="page-header-action-label text-sm text-gray-400">Catat uangmu di sini</span>
           <button
+            type="button"
             onclick="openModal()"
+            aria-label="Tambah transaksi"
             class="w-10 h-10 bg-green-500 rounded-xl text-black text-lg font-bold hover:scale-105 transition"
           >
             +
@@ -91,8 +44,8 @@
       </div>
 
       <!-- HERO -->
-      <div class="flex justify-between items-start mb-10">
-        <h2 class="text-4xl font-bold leading-tight" id="greeting">
+      <div class="dashboard-hero">
+        <h2 class="dashboard-greeting" id="greeting">
           Memuat..
         </h2>
 
@@ -104,38 +57,38 @@
       </div>
 
       <!-- Card bagian atas -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+      <div class="dashboard-summary">
         <!-- TABUNGAN -->
         <div
-          class="lg:col-span-2 bg-gradient-to-r from-[#020617] to-[#0f172a] border border-gray-800 rounded-2xl p-6 shadow-lg"
+          class="finance-card dashboard-balance-card bg-gradient-to-r from-[#020617] to-[#0f172a] p-6"
         >
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
-            TABUNGAN BULAN INI
+            SALDO SAAT INI
           </p>
-          <h2 id="balance" class="text-3xl text-green-400 font-bold mb-2">
+          <h2 id="balance" class="balance-value text-3xl text-green-400 font-bold mb-2">
             Memuat..
           </h2>
           <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
-          <div class="grid grid-cols-3 gap-3">
+          <div class="stats-grid">
             <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
+              class="stat-card"
             >
               <p class="text-xs text-gray-400">TARGET</p>
               <p id="targetAmount" class="text-yellow-400 font-semibold">Memuat..</p>
             </div>
 
             <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
+              class="stat-card"
             >
               <p class="text-xs text-gray-400">PENGELUARAN</p>
               <p id="totalPengeluaran">Memuat..</p>
             </div>
 
             <div
-              class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
+              class="stat-card"
             >
-              <p class="text-xs text-gray-400">TABUNGAN</p>
+              <p class="text-xs text-gray-400">PEMASUKAN</p>
               <p id="totalPemasukan" class="text-green-400">Memuat..</p>
             </div>
           </div>
@@ -144,7 +97,7 @@
         <!-- SCORE -->
         <div
           id="scoreCard"
-          class="bg-gradient-to-br from-gray-500/20 to-transparent border border-gray-500/30 rounded-2xl p-5 h-[220px] flex flex-col shadow-lg"
+          class="finance-card dashboard-score-card bg-gradient-to-br from-gray-500/20 to-transparent p-5 flex flex-col"
         >
           <!-- HEADER -->
           <div class="flex justify-between items-center mb-2">
@@ -177,9 +130,9 @@
         <p class="text-xs text-gray-500">Dalam satu bulan terakhir</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div class="responsive-grid-4">
         <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
+          class="insight-card relative p-5 hover:border-green-400 hover:-translate-y-1 transition"
         >
           <div
             class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
@@ -191,7 +144,7 @@
         </div>
 
         <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
+          class="insight-card relative p-5 hover:border-green-400 hover:-translate-y-1 transition"
         >
           <div
             class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
@@ -203,7 +156,7 @@
         </div>
 
         <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
+          class="insight-card relative p-5 hover:border-green-400 hover:-translate-y-1 transition"
         >
           <div
             class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
@@ -215,7 +168,7 @@
         </div>
 
         <div
-          class="relative bg-[#020617] border border-gray-800 rounded-2xl p-5 hover:border-green-400 hover:-translate-y-1 transition"
+          class="insight-card relative p-5 hover:border-green-400 hover:-translate-y-1 transition"
         >
           <div
             class="absolute -top-3 right-6 w-4 h-4 bg-green-400 rounded-full"
@@ -231,19 +184,22 @@
     <!-- Modal-Content -->
     <div
       id="modal"
-      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 px-4 py-6"
+      class="app-modal fixed inset-0 z-50 hidden items-center justify-center bg-black/90 px-3 sm:px-4 py-3 sm:py-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="transactionModalTitle"
     >
       <div
-        class="w-full max-w-lg overflow-hidden rounded-3xl border border-green-400/10 bg-[#020617]"
+        class="modal-surface"
       >
-        <div class="px-6 py-6">
+        <div class="px-4 sm:px-6 py-5 sm:py-6">
           <div class="mb-5" id="modalHeader">
             <div class="flex items-center justify-between gap-4">
               <div>
                 <p class="text-xs uppercase tracking-[0.2em] text-green-300/70">
                   Catat Keuangan
                 </p>
-                <h2 class="text-2xl font-semibold text-white">
+                <h2 id="transactionModalTitle" class="text-xl sm:text-2xl font-semibold text-white">
                   Tambah Transaksi
                 </h2>
               </div>
@@ -313,7 +269,7 @@
                 <p class="text-xs uppercase tracking-[0.2em] text-gray-500">
                   Kategori
                 </p>
-                <div class="grid grid-cols-3 gap-2">
+                <div class="category-grid grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onclick="setKategori(this, 'Makanan')"
@@ -426,9 +382,9 @@
               class="rounded-2xl border border-green-400/30 bg-green-400/5 p-4 text-center"
             >
               <p class="text-xs text-gray-400 mb-2">Saldo Tabungan Saat Ini</p>
-              <h1 id="balance" class="text-3xl font-bold text-gray-400">
+              <h2 id="modalBalance" class="balance-value text-3xl font-bold text-gray-400">
                 Memuat..
-              </h1>
+              </h2>
             </div>
 
             <div class="space-y-3 border-t border-gray-800 pt-4">
@@ -546,7 +502,7 @@
       </div>
     </div>
 
-    <div id="toast-container"></div>
+    <div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
     <script>
       function getGreeting() {
         const hour = new Date().getHours();
@@ -581,18 +537,35 @@
         el.value = formatted;
       }
 
+      let modalTrigger = null;
+
       function openModal() {
         const m = document.getElementById("modal");
+        modalTrigger = document.activeElement;
         m.classList.remove("hidden");
         m.classList.add("flex");
+        document.body.style.overflow = "hidden";
         showPage(1);
+        requestAnimationFrame(() => m.querySelector('input:not([type="hidden"])')?.focus());
       }
 
       function closeModal() {
         const m = document.getElementById("modal");
         m.classList.add("hidden");
         m.classList.remove("flex");
+        document.body.style.overflow = "";
+        modalTrigger?.focus();
       }
+
+      document.getElementById('modal').addEventListener('click', event => {
+        if (event.target.id === 'modal') closeModal();
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !document.getElementById('modal').classList.contains('hidden')) {
+          closeModal();
+        }
+      });
 
       function showPage(page) {
         document.getElementById("page1").classList.toggle("hidden", page !== 1);
@@ -1083,7 +1056,7 @@
               .classList.remove("text-gray-400");
           }
 
-          document.querySelectorAll("[id='balance']").forEach((el) => {
+          document.querySelectorAll(".balance-value").forEach((el) => {
             el.innerHTML = formattedBalance;
           });
 

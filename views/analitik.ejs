@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Analisis - PeakFinance</title>
     <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
@@ -16,16 +17,17 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
+    <main class="main-content">
       <!-- HEADER -->
-      <div
-        class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-3xl font-semibold tracking-wide">Analisis</h1>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Analisis</h1>
+          <p class="page-subtitle">Lihat tren saldo, pengeluaran, dan kesehatan finansialmu.</p>
+        </div>
       </div>
 
       <!-- FILTER -->
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="filter-row mobile-scroll-row" aria-label="Filter rentang waktu">
         <button
           class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
           onclick="changeFilter(this, 7)"
@@ -47,45 +49,45 @@
       </div>
 
       <!-- SALDO + CARD -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
+      <div class="analysis-overview">
         <div>
-          <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
-          <h1 id="balance" class="text-4xl sm:text-5xl lg:text-[64px] font-bold text-green-400 break-all">
+          <p class="text-gray-400 text-sm mb-2">SALDO SAAT INI</p>
+          <h2 id="balance" class="balance-heading text-green-400">
             Memuat..
           </h1>
         </div>
 
-        <div class="grid grid-cols-3 sm:flex sm:flex-row gap-3">
+        <div class="stats-grid analysis-stats">
           <div
-            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
+            class="stat-card flex flex-col justify-center items-center"
           >
             <p class="text-xs text-gray-500 mb-1">TARGET</p>
             <p id="targetAmount" class="text-yellow-400 text-sm font-semibold text-center">Memuat..</p>
           </div>
 
           <div
-            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
+            class="stat-card flex flex-col justify-center items-center"
           >
             <p class="text-xs text-gray-500 mb-1">PENGELUARAN</p>
             <p id="totalPengeluaran" class="text-gray-400 text-sm text-center">Memuat..</p>
           </div>
 
           <div
-            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
+            class="stat-card flex flex-col justify-center items-center"
           >
-            <p class="text-xs text-gray-500 mb-1">TABUNGAN</p>
+            <p class="text-xs text-gray-500 mb-1">PEMASUKAN</p>
             <p id="totalPemasukan" class="text-green-400 text-sm font-semibold text-center">
               Memuat..
             </p>
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="filter-row mobile-scroll-row" aria-label="Filter tipe data">
         <button
           onclick="changeDataType(this, 'balance')"
           class="type-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
         >
-          Tabungan
+          Saldo
         </button>
         <button
           onclick="changeDataType(this, 'expense')"
@@ -101,21 +103,21 @@
         </button>
       </div>
       <!-- ================= GRID FIX ================= -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+      <div class="analysis-layout">
         <!-- LEFT -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="analysis-main space-y-6">
           <!-- CHART -->
-          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+          <div class="chart-card p-4 sm:p-6">
             <p id="labelDays" class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
-            <canvas id="myChart" class="h-[250px]"></canvas>
+            <div class="chart-wrap"><canvas id="myChart"></canvas></div>
           </div>
 
           <!-- SKOR -->
           <div
             id="scoreCard"
-            class="bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border border-green-500/30 rounded-2xl p-6 flex items-center justify-between"
+            class="finance-card bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border-green-500/30 p-4 sm:p-6"
           >
-            <div class="flex items-center justify-center gap-10">
+            <div class="score-layout">
               <div
                 class="relative w-24 h-24 flex items-center justify-center mb-3"
               >
@@ -146,12 +148,12 @@
         </div>
 
         <!-- RIGHT -->
-        <div class="space-y-6">
+        <aside class="analysis-side">
           <!-- KATEGORI -->
-          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+          <div class="chart-card p-4 sm:p-6">
             <p class="text-gray-400 text-sm mb-5">KATEGORI PENGELUARAN</p>
 
-            <div class="flex h-[250px] mb-6 justify-center items-center">
+            <div class="chart-wrap pie-chart-wrap mb-6 flex justify-center items-center">
               <canvas id="categoryPieChart"></canvas>
             </div>
 
@@ -161,7 +163,7 @@
           </div>
 
           <!-- TARGET -->
-          <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
+          <div class="finance-card p-4 sm:p-6">
             <p class="font-semibold mb-4">Target Tabungan</p>
 
             <div class="space-y-5">
@@ -171,7 +173,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </main>
 
@@ -236,6 +238,8 @@
                 ],
               },
               options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                   x: { ticks: { color: "#9ca3af" } },
@@ -245,7 +249,7 @@
             });
           }
 
-          const labelTeks = type === 'balance' ? 'TABUNGAN' : (type === 'income' ? 'PEMASUKAN' : 'PENGELUARAN');
+          const labelTeks = type === 'balance' ? 'SALDO' : (type === 'income' ? 'PEMASUKAN' : 'PENGELUARAN');
           document.querySelector("#labelDays").textContent = `${labelTeks} - ${days} HARI TERAKHIR`;
           
         } catch (error) {

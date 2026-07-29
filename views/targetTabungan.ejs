@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,42 +7,6 @@
     <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
     <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <link rel="stylesheet" href="/css/main.css">
-    
-    <style>
-      #toast-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .toast {
-        background: #0f172a;
-        border: 1px solid #22c55e;
-        border-radius: 12px;
-        padding: 12px 20px;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        animation: toastIn 0.3s ease-out;
-      }
-
-      @keyframes toastIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    </style>
   </head>
 
   <body
@@ -52,47 +16,41 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
+    <main class="main-content">
       <!-- HEADER -->
-      <div  class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-2xl sm:text-3xl font-semibold tracking-wide">Target Tabungan</h1>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Target Tabungan</h1>
+          <p class="page-subtitle">Kelola tujuan dan pantau konsistensi menabungmu.</p>
+        </div>
 
       </div>
 
       <!-- ================= CARD TARGET ================= -->
-      <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6 mb-6">
-        <p class="text-sm text-gray-400 mb-4">Target Tabungan</p>
+      <section class="finance-card p-4 sm:p-6 mb-6">
+        <div class="section-heading">
+          <div>
+            <p class="font-semibold">Target aktif</p>
+            <p class="text-xs text-gray-500 mt-1">Klik target untuk menjadikannya target utama.</p>
+          </div>
+        </div>
 
         <!-- ITEM -->
         <div id="goals-list" class="space-y-5">
           <p class="text-sm text-gray-500 italic">Memuat data target..</p>
         </div>
-        <!-- <div id="goal-options" class="flex gap-3 overflow-x-auto pb-2 mb-5"> -->
-
-        <!-- <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition">
-          <span class="text-sm">Laptop</span>
-        </button>
-
-        <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition">
-          <span class="text-sm">Motor</span>
-        </button> -->
-
-</div>
-      </div>
+      </section>
 
       <!-- ================= KALENDER ================= -->
-      <div class="bg-[#020617] border border-gray-800 rounded-2xl p-4 sm:p-6 mb-6">
+      <section class="finance-card p-4 sm:p-6 mb-6">
         <!-- Calendar header: label + filter buttons -->
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
-          <p class="text-sm text-gray-400">Kalender</p>
-
-          <div class="flex flex-wrap gap-1 text-xs">
-            <span class="px-2 py-1 bg-gray-800 rounded whitespace-nowrap">3 hari</span>
-            <span class="px-2 py-1 bg-gray-800 rounded whitespace-nowrap">7 hari</span>
-            <span class="px-2 py-1 bg-green-500 text-black rounded whitespace-nowrap">30 hari</span>
-            <span class="px-2 py-1 bg-gray-800 rounded whitespace-nowrap">90 hari</span>
+          <div>
+            <p class="font-semibold">Kalender tabungan</p>
+            <p id="currentMonthLabel" class="text-xs text-gray-500 mt-1"></p>
           </div>
+
+          <span class="text-xs text-green-400 bg-green-500/10 border border-green-500/30 rounded-lg px-3 py-2">Bulan berjalan</span>
         </div>
 
         <!-- GRID KALENDER: scrollable on mobile -->
@@ -101,18 +59,23 @@
             <p class="col-span-7 py-10 text-gray-500 italic">Memuat data kalender..</p>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- ================= INFO ================= -->
       <div
         class="bg-green-500/10 border border-green-500/30 text-green-400 text-center py-4 rounded-xl"
       >
-        Target kamu dalam bulan ini adalah Rp1.500.000. Kerja bagus!
+        Setiap setoran kecil membawa targetmu semakin dekat.
       </div>
 
-      <div id="toast-container"></div>
+      <div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
     </main>
     <script>
+      document.getElementById('currentMonthLabel').textContent = new Intl.DateTimeFormat('id-ID', {
+        month: 'long',
+        year: 'numeric'
+      }).format(new Date());
+
       async function fetchAndRenderGoals() {
         const goalsList = document.getElementById('goals-list');
         if(!goalsList) return;
@@ -133,14 +96,16 @@
               const textColor = percentage > 20 ? 'text-green-400' : 'text-yellow-400';
 
               const goalItem = document.createElement('div');
-              goalItem.className = 'mb-5';
+              goalItem.className = 'goal-item';
               goalItem.innerHTML = `
-                <div class="flex items-center justify-between gap-4 text-sm mb-1">
-                  <span>${goal.title}</span>
-                  <button class="goal-btn flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition" onclick="updateTarget(${goal.id})">
-                        <span class="text-sm">${goal.title}</span>
-                        <span class="${textColor}">${percentage}%</span>
-                      </button>
+                <div class="goal-item-header">
+                  <div class="min-w-0">
+                    <p class="goal-title">${goal.title}</p>
+                    <p class="text-xs text-gray-500 mt-1">${percentage}% tercapai</p>
+                  </div>
+                  <button class="goal-btn px-3 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 transition" onclick="updateTarget(${goal.id})">
+                    Jadikan utama
+                  </button>
                 </div>
 
 
@@ -148,7 +113,7 @@
                   <div class="h-2 ${barColor} rounded-full" style="width: ${percentage}%"></div>
                 </div>
 
-                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                <div class="goal-amounts text-xs text-gray-400 mt-2">
                   <span class="${textColor}">${formatRupiah(current)}</span>
                   <span>dari ${formatRupiah(target)}</span>
                 </div>
@@ -190,7 +155,7 @@
               html += `
               <div class="p-1 sm:p-2 bg-green-500/20 rounded text-green-400 border border-green-500/30">
                 ${i}
-                <div class="text-[9px] sm:text-[10px] font-bold leading-tight">${formatRupiah(amount)}</div>
+                <div class="text-[9px] sm:text-[10px] font-bold leading-tight">${formatRupiahCompact(amount)}</div>
               </div>`;
             } else {
               html += `<div class="p-1 sm:p-2 border border-transparent">
@@ -227,6 +192,15 @@
         }).format(amount);
       }
 
+      function formatRupiahCompact(amount) {
+        return new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          notation: 'compact',
+          maximumFractionDigits: 1
+        }).format(amount);
+      }
+
       function showToast(message, type = "success", duration = 5000) {
         const container = document.getElementById("toast-container");
 
@@ -242,7 +216,7 @@
       <div style="font-weight:600; margin-bottom:2px">
         ${type === "success" ? "Berhasil" : "Gagal"}
       </div>
-      <div style="font-size:13px; color:var(--soft)">
+      <div style="font-size:13px; color:var(--app-muted)">
         ${message}
       </div>
     </div>

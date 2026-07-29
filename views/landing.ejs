@@ -20,8 +20,8 @@
     <a href="#insight">Insight</a>
   </div>
   <div class="nav-cta">
-    <button class="btn-ghost" onclick="window.location.href='login'">Masuk</button>
-    <button class="btn-primary-sm" onclick="window.location.href='register'">Mulai Gratis</button>
+    <a class="btn-ghost" href="/login">Masuk</a>
+    <a class="btn-primary-sm" href="/register">Mulai Gratis</a>
   </div>
 </nav>
 
@@ -41,8 +41,12 @@
       <span class="outline">Bangun</span> Masa Depan
     </h1>
     <p class="hero-desc">
-      Lacak pengeluaran, deteksi kebocoran uang, dan capai target tabunganmu. semua dalam satu platform yang dirancang khusus untuk remaja Indonesia.
+      Lacak pengeluaran, pahami pola belanja, dan capai target tabunganmu—semua dalam satu platform yang dirancang untuk generasi muda Indonesia.
     </p>
+    <div class="hero-actions">
+      <a class="hero-primary" href="/register">Mulai kelola uang</a>
+      <a class="hero-secondary" href="#features">Lihat fitur</a>
+    </div>
   </div>
 </section>
 
@@ -220,10 +224,14 @@
 </div>
 
 <script>
-  // Scroll animations
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.style.opacity = 1; });
-  }, { threshold: 1 });
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', event => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  });
 </script>
 </body>
 </html>

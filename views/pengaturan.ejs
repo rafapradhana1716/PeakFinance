@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,41 +7,6 @@
     <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
     <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <link rel="stylesheet" href="/css/main.css" />
-    <style>
-      #toast-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .toast {
-        background: #000000;
-        border: 1px solid #22c55e;
-        border-radius: 12px;
-        padding: 12px 20px;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        animation: toastIn 0.3s ease-out;
-      }
-
-      @keyframes toastIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    </style>
   </head>
 
   <body
@@ -51,21 +16,24 @@
     <%- include('components/sidebar') %>
 
     <!-- MAIN -->
-    <main class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
+    <main class="main-content">
       <!-- HEADER -->
-      <div
-        class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
-      >
-        <h1 class="text-2xl sm:text-3xl font-semibold">Pengaturan</h1>
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Pengaturan</h1>
+          <p class="page-subtitle">Sesuaikan pengalaman dan kelola akunmu.</p>
+        </div>
       </div>
 
       <!-- CONTENT -->
-      <div class="flex flex-col lg:flex-row gap-6">
+      <div class="settings-layout">
         <!-- MENU - horizontal tabs on mobile, vertical on desktop -->
-        <div class="flex lg:flex-col gap-2 overflow-x-auto pb-1 lg:pb-0 lg:w-48 shrink-0">
+        <div class="settings-tabs mobile-scroll-row" role="tablist" aria-label="Kategori pengaturan">
           <button
             class="menu-btn shrink-0 text-left px-4 py-2 bg-green-500/20 text-green-400 rounded-lg"
             data-menu="tampilan"
+            role="tab"
+            aria-selected="true"
           >
             Tampilan
           </button>
@@ -73,6 +41,8 @@
           <button
             class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
             data-menu="aksesibilitas"
+            role="tab"
+            aria-selected="false"
           >
             Aksesibilitas
           </button>
@@ -80,6 +50,8 @@
           <button
             class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
             data-menu="akun"
+            role="tab"
+            aria-selected="false"
           >
             Akun
           </button>
@@ -87,6 +59,8 @@
           <button
             class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
             data-menu="bahasa"
+            role="tab"
+            aria-selected="false"
           >
             Bahasa
           </button>
@@ -94,16 +68,18 @@
           <button
             class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
             data-menu="personalisasi"
+            role="tab"
+            aria-selected="false"
           >
             Personalisasi
           </button>
         </div>
 
         <div
-          class="flex-1 bg-[#020617] border border-gray-800 rounded-2xl p-6 relative"
+          class="settings-panel flex-1 p-4 sm:p-6 relative"
         >
           <!-- TAMPILAN PANEL -->
-          <div id="tampilan" class="menu-content hidden">
+          <div id="tampilan" class="menu-content">
             <p class="text-gray-500 text-sm">
               Fitur tampilan akan dikembangkan
             </p>
@@ -130,6 +106,7 @@
                     <i class="text-xl sm:text-2xl fa-solid fa-user"></i>
                   </div>
                   <div class="flex-1 space-y-3">
+                    <label for="firstName" class="sr-only">Nama depan</label>
                     <input
                       type="text"
                       id="firstName"
@@ -137,6 +114,7 @@
                       class="bg-[#020617] border border-gray-800 rounded-lg px-4 py-2 w-full text-gray-400"
                     />
 
+                    <label for="lastName" class="sr-only">Nama belakang</label>
                     <input
                       type="text"
                       id="lastName"
@@ -145,7 +123,7 @@
                     />
 
                     <button type="button" onclick="changeName()" class="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition">
-                      Save Changes
+                      Simpan perubahan
                     </button>
                   </div>
                 </div>
@@ -160,7 +138,7 @@
                     type="submit"
                     class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition"
                   >
-                    Logout
+                    Keluar
                   </button>
                 </form>
               </div>
@@ -179,17 +157,10 @@
             </p>
           </div>
 
-          <!-- PANEL KOSONG (DEFAULT) -->
-          <div
-            id="empty"
-            class="menu-content w-full h-40 sm:h-[300px] rounded-xl bg-[#020617] border border-gray-800 flex items-center justify-center"
-          >
-            <p class="text-gray-500 text-sm">Pilih menu pengaturan</p>
-          </div>
         </div>
       </div>
     </main>
-    <div id="toast-container"></div>
+    <div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
     <script>
       // Menu handler
       const menuButtons = document.querySelectorAll(".menu-btn");
@@ -206,6 +177,7 @@
 
           // Remove active state from all buttons
           menuButtons.forEach((btn) => {
+            btn.setAttribute('aria-selected', 'false');
             btn.classList.remove("bg-green-500/20", "text-green-400");
             btn.classList.add(
               "bg-[#020617]",
@@ -229,6 +201,7 @@
             "hover:bg-[#0b1220]",
           );
           this.classList.add("bg-green-500/20", "text-green-400");
+          this.setAttribute('aria-selected', 'true');
         });
       });
 
@@ -244,13 +217,13 @@
           body: JSON.stringify({ firstname: firstName, lastname: lastName }),
         }).then((response) => {
           if (response.ok) {
-            showToast("Name updated successfully!", "success");
+            showToast("Nama berhasil diperbarui.", "success");
           } else {
-            showToast("Failed to update name.", "error");
+            showToast("Nama gagal diperbarui.", "error");
           }
         }).catch((error) => {
           console.error("Error:", error);
-          showToast("Internal Server Error", "error");
+          showToast("Terjadi kesalahan. Silakan coba lagi.", "error");
         });
       }
 
@@ -269,7 +242,7 @@
       <div style="font-weight:600; margin-bottom:2px">
         ${type === "success" ? "Berhasil" : "Gagal"}
       </div>
-      <div style="font-size:13px; color:var(--soft)">
+      <div style="font-size:13px; color:var(--app-muted)">
         ${message}
       </div>
     </div>
@@ -299,10 +272,6 @@
         }
       }
 
-      // Show default (empty) on page load
-      document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("empty").classList.remove("hidden");
-      });
     </script>
   </body>
 </html>
