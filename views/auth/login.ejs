@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/auth.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet">
@@ -49,7 +48,7 @@
                     <p class="auth-subtitle">Masuk ke akun PeakFinance kamu</p>
                 </div>
 
-                <div class="form-server-error" id="server-error" role="alert" aria-live="polite"></div>
+                <div class="form-server-error" id="server-error"></div>
 
                 <form class="auth-form">
 
@@ -58,7 +57,7 @@
                         <div class="input-wrap">
                             <span class="input-icon">👤</span>
                             <input class="form-input" type="text" id="username" name="username"
-                                placeholder="Masukkan email atau username" autocomplete="username" required>
+                                placeholder="Masukkan email atau username" autocomplete="off">
                         </div>
                         <div class="form-error" id="error-username"></div>
                     </div>
@@ -68,8 +67,8 @@
                         <div class="input-wrap">
                             <span class="input-icon">🔑</span>
                             <input class="form-input" type="password" id="password" name="password"
-                                placeholder="Masukkan password" autocomplete="current-password" required>
-                            <button type="button" class="toggle-pw" aria-label="Tampilkan password"
+                                placeholder="Masukkan password" autocomplete="off">
+                            <button type="button" class="toggle-pw"
                                 onclick="togglePassword('password', this)">👁</button>
                         </div>
                         <div class="form-error" id="error-password"></div>
@@ -81,7 +80,7 @@
                             <span class="checkbox-custom"></span>
                             Ingat saya
                         </label>
-                        <span class="forgot-link" aria-disabled="true" title="Fitur segera hadir">Lupa password?</span>
+                        <a href="#" class="forgot-link">Lupa password?</a>
                     </div>
 
                     <button type="submit" id="login" class="loginBtn-submit">
@@ -105,10 +104,13 @@
     <script>
         function togglePassword(id, btn) {
             const input = document.getElementById(id);
-            const willShow = input.type === 'password';
-            input.type = willShow ? 'text' : 'password';
-            btn.setAttribute('aria-label', willShow ? 'Sembunyikan password' : 'Tampilkan password');
-            btn.textContent = willShow ? '🙈' : '👁';
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '⌣';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁';
+            }
         }
 
         // Handle form submission errors
