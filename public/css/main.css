@@ -1,24 +1,18 @@
-  .main-content {
+/* Desktop: main content offset to account for sidebar */
+.main-content {
     margin-left: 16rem;
     min-height: 100vh;
     transition: margin-left 0.3s ease;
 }
 
-  .sidebar.collapsed ~ .main-content,
-  .sidebar.collapsed + .main-content {
+.sidebar.collapsed ~ .main-content,
+.sidebar.collapsed + .main-content {
     margin-left: 5rem;
 }
 
-  @media (max-width: 1024px) {
+/* Tablet / Mobile: sidebar is an overlay drawer, main content takes full width */
+@media (max-width: 1024px) {
     .main-content {
-      margin-left: 0;
+        margin-left: 0 !important;
     }
-
-    .sidebar {
-      position: fixed;
-      width: 100%;
-      height: auto;
-      left: 0;
-      top: 0;
-    }
-  }
+}

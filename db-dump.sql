@@ -81,8 +81,7 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `savings_goals`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_savings_user_status` (`user_id`, `status`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `transactions`
@@ -90,18 +89,14 @@ ALTER TABLE `savings_goals`
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `savings_goal_id` (`savings_goal_id`),
-  ADD KEY `idx_transactions_user_created` (`user_id`, `created_at`),
-  ADD KEY `idx_transactions_user_type` (`user_id`, `type`);
+  ADD KEY `savings_goal_id` (`savings_goal_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD KEY `selected_goal` (`selected_goal`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -141,12 +136,6 @@ ALTER TABLE `savings_goals`
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`savings_goal_id`) REFERENCES `savings_goals` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_selected_goal` FOREIGN KEY (`selected_goal`) REFERENCES `savings_goals` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

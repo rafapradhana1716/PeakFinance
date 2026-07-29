@@ -167,8 +167,6 @@ Mitigasi:
 ---
 ## Installation
 
-Prasyarat: Node.js 20.19+, npm, dan MariaDB/MySQL.
-
 Clone Repository ke Lokal
 ```bash
 git clone https://github.com/rafapradhana1716/PeakFinance.git
@@ -185,14 +183,6 @@ Lalu install semua package yang dibutuhkan :
 npm install
 ```
 
-Salin `.env.example` menjadi `.env`, lalu isi kredensial database dan ganti
-`JWT_SECRET` dengan secret acak minimal 32 karakter. Buat database dan impor
-schema awal:
-
-```bash
-mysql -u root -p peakfinance < db-dump.sql
-```
-
 Untuk start mode normal gunakan :
 ```bash
 npm run start
@@ -206,20 +196,6 @@ npm run start-dev
 Untuk start mode developer + update css :
 ```bash
 npm run dev
-```
-
-Jalankan test validasi:
-
-```bash
-npm test
-```
-
-Untuk produksi, build CSS terlebih dahulu dan jalankan server dengan
-`NODE_ENV=production` agar asset tidak bergantung pada Vite dev server:
-
-```bash
-npm run build
-npm start
 ```
 
 ---

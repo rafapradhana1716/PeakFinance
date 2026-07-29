@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Analisis - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.CSS_URL %>">
-    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
+    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
+    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
@@ -16,7 +16,7 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
+    <main class="main-content flex-1 px-12 py-10 overflow-y-auto">
       <!-- HEADER -->
       <div
         class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
@@ -25,85 +25,85 @@
       </div>
 
       <!-- FILTER -->
-      <div class="flex gap-3 mb-8">
+      <div class="flex flex-wrap gap-2 mb-6">
         <button
-          class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
           onclick="changeFilter(this, 7)"
         >
-          7 hari terakhir
+          7 hari
         </button>
         <button
-          class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
           onclick="changeFilter(this, 30)"
         >
-          30 hari terakhir
+          30 hari
         </button>
         <button
-          class="filter-btn px-4 py-2 bg-green-500 text-black rounded-lg text-sm"
+          class="filter-btn px-3 py-2 bg-green-500 text-black rounded-lg text-sm"
           onclick="changeFilter(this, 90)"
         >
-          90 hari terakhir
+          90 hari
         </button>
       </div>
 
       <!-- SALDO + CARD -->
-      <div class="flex items-center justify-between mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
         <div>
           <p class="text-gray-400 text-sm mb-2">TABUNGAN BULAN INI</p>
-          <h1 id="balance" class="text-[64px] font-bold text-green-400">
+          <h1 id="balance" class="text-4xl sm:text-5xl lg:text-[64px] font-bold text-green-400 break-all">
             Memuat..
           </h1>
         </div>
 
-        <div class="flex gap-5">
+        <div class="grid grid-cols-3 sm:flex sm:flex-row gap-3">
           <div
-            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
           >
-            <p class="text-xs text-gray-500 mb-2">TARGET</p>
-            <p id="targetAmount" class="text-yellow-400 text-lg font-semibold">Memuat..</p>
+            <p class="text-xs text-gray-500 mb-1">TARGET</p>
+            <p id="targetAmount" class="text-yellow-400 text-sm font-semibold text-center">Memuat..</p>
           </div>
 
           <div
-            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
           >
-            <p class="text-xs text-gray-500 mb-2">PENGELUARAN</p>
-            <p id="totalPengeluaran" class="text-gray-400 text-lg">Memuat..</p>
+            <p class="text-xs text-gray-500 mb-1">PENGELUARAN</p>
+            <p id="totalPengeluaran" class="text-gray-400 text-sm text-center">Memuat..</p>
           </div>
 
           <div
-            class="w-40 h-32 bg-[#020617] border border-gray-800 rounded-2xl flex flex-col justify-center items-center"
+            class="bg-[#020617] border border-gray-800 rounded-2xl p-4 flex flex-col justify-center items-center min-w-0"
           >
-            <p class="text-xs text-gray-500 mb-2">TABUNGAN</p>
-            <p id="totalPemasukan" class="text-green-400 text-lg font-semibold">
+            <p class="text-xs text-gray-500 mb-1">TABUNGAN</p>
+            <p id="totalPemasukan" class="text-green-400 text-sm font-semibold text-center">
               Memuat..
             </p>
           </div>
         </div>
       </div>
-      <div class="flex gap-3 mb-8">
+      <div class="flex flex-wrap gap-2 mb-6">
         <button
           onclick="changeDataType(this, 'balance')"
-          class="type-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          class="type-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
         >
           Tabungan
         </button>
         <button
           onclick="changeDataType(this, 'expense')"
-          class="type-btn px-4 py-2 bg-gray-800 rounded-lg text-sm"
+          class="type-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
         >
           Pengeluaran
         </button>
         <button
           onclick="changeDataType(this, 'income')"
-          class="type-btn px-4 py-2 bg-green-500 text-black rounded-lg text-sm"
+          class="type-btn px-3 py-2 bg-green-500 text-black rounded-lg text-sm"
         >
           Pemasukan
         </button>
       </div>
       <!-- ================= GRID FIX ================= -->
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         <!-- LEFT -->
-        <div class="xl:col-span-2 space-y-6">
+        <div class="lg:col-span-2 space-y-6">
           <!-- CHART -->
           <div class="bg-[#020617] border border-gray-800 rounded-2xl p-6">
             <p id="labelDays" class="text-gray-400 text-sm mb-4">30 HARI TERAKHIR</p>
@@ -115,7 +115,7 @@
             id="scoreCard"
             class="bg-gradient-to-r from-green-500/20 via-green-500/10 to-transparent border border-green-500/30 rounded-2xl p-6 flex items-center justify-between"
           >
-            <div class="flex flex-wrap items-center justify-center gap-6 lg:gap-10">
+            <div class="flex items-center justify-center gap-10">
               <div
                 class="relative w-24 h-24 flex items-center justify-center mb-3"
               >
@@ -177,12 +177,6 @@
 
     <!-- CHART -->
     <script>
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>'"]/g, character => ({
-          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        })[character]);
-      }
-
 
       let currentType = "balance";
       let currentDays = 90;
@@ -402,7 +396,7 @@
           <div class="flex items-center justify-between text-xs">
             <div class="flex items-center gap-2">
               <span>${emojis[cat.name] || '💰'}</span>
-              <span class="text-gray-300">${escapeHtml(cat.name)}</span>
+              <span class="text-gray-300">${cat.name}</span>
             </div>
             <span class="font-medium">${cat.percentage}%</span>
           </div>
@@ -522,7 +516,7 @@
 
           updateChartScore(point);
 
-          if (totalBalance < 0) {
+          if (formattedBalance < "Rp0") {
             document.getElementById("balance").classList.add("text-red-400");
             document
               .getElementById("balance")
@@ -575,7 +569,7 @@
               goalItem.className = 'mb-5';
               goalItem.innerHTML = `
                 <div class="flex justify-between text-sm mb-1">
-                  <span>${escapeHtml(goal.title)}</span>
+                  <span>${goal.title}</span>
                   <span class="${textColor}">${percentage}%</span>
                 </div>
 

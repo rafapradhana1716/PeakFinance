@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transaksi - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.CSS_URL %>">
-    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
+    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
+    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <link rel="stylesheet" href="/css/main.css">
   </head>
 
@@ -16,23 +16,23 @@
     <%- include('components/sidebar') %>
 
     <!-- ================= MAIN ================= -->
-    <main class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto">
+    <main class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto">
       <!-- HEADER -->
       <div  class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4"
       >
-        <h1 class="text-3xl font-semibold tracking-wide">Transaksi</h1>
+        <h1 class="text-2xl sm:text-3xl font-semibold tracking-wide">Transaksi</h1>
       </div>
 
       <!-- FILTER -->
-      <div class="flex gap-3 mb-8">
-        <button onclick="fetchAndRenderTransactions(7)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
-          7 hari terakhir
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button onclick="fetchAndRenderTransactions(7)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+          7 hari
         </button>
-        <button onclick="fetchAndRenderTransactions(30)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
-          30 hari terakhir
+        <button onclick="fetchAndRenderTransactions(30)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+          30 hari
         </button>
-        <button onclick="fetchAndRenderTransactions(90)" class="filter-btn px-4 py-2 bg-gray-800 rounded-lg text-sm">
-          90 hari terakhir
+        <button onclick="fetchAndRenderTransactions(90)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+          90 hari
         </button>
       </div>
 
@@ -44,12 +44,6 @@
       </div>
     </main>
     <script>
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>'"]/g, character => ({
-          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        })[character]);
-      }
-
       async function fetchAndRenderTransactions(days = 30) {
         const container = document.getElementById('transaction-container');
         
@@ -70,15 +64,15 @@
               const sign = txn.type === 'income' || txn.type === 'saving' ? '+' : '-';
 
               container.innerHTML += `
-                <div class="flex justify-between items-center bg-[#020617] border border-gray-800 rounded-2xl px-6 py-5">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 bg-[#020617] border border-gray-800 rounded-2xl px-4 sm:px-6 py-4 sm:py-5">
                   <div>
-                    <p class="font-semibold text-lg">${date}</p>
-                    <p class="text-sm text-gray-400 font-medium">${escapeHtml(txn.name)}</p>
+                    <p class="font-semibold">${date}</p>
+                    <p class="text-sm text-gray-400 font-medium">${txn.name}</p>
                     <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
-                      ${escapeHtml(txn.category || 'Umum')}
+                      ${txn.category || 'Umum'}
                     </span>
                   </div>
-                  <p class="text-2xl font-bold ${typeClass}">${sign} Rp${amount}</p>
+                  <p class="text-xl sm:text-2xl font-bold ${typeClass}">${sign} Rp${amount}</p>
                 </div>
               `;
             });

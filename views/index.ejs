@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - PeakFinance</title>
-    <link rel="stylesheet" href="<%= env.CSS_URL %>">
+    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
     <link rel="stylesheet" href="/css/main.css" />
-    <% if (!env.IS_PRODUCTION) { %><script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script><% } %>
+    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       #dropdownMenu::-webkit-scrollbar {
@@ -69,7 +69,7 @@
     <!-- Main-Content -->
     <main
       id="mainContent"
-      class="main-content flex-1 px-4 sm:px-8 xl:px-12 py-10 overflow-y-auto"
+      class="main-content flex-1 px-4 sm:px-8 lg:px-12 py-6 lg:py-10 overflow-y-auto"
     >
       <!-- HEADER -->
       <div
@@ -104,10 +104,10 @@
       </div>
 
       <!-- Card bagian atas -->
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         <!-- TABUNGAN -->
         <div
-          class="xl:col-span-2 bg-gradient-to-r from-[#020617] to-[#0f172a] border border-gray-800 rounded-2xl p-6 shadow-lg"
+          class="lg:col-span-2 bg-gradient-to-r from-[#020617] to-[#0f172a] border border-gray-800 rounded-2xl p-6 shadow-lg"
         >
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
             TABUNGAN BULAN INI
@@ -115,9 +115,9 @@
           <h2 id="balance" class="text-3xl text-green-400 font-bold mb-2">
             Memuat..
           </h2>
-          <p id="balancePeriod" class="text-xs text-gray-400 mb-6">Memuat periode...</p>
+          <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-3 gap-3">
             <div
               class="bg-[#020617] border border-gray-800 rounded-xl p-4 text-center"
             >
@@ -548,12 +548,6 @@
 
     <div id="toast-container"></div>
     <script>
-      function escapeHtml(value) {
-        return String(value).replace(/[&<>'"]/g, character => ({
-          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-        })[character]);
-      }
-
       function getGreeting() {
         const hour = new Date().getHours();
         if (hour >= 5 && hour < 12) return "Selamat Pagi!";
@@ -570,12 +564,6 @@
       }
 
       initializeGreeting();
-
-      const today = new Date();
-      const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-      document.getElementById('balancePeriod').textContent = `${today.toLocaleDateString('id-ID', {
-        month: 'long', year: 'numeric'
-      })}, ${lastDay - today.getDate()} hari lagi`;
 
       function formatRupiah(el) {
         let rawValue = el.value.replace(/[^0-9]/g, "");
@@ -679,7 +667,7 @@
         ${type === "success" ? "Berhasil" : "Gagal"}
       </div>
       <div style="font-size:13px; color:var(--soft)">
-        ${escapeHtml(message)}
+        ${message}
       </div>
     </div>
 
@@ -819,35 +807,12 @@
 
       document
         .getElementById("transactionForm")
-        .addEventListener("submit", async function (e) {
+        .addEventListener("submit", function (e) {
           e.preventDefault();
-          const submitButton = this.querySelector('[type="submit"]');
-          submitButton.disabled = true;
-
-          try {
-            const payload = Object.fromEntries(new FormData(this).entries());
-            const response = await fetch(this.action, {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            });
-            const result = await response.json();
-            if (!response.ok) throw new Error(result.message || 'Gagal menambahkan transaksi.');
-
-            this.reset();
-            document.getElementById('amountActual').value = '';
-            setType('income');
-            closeModal();
-            showToast(result.message, 'success');
-            fetchAndRenderBalance();
-          } catch (error) {
-            showToast(error.message || 'Terjadi kesalahan sistem.', 'error');
-          } finally {
-            submitButton.disabled = false;
-          }
+          showToast("Transaksi berhasil ditambahkan!", "success");
+          setTimeout(() => {
+            this.submit();
+          }, 800);
         });
 
       function openAddTabunganForm() {
@@ -1102,7 +1067,7 @@
 
           updateChartScore(point);
 
-          if (totalBalance < 0) {
+          if (formattedBalance < "Rp0") {
             document.getElementById("balance").classList.add("text-red-400");
             document
               .getElementById("balance")
@@ -1131,7 +1096,6 @@
           console.error("Gagal mengambil data keuangan", err);
         }
       }
-
       fetchAndRenderBalance();
     </script>
   </body>

@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "redirects": [
+    {
+      "source": "/public/css/tailwindcss",
+      "destination": "/public/css/styles.css",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/public/(.*)",
+      "destination": "/public/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "server.js"
+    }
+  ]
+}

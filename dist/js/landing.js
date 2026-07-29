@@ -1,0 +1,15 @@
+function goDashboard() {
+  window.location.href = "dashboard.ejs";
+}
+
+const cards = document.querySelectorAll('.feature-card');
+
+cards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.style.transform = "scale(1.05)";
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = "scale(1)";
+  });
+});

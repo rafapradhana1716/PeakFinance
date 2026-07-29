@@ -875,8 +875,8 @@ footer {
 
 @media (max-width: 768px) {
   nav {
-    padding: 16px 32px;
-    gap: 16px;
+    padding: 14px 20px;
+    gap: 12px;
   }
 
   .nav-logo {
@@ -884,15 +884,52 @@ footer {
   }
 
   .logo-name {
-    font-size: 24px;
-
+    font-size: 22px;
   }
 
   .nav-links {
     display: none;
   }
 
+  .nav-cta {
+    gap: 6px;
+  }
 
+  .btn-ghost {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+
+  .btn-primary-sm {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 100px 20px 60px;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 10vw, 56px);
+    letter-spacing: -1px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+  }
+
+  .hero-stats {
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Features */
+  .features {
+    padding: 80px 20px;
+  }
 
   .features-grid {
     grid-template-columns: 1fr;
@@ -902,12 +939,39 @@ footer {
     grid-column: span 1;
   }
 
-  .insight-section {
-    grid-template-columns: 1fr;
+  /* How it works */
+  .how {
+    padding: 80px 20px;
   }
 
   .steps {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .steps::before {
+    display: none;
+  }
+
+  /* Insight */
+  .insight-section {
     grid-template-columns: 1fr;
+    padding: 80px 20px;
+    gap: 40px;
+  }
+
+  /* Footer */
+  footer {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 
   .marquee-track {
@@ -915,12 +979,21 @@ footer {
   }
 
   @keyframes marqueeMobile {
-    from {
-      transform: translateX(0);
-    }
-
-    to {
-      transform: translateX(-20%);
-    }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 }
+
+@media (max-width: 480px) {
+  .nav-cta .btn-ghost {
+    display: none;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: clamp(32px, 11vw, 48px);
+  }
+}

@@ -4,6 +4,12 @@
     href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
     rel="stylesheet">
 
+<!-- Mobile hamburger button (only visible on small screens) -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+
+<!-- Overlay backdrop for mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <aside
     class="sidebar no-transition fixed h-screen left-0 top-0 w-64 bg-[#020617] border-r border-gray-800 p-6 flex flex-col justify-between">
     <div>
@@ -40,7 +46,6 @@
                 class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg <%= page === 'target' ? 'bg-green-500/20 text-green-400' : 'text-gray-400 hover:text-green-400 hover:bg-green-500/10' %>">
                 <span class="icon"><i class="fa-solid fa-bullseye"></i></span>
                 <span class="text">Target Tabungan</span>
-
             </a>
         </div>
 
@@ -82,8 +87,11 @@
         const links = document.querySelectorAll('.nav-item');
         const currentPath = window.location.pathname;
         const btn = document.getElementById("toggleSidebar");
+        const mobileBtn = document.getElementById("mobileMenuBtn");
         const sidebar = document.querySelector(".sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
         const mainContent = document.querySelector(".main-content");
+        const isMobile = () => window.innerWidth <= 1024;
 
         links.forEach(link => {
             if (link.getAttribute('href') === currentPath) {
@@ -91,41 +99,88 @@
             }
         });
 
+        /* ── Desktop: sync margin ── */
         function syncSidebarState() {
-            if (!mainContent) return;
-
+            if (!mainContent || isMobile()) return;
             if (sidebar.classList.contains("collapsed")) {
                 localStorage.setItem("sidebar", "collapsed");
-                mainContent.classList.remove("ml-64");
-                mainContent.classList.add("ml-20");
+                mainContent.style.marginLeft = "5rem";
             } else {
                 localStorage.setItem("sidebar", "open");
-                mainContent.classList.remove("ml-20");
-                mainContent.classList.add("ml-64");
+                mainContent.style.marginLeft = "16rem";
             }
         }
 
-        if (localStorage.getItem("sidebar") === "collapsed") {
-            sidebar.classList.add("collapsed");
+        /* ── Mobile: open/close drawer ── */
+        function openMobileSidebar() {
+            sidebar.classList.add("mobile-open");
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+            if (mobileBtn) mobileBtn.style.display = 'none';
         }
 
-        syncSidebarState();
-        requestAnimationFrame(() => {
-            sidebar.classList.remove("no-transition");
+        function closeMobileSidebar() {
+            sidebar.classList.remove("mobile-open");
+            overlay.classList.remove("active");
+            document.body.style.overflow = "";
+            if (mobileBtn) mobileBtn.style.display = 'flex';
+        }
+
+        /* Close sidebar on nav click (mobile) */
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (isMobile()) closeMobileSidebar();
+            });
         });
 
-        btn.addEventListener("click", () => {
-            sidebar.classList.toggle("collapsed");
+        /* Mobile button */
+        if (mobileBtn) {
+            mobileBtn.addEventListener("click", () => {
+                if (sidebar.classList.contains("mobile-open")) {
+                    closeMobileSidebar();
+                } else {
+                    openMobileSidebar();
+                }
+            });
+        }
+
+        /* Overlay click closes sidebar */
+        if (overlay) {
+            overlay.addEventListener("click", closeMobileSidebar);
+        }
+
+        /* Desktop toggle */
+        if (btn) {
+            if (localStorage.getItem("sidebar") === "collapsed") {
+                sidebar.classList.add("collapsed");
+            }
             syncSidebarState();
+
+            requestAnimationFrame(() => {
+                sidebar.classList.remove("no-transition");
+            });
+
+            btn.addEventListener("click", () => {
+                sidebar.classList.toggle("collapsed");
+                syncSidebarState();
+            });
+        }
+
+        /* Recalculate on resize */
+        window.addEventListener("resize", () => {
+            if (!isMobile()) {
+                closeMobileSidebar();
+                syncSidebarState();
+            } else {
+                if (mainContent) mainContent.style.marginLeft = "";
+            }
         });
     });
 
     async function fetchAndRenderProfile() {
         try {
             const response = await fetch('/auth/profile');
-            if (!response.ok) {
-                throw new Error('Failed to fetch profile');
-            }
+            if (!response.ok) throw new Error('Failed to fetch profile');
             const data = await response.json();
             document.getElementById('profile-name').textContent = `${data.user.firstname} ${data.user.lastname}`;
             document.getElementById('profile-username').textContent = data.user.username;
