@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/css/sidebar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="/public/js/preferences.js"></script>
 
 <button class="mobile-menu-btn" id="mobileMenuBtn" type="button"
     aria-label="Buka menu navigasi" aria-controls="appSidebar" aria-expanded="false">
@@ -28,32 +29,32 @@
         <nav class="sidebar-nav">
             <a href="/" class="nav-item <%= page === 'home' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-house" aria-hidden="true"></i></span>
-                <span class="text">Dashboard</span>
+                <span class="text" data-i18n="navDashboard">Dashboard</span>
             </a>
             <a href="/analisis" class="nav-item <%= page === 'analisis' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
-                <span class="text">Analisis</span>
+                <span class="text" data-i18n="navAnalysis">Analisis</span>
             </a>
             <a href="/transaksi" class="nav-item <%= page === 'transaksi' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-wallet" aria-hidden="true"></i></span>
-                <span class="text">Transaksi</span>
+                <span class="text" data-i18n="navTransactions">Transaksi</span>
             </a>
             <a href="/target" class="nav-item <%= page === 'target' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-bullseye" aria-hidden="true"></i></span>
-                <span class="text">Target Tabungan</span>
+                <span class="text" data-i18n="navSavings">Target Tabungan</span>
             </a>
         </nav>
 
-        <p class="sidebar-section-title">LAINNYA</p>
+        <p class="sidebar-section-title" data-i18n="navOther">LAINNYA</p>
 
         <nav class="sidebar-nav" aria-label="Navigasi lainnya">
             <a href="/insight" class="nav-item <%= page === 'insight' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i></span>
-                <span class="text">Insight</span>
+                <span class="text" data-i18n="navInsights">Insight</span>
             </a>
             <a href="/pengaturan" class="nav-item <%= page === 'pengaturan' ? 'active' : '' %>">
                 <span class="icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
-                <span class="text">Pengaturan</span>
+                <span class="text" data-i18n="navSettings">Pengaturan</span>
             </a>
         </nav>
     </div>
@@ -124,6 +125,9 @@
         desktopButton?.addEventListener('click', () => {
             sidebar.classList.toggle('collapsed');
             syncDesktopState();
+            window.PeakPreferences?.set({
+                sidebarCollapsed: sidebar.classList.contains('collapsed')
+            });
         });
         mobileButton?.addEventListener('click', openMobileSidebar);
         mobileCloseButton?.addEventListener('click', () => closeMobileSidebar({ restoreFocus: true }));

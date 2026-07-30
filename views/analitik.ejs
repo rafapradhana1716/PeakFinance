@@ -29,18 +29,21 @@
       <!-- FILTER -->
       <div class="filter-row mobile-scroll-row" aria-label="Filter rentang waktu">
         <button
+          data-days="7"
           class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
           onclick="changeFilter(this, 7)"
         >
           7 hari
         </button>
         <button
+          data-days="30"
           class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm"
           onclick="changeFilter(this, 30)"
         >
           30 hari
         </button>
         <button
+          data-days="90"
           class="filter-btn px-3 py-2 bg-green-500 text-black rounded-lg text-sm"
           onclick="changeFilter(this, 90)"
         >
@@ -150,7 +153,7 @@
         <!-- RIGHT -->
         <aside class="analysis-side">
           <!-- KATEGORI -->
-          <div class="chart-card p-4 sm:p-6">
+          <div class="chart-card p-4 sm:p-6 mb-6">
             <p class="text-gray-400 text-sm mb-5">KATEGORI PENGELUARAN</p>
 
             <div class="chart-wrap pie-chart-wrap mb-6 flex justify-center items-center">
@@ -181,17 +184,22 @@
     <script>
 
       let currentType = "balance";
-      let currentDays = 90;
+      let currentDays = window.PeakPreferences?.get().defaultPeriod || 30;
+
+      function syncDayFilterButtons(days) {
+        document.querySelectorAll('.filter-btn[data-days]').forEach(btn => {
+          const active = Number(btn.dataset.days) === Number(days);
+          btn.classList.toggle('bg-green-500', active);
+          btn.classList.toggle('text-black', active);
+          btn.classList.toggle('bg-gray-800', !active);
+          btn.classList.toggle('text-white', !active);
+          btn.setAttribute('aria-pressed', String(active));
+        });
+      }
 
       function changeFilter(element, days) {
         currentDays = days;
-        document.querySelectorAll(".filter-btn").forEach((btn) => {
-          btn.classList.remove("bg-green-500", "text-black");
-          btn.classList.add("bg-gray-800", "text-white");
-        });
-
-        element.classList.remove("bg-gray-800", "text-white");
-        element.classList.add("bg-green-500", "text-black");
+        syncDayFilterButtons(days);
 
         fetchAndRenderChart(currentDays, currentType);
       }
@@ -601,6 +609,7 @@
       fetchAndRenderGoals();
       fetchAndRenderBalance();
 
+      syncDayFilterButtons(currentDays);
       fetchAndRenderChart(currentDays, currentType);
     </script>
   </body>

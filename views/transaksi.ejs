@@ -27,13 +27,13 @@
 
       <!-- FILTER -->
       <div class="filter-row mobile-scroll-row" aria-label="Filter transaksi">
-        <button onclick="fetchAndRenderTransactions(7)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+        <button data-days="7" onclick="fetchAndRenderTransactions(7)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
           7 hari
         </button>
-        <button onclick="fetchAndRenderTransactions(30)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+        <button data-days="30" onclick="fetchAndRenderTransactions(30)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
           30 hari
         </button>
-        <button onclick="fetchAndRenderTransactions(90)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
+        <button data-days="90" onclick="fetchAndRenderTransactions(90)" class="filter-btn px-3 py-2 bg-gray-800 rounded-lg text-sm">
           90 hari
         </button>
       </div>
@@ -90,14 +90,19 @@
       function updateButtonStyles(activeDays) {
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => {
-          if(btn.innerText.includes(activeDays)) {
+          const active = Number(btn.dataset.days) === Number(activeDays);
+          btn.setAttribute('aria-pressed', String(active));
+          if(active) {
             btn.classList.replace('bg-gray-800', 'bg-green-800');
           } else {
             btn.classList.replace('bg-green-800', 'bg-gray-800');
           }
         });
       }
-      document.addEventListener('DOMContentLoaded', () => fetchAndRenderTransactions(30));
+      document.addEventListener('DOMContentLoaded', () => {
+        const defaultPeriod = window.PeakPreferences?.get().defaultPeriod || 30;
+        fetchAndRenderTransactions(defaultPeriod);
+      });
     </script>
   </body>
 </html>

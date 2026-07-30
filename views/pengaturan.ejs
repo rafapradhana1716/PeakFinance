@@ -9,269 +9,308 @@
     <link rel="stylesheet" href="/css/main.css" />
   </head>
 
-  <body
-    class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]"
-  >
-    <!-- SIDEBAR -->
+  <body class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]">
     <%- include('components/sidebar') %>
 
-    <!-- MAIN -->
     <main class="main-content">
-      <!-- HEADER -->
-      <div class="page-header">
+      <div class="page-header settings-page-heading">
         <div>
-          <h1 class="page-title">Pengaturan</h1>
-          <p class="page-subtitle">Sesuaikan pengalaman dan kelola akunmu.</p>
+          <p class="settings-eyebrow"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Preferensi aplikasi</p>
+          <h1 class="page-title" data-i18n="settingsTitle">Pengaturan</h1>
+          <p class="page-subtitle" data-i18n="settingsSubtitle">Sesuaikan pengalaman dan kelola akunmu.</p>
+        </div>
+        <div class="settings-save-state" aria-live="polite">
+          <span class="settings-save-dot"></span>
+          Tersimpan otomatis di perangkat ini
         </div>
       </div>
 
-      <!-- CONTENT -->
       <div class="settings-layout">
-        <!-- MENU - horizontal tabs on mobile, vertical on desktop -->
         <div class="settings-tabs mobile-scroll-row" role="tablist" aria-label="Kategori pengaturan">
-          <button
-            class="menu-btn shrink-0 text-left px-4 py-2 bg-green-500/20 text-green-400 rounded-lg"
-            data-menu="tampilan"
-            role="tab"
-            aria-selected="true"
-          >
-            Tampilan
+          <button class="menu-btn is-active" data-menu="tampilan" role="tab" aria-controls="tampilan" aria-selected="true">
+            <i class="fa-solid fa-palette" aria-hidden="true"></i><span data-i18n="tabAppearance">Tampilan</span>
           </button>
-
-          <button
-            class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
-            data-menu="aksesibilitas"
-            role="tab"
-            aria-selected="false"
-          >
-            Aksesibilitas
+          <button class="menu-btn" data-menu="aksesibilitas" role="tab" aria-controls="aksesibilitas" aria-selected="false" tabindex="-1">
+            <i class="fa-solid fa-universal-access" aria-hidden="true"></i><span data-i18n="tabAccessibility">Aksesibilitas</span>
           </button>
-
-          <button
-            class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
-            data-menu="akun"
-            role="tab"
-            aria-selected="false"
-          >
-            Akun
+          <button class="menu-btn" data-menu="akun" role="tab" aria-controls="akun" aria-selected="false" tabindex="-1">
+            <i class="fa-solid fa-user-shield" aria-hidden="true"></i><span data-i18n="tabAccount">Akun</span>
           </button>
-
-          <button
-            class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
-            data-menu="bahasa"
-            role="tab"
-            aria-selected="false"
-          >
-            Bahasa
+          <button class="menu-btn" data-menu="bahasa" role="tab" aria-controls="bahasa" aria-selected="false" tabindex="-1">
+            <i class="fa-solid fa-language" aria-hidden="true"></i><span data-i18n="tabLanguage">Bahasa</span>
           </button>
-
-          <button
-            class="menu-btn shrink-0 text-left px-4 py-2 bg-[#020617] border border-gray-800 rounded-lg hover:bg-[#0b1220]"
-            data-menu="personalisasi"
-            role="tab"
-            aria-selected="false"
-          >
-            Personalisasi
+          <button class="menu-btn" data-menu="personalisasi" role="tab" aria-controls="personalisasi" aria-selected="false" tabindex="-1">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i><span data-i18n="tabPersonalization">Personalisasi</span>
           </button>
         </div>
 
-        <div
-          class="settings-panel flex-1 p-4 sm:p-6 relative"
-        >
-          <!-- TAMPILAN PANEL -->
-          <div id="tampilan" class="menu-content">
-            <p class="text-gray-500 text-sm">
-              Fitur tampilan akan dikembangkan
-            </p>
-          </div>
+        <div class="settings-panel">
+          <section id="tampilan" class="menu-content" role="tabpanel">
+            <div class="settings-panel-header">
+              <div><span class="settings-panel-icon"><i class="fa-solid fa-palette"></i></span></div>
+              <div><h2>Tampilan</h2><p>Atur warna dan kepadatan antarmuka sesuai perangkatmu.</p></div>
+            </div>
 
-          <!-- AKSESIBILITAS PANEL -->
-          <div id="aksesibilitas" class="menu-content hidden">
-            <p class="text-gray-500 text-sm">
-              Fitur aksesibilitas akan dikembangkan
-            </p>
-          </div>
-
-          <!-- AKUN PANEL -->
-          <div id="akun" class="menu-content hidden">
-            <div class="space-y-6">
-              <div>
-                <h2 class="text-xl font-semibold mb-4">Akun</h2>
-                <p class="text-gray-400 mb-6">Kelola pengaturan akun Anda</p>
-
-                <div class="account-editor flex flex-col sm:flex-row sm:items-center gap-4">
-                  <div
-                    class="avatar w-16 h-16 sm:w-24 sm:h-24 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 text-black font-bold shrink-0"
-                  >
-                    <i class="text-xl sm:text-2xl fa-solid fa-user"></i>
-                  </div>
-                  <div class="flex-1 space-y-3">
-                    <label for="firstName" class="sr-only">Nama depan</label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      placeholder="First Name"
-                      class="bg-[#020617] border border-gray-800 rounded-lg px-4 py-2 w-full text-gray-400"
-                    />
-
-                    <label for="lastName" class="sr-only">Nama belakang</label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      placeholder="Last Name"
-                      class="bg-[#020617] border border-gray-800 rounded-lg px-4 py-2 w-full text-gray-400"
-                    />
-
-                    <button type="button" onclick="changeName()" class="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition">
-                      Simpan perubahan
-                    </button>
-                  </div>
-                </div>
+            <fieldset class="settings-group">
+              <legend>Tema warna</legend>
+              <p class="settings-help">Pilih karakter visual yang paling nyaman untuk dipakai lama.</p>
+              <div class="settings-option-grid settings-theme-grid">
+                <label class="settings-choice">
+                  <input type="radio" name="theme" value="midnight" data-preference="theme" />
+                  <span class="settings-choice-content"><span class="theme-swatch theme-midnight"></span><strong>Midnight</strong><small>Biru gelap khas PeakFinance</small></span>
+                </label>
+                <label class="settings-choice">
+                  <input type="radio" name="theme" value="oled" data-preference="theme" />
+                  <span class="settings-choice-content"><span class="theme-swatch theme-oled"></span><strong>OLED Black</strong><small>Hitam pekat, hemat layar OLED</small></span>
+                </label>
+                <label class="settings-choice">
+                  <input type="radio" name="theme" value="slate" data-preference="theme" />
+                  <span class="settings-choice-content"><span class="theme-swatch theme-slate"></span><strong>Slate</strong><small>Netral dengan kontras lembut</small></span>
+                </label>
               </div>
+            </fieldset>
 
-              <div class="border-t border-gray-700 pt-6">
-                <h3 class="text-sm font-semibold text-gray-300 mb-4">
-                  Keamanan
-                </h3>
-                <form id="logoutForm" method="POST" action="/auth/logout">
-                  <button
-                    type="submit"
-                    class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 hover:bg-red-500/30 transition"
-                  >
-                    Keluar
-                  </button>
-                </form>
+            <fieldset class="settings-group">
+              <legend>Kepadatan konten</legend>
+              <p class="settings-help">Mode ringkas menampilkan lebih banyak data dalam satu layar.</p>
+              <div class="settings-segmented">
+                <label><input type="radio" name="density" value="comfortable" data-preference="density" /><span><i class="fa-solid fa-expand"></i> Nyaman</span></label>
+                <label><input type="radio" name="density" value="compact" data-preference="density" /><span><i class="fa-solid fa-compress"></i> Ringkas</span></label>
+              </div>
+            </fieldset>
+
+            <div class="settings-preview" aria-label="Pratinjau tampilan">
+              <div><small>PRATINJAU</small><strong>Saldo bulan ini</strong><span>Rp 12.480.000</span></div>
+              <div class="settings-preview-chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </section>
+
+          <section id="aksesibilitas" class="menu-content hidden" role="tabpanel" hidden>
+            <div class="settings-panel-header">
+              <div><span class="settings-panel-icon"><i class="fa-solid fa-universal-access"></i></span></div>
+              <div><h2>Aksesibilitas</h2><p>Sesuaikan keterbacaan dan gerakan agar aplikasi lebih nyaman.</p></div>
+            </div>
+
+            <fieldset class="settings-group">
+              <legend>Ukuran teks</legend>
+              <p class="settings-help">Perubahan diterapkan ke semua halaman aplikasi.</p>
+              <div class="settings-segmented font-size-options">
+                <label><input type="radio" name="fontSize" value="small" data-preference="fontSize" /><span><b class="font-small">A</b> Kecil</span></label>
+                <label><input type="radio" name="fontSize" value="normal" data-preference="fontSize" /><span><b class="font-normal">A</b> Normal</span></label>
+                <label><input type="radio" name="fontSize" value="large" data-preference="fontSize" /><span><b class="font-large">A</b> Besar</span></label>
+              </div>
+            </fieldset>
+
+            <div class="settings-group settings-toggle-list">
+              <label class="settings-toggle-row">
+                <span><strong>Kurangi animasi</strong><small>Meminimalkan transisi dan pergerakan visual.</small></span>
+                <input type="checkbox" data-preference="reducedMotion" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+              <label class="settings-toggle-row">
+                <span><strong>Kontras tinggi</strong><small>Mempertegas teks, garis, dan komponen penting.</small></span>
+                <input type="checkbox" data-preference="highContrast" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+              <label class="settings-toggle-row">
+                <span><strong>Garis bawahi tautan</strong><small>Membuat elemen yang dapat diklik lebih mudah dikenali.</small></span>
+                <input type="checkbox" data-preference="underlineLinks" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+            </div>
+          </section>
+
+          <section id="akun" class="menu-content hidden" role="tabpanel" hidden>
+            <div class="settings-panel-header">
+              <div><span class="settings-panel-icon"><i class="fa-solid fa-user-shield"></i></span></div>
+              <div><h2>Akun</h2><p>Kelola identitas dan sesi akun PeakFinance.</p></div>
+            </div>
+            <div class="settings-group account-editor">
+              <div class="avatar account-avatar"><i class="fa-solid fa-user"></i></div>
+              <div class="account-fields">
+                <div class="settings-field-grid">
+                  <label><span>Nama depan</span><input type="text" id="firstName" autocomplete="given-name" placeholder="Nama depan" /></label>
+                  <label><span>Nama belakang</span><input type="text" id="lastName" autocomplete="family-name" placeholder="Nama belakang" /></label>
+                </div>
+                <button id="saveNameButton" type="button" onclick="changeName()" class="settings-primary-button"><i class="fa-solid fa-floppy-disk"></i> Simpan perubahan</button>
               </div>
             </div>
-          </div>
+            <div class="settings-group danger-zone">
+              <div><strong>Keluar dari akun</strong><p>Sesi pada browser ini akan diakhiri.</p></div>
+              <form id="logoutForm" method="POST" action="/auth/logout"><button type="submit" class="settings-danger-button"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar</button></form>
+            </div>
+          </section>
 
-          <!-- BAHASA PANEL -->
-          <div id="bahasa" class="menu-content hidden">
-            <p class="text-gray-500 text-sm">Fitur bahasa akan dikembangkan</p>
-          </div>
+          <section id="bahasa" class="menu-content hidden" role="tabpanel" hidden>
+            <div class="settings-panel-header">
+              <div><span class="settings-panel-icon"><i class="fa-solid fa-language"></i></span></div>
+              <div><h2>Bahasa</h2><p>Pilih bahasa utama untuk navigasi dan judul halaman.</p></div>
+            </div>
+            <fieldset class="settings-group">
+              <legend>Bahasa antarmuka</legend>
+              <p class="settings-help">Format angka dan mata uang tetap menggunakan Rupiah.</p>
+              <div class="settings-option-grid language-grid">
+                <label class="settings-choice">
+                  <input type="radio" name="language" value="id" data-preference="language" />
+                  <span class="settings-choice-content language-choice"><b>ID</b><span><strong>Bahasa Indonesia</strong><small>Bahasa utama</small></span></span>
+                </label>
+                <label class="settings-choice">
+                  <input type="radio" name="language" value="en" data-preference="language" />
+                  <span class="settings-choice-content language-choice"><b>EN</b><span><strong>English</strong><small>Navigation and page headings</small></span></span>
+                </label>
+              </div>
+              <div class="settings-note"><i class="fa-solid fa-circle-info"></i><p>Konten transaksi yang kamu tulis sendiri tidak akan diterjemahkan.</p></div>
+            </fieldset>
+          </section>
 
-          <!-- PERSONALISASI PANEL -->
-          <div id="personalisasi" class="menu-content hidden">
-            <p class="text-gray-500 text-sm">
-              Fitur personalisasi akan dikembangkan
-            </p>
-          </div>
-
+          <section id="personalisasi" class="menu-content hidden" role="tabpanel" hidden>
+            <div class="settings-panel-header">
+              <div><span class="settings-panel-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span></div>
+              <div><h2>Personalisasi</h2><p>Tentukan informasi dan perilaku aplikasi yang paling relevan bagimu.</p></div>
+            </div>
+            <div class="settings-group settings-toggle-list">
+              <label class="settings-toggle-row">
+                <span><strong>Sembunyikan nominal sensitif</strong><small>Menyamarkan saldo dan nominal saat aplikasi dibuka di tempat umum.</small></span>
+                <input type="checkbox" data-preference="hideBalances" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+              <label class="settings-toggle-row">
+                <span><strong>Tampilkan insight di Dashboard</strong><small>Menampilkan rekomendasi dan ringkasan kebiasaan finansial.</small></span>
+                <input type="checkbox" data-preference="showInsights" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+              <label class="settings-toggle-row">
+                <span><strong>Sidebar ringkas di desktop</strong><small>Menyisakan ikon agar area konten menjadi lebih luas.</small></span>
+                <input type="checkbox" data-preference="sidebarCollapsed" /><i class="settings-switch" aria-hidden="true"></i>
+              </label>
+            </div>
+            <fieldset class="settings-group">
+              <legend>Periode data bawaan</legend>
+              <p class="settings-help">Dipakai saat membuka halaman Analisis dan Transaksi.</p>
+              <div class="settings-segmented">
+                <label><input type="radio" name="defaultPeriod" value="7" data-preference="defaultPeriod" /><span>7 hari</span></label>
+                <label><input type="radio" name="defaultPeriod" value="30" data-preference="defaultPeriod" /><span>30 hari</span></label>
+                <label><input type="radio" name="defaultPeriod" value="90" data-preference="defaultPeriod" /><span>90 hari</span></label>
+              </div>
+            </fieldset>
+            <div class="settings-reset-row">
+              <div><strong>Kembalikan preferensi</strong><p>Menghapus penyesuaian lokal dan memakai nilai bawaan.</p></div>
+              <button id="resetPreferences" type="button" class="settings-secondary-button"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            </div>
+          </section>
         </div>
       </div>
     </main>
+
     <div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
     <script>
-      // Menu handler
-      const menuButtons = document.querySelectorAll(".menu-btn");
-      const menuContents = document.querySelectorAll(".menu-content");
+      const menuButtons = [...document.querySelectorAll('.menu-btn')];
+      const menuContents = [...document.querySelectorAll('.menu-content')];
 
-      menuButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-          const menuId = this.getAttribute("data-menu");
+      function openSettingsTab(button) {
+        menuButtons.forEach(item => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+        menuContents.forEach(panel => {
+          const active = panel.id === button.dataset.menu;
+          panel.classList.toggle('hidden', !active);
+          panel.hidden = !active;
+        });
+      }
 
-          // Hide all contents
-          menuContents.forEach((content) => {
-            content.classList.add("hidden");
-          });
-
-          // Remove active state from all buttons
-          menuButtons.forEach((btn) => {
-            btn.setAttribute('aria-selected', 'false');
-            btn.classList.remove("bg-green-500/20", "text-green-400");
-            btn.classList.add(
-              "bg-[#020617]",
-              "border",
-              "border-gray-800",
-              "hover:bg-[#0b1220]",
-            );
-          });
-
-          // Show selected content
-          const selectedContent = document.getElementById(menuId);
-          if (selectedContent) {
-            selectedContent.classList.remove("hidden");
-          }
-
-          // Set button as active
-          this.classList.remove(
-            "bg-[#020617]",
-            "border",
-            "border-gray-800",
-            "hover:bg-[#0b1220]",
-          );
-          this.classList.add("bg-green-500/20", "text-green-400");
-          this.setAttribute('aria-selected', 'true');
+      menuButtons.forEach((button, index) => {
+        button.addEventListener('click', () => openSettingsTab(button));
+        button.addEventListener('keydown', event => {
+          if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(event.key)) return;
+          event.preventDefault();
+          const direction = ['ArrowDown', 'ArrowRight'].includes(event.key) ? 1 : -1;
+          const next = menuButtons[(index + direction + menuButtons.length) % menuButtons.length];
+          openSettingsTab(next);
+          next.focus();
         });
       });
 
-      function changeName() {
-        let firstName = document.getElementById("firstName").value;
-        let lastName = document.getElementById("lastName").value;
-
-        fetch("/auth/profile", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ firstname: firstName, lastname: lastName }),
-        }).then((response) => {
-          if (response.ok) {
-            showToast("Nama berhasil diperbarui.", "success");
-          } else {
-            showToast("Nama gagal diperbarui.", "error");
-          }
-        }).catch((error) => {
-          console.error("Error:", error);
-          showToast("Terjadi kesalahan. Silakan coba lagi.", "error");
+      function syncPreferenceControls(preferences = window.PeakPreferences?.get()) {
+        if (!preferences) return;
+        document.querySelectorAll('[data-preference]').forEach(control => {
+          const value = preferences[control.dataset.preference];
+          if (control.type === 'checkbox') control.checked = Boolean(value);
+          if (control.type === 'radio') control.checked = String(value) === control.value;
         });
       }
 
-      function showToast(message, type = "success", duration = 5000) {
-        const container = document.getElementById("toast-container");
+      document.querySelectorAll('[data-preference]').forEach(control => {
+        control.addEventListener('change', () => {
+          let value = control.type === 'checkbox' ? control.checked : control.value;
+          if (control.dataset.preference === 'defaultPeriod') value = Number(value);
+          window.PeakPreferences?.set({ [control.dataset.preference]: value });
+          showToast('Preferensi berhasil disimpan.', 'success', 2200);
+        });
+      });
 
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${type}`;
+      document.getElementById('resetPreferences').addEventListener('click', () => {
+        const preferences = window.PeakPreferences?.reset();
+        syncPreferenceControls(preferences);
+        showToast('Semua preferensi dikembalikan ke pengaturan awal.', 'success', 3000);
+      });
 
-        toast.innerHTML = `
-    <span style="font-size:20px">
-      ${type === "success" ? "✅" : "❌"}
-    </span>
+      window.addEventListener('peakpreferenceschange', event => syncPreferenceControls(event.detail));
+      syncPreferenceControls();
 
-    <div style="flex:1">
-      <div style="font-weight:600; margin-bottom:2px">
-        ${type === "success" ? "Berhasil" : "Gagal"}
-      </div>
-      <div style="font-size:13px; color:var(--app-muted)">
-        ${message}
-      </div>
-    </div>
-
-    <button class="toast-close">✖</button>
-
-    <div class="toast-progress"></div>
-  `;
-
-        const progress = toast.querySelector(".toast-progress");
-        progress.style.animationDuration = duration + "ms";
-
-        const closeBtn = toast.querySelector(".toast-close");
-
-        closeBtn.onclick = () => removeToast(toast);
-
-        container.appendChild(toast);
-
-        const timeout = setTimeout(() => {
-          removeToast(toast);
-        }, duration);
-
-        function removeToast(el) {
-          el.style.animation = "toastOut 0.3s ease forwards";
-          clearTimeout(timeout);
-          setTimeout(() => el.remove(), 300);
+      async function loadAccountForm() {
+        try {
+          const response = await fetch('/auth/profile');
+          if (!response.ok) return;
+          const data = await response.json();
+          document.getElementById('firstName').value = data.user?.firstname || '';
+          document.getElementById('lastName').value = data.user?.lastname || '';
+        } catch (error) {
+          console.error('Gagal memuat data akun:', error);
         }
       }
 
+      async function changeName() {
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const saveButton = document.getElementById('saveNameButton');
+        if (!firstName || !lastName) {
+          showToast('Nama depan dan belakang wajib diisi.', 'error');
+          return;
+        }
+        saveButton.disabled = true;
+        try {
+          const response = await fetch('/auth/profile', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ firstname: firstName, lastname: lastName })
+          });
+          if (!response.ok) throw new Error('Gagal memperbarui profil');
+          showToast('Nama berhasil diperbarui.', 'success');
+          window.fetchAndRenderProfile?.();
+        } catch (error) {
+          console.error('Error:', error);
+          showToast('Nama gagal diperbarui. Silakan coba lagi.', 'error');
+        } finally {
+          saveButton.disabled = false;
+        }
+      }
+
+      function showToast(message, type = 'success', duration = 5000) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span class="toast-icon"><i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i></span><div class="toast-copy"><strong>${type === 'success' ? 'Berhasil' : 'Gagal'}</strong><span></span></div><button class="toast-close" type="button" aria-label="Tutup notifikasi"><i class="fa-solid fa-xmark"></i></button><div class="toast-progress"></div>`;
+        toast.querySelector('.toast-copy span').textContent = message;
+        toast.querySelector('.toast-progress').style.animationDuration = `${duration}ms`;
+        container.appendChild(toast);
+        const timeout = setTimeout(remove, duration);
+        toast.querySelector('.toast-close').addEventListener('click', remove);
+        function remove() {
+          clearTimeout(timeout);
+          toast.style.animation = 'toastOut .3s ease forwards';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }
+
+      loadAccountForm();
     </script>
   </body>
 </html>
