@@ -65,10 +65,9 @@
           <p class="text-xs text-gray-400 mb-2 tracking-wide">
             SALDO SAAT INI
           </p>
-          <h2 id="balance" class="balance-value text-3xl text-green-400 font-bold mb-2">
+          <h2 id="balance" class="balance-value text-3xl text-green-400 font-bold mb-6">
             Memuat..
           </h2>
-          <p class="text-xs text-gray-400 mb-6">Maret 2026, 9 hari lagi</p>
 
           <div class="stats-grid">
             <div
@@ -506,7 +505,7 @@
     <script>
       function getGreeting() {
         const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) return "Selamat Pagi!";
+        if (hour >= 5 && hour < 12) return "Selamat Pagi! ";
         if (hour >= 12 && hour < 15) return "Selamat Siang! ";
         if (hour >= 15 && hour < 19) return "Selamat Sore! ";
         return "Selamat Malam! ";
