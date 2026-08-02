@@ -198,6 +198,12 @@ Untuk start mode developer + update css :
 npm run dev
 ```
 
+### Setup attachment transaksi
+
+1. Jalankan `migrations/20260802_add_transaction_attachments.sql` pada database MariaDB.
+2. Buat bucket Supabase Storage privat bernama `transaction-attachments` dengan batas 5 MB dan MIME `image/jpeg`, `image/png`, `image/webp`, `application/pdf`.
+3. Isi `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, dan `SUPABASE_STORAGE_BUCKET` di `.env`. Service role key hanya boleh disimpan di server.
+
 ---
 
 # License

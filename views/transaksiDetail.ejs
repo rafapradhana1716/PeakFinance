@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Transaksi - PeakFinance</title>
+    <link rel="stylesheet" href="<%= env.BASEURL_VITE %>/public/css/input.css">
+    <script type="module" src="<%= env.BASEURL_VITE %>/@vite/client"></script>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+
+  <body class="min-h-screen flex text-white bg-gradient-to-br from-[#020617] via-[#0f172a] to-[#020617]">
+    <%- include('components/sidebar') %>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <a href="/transaksi" class="mb-3 inline-block text-sm font-semibold text-green-400 hover:text-green-300">← Kembali ke transaksi</a>
+          <h1 class="page-title">Detail Transaksi</h1>
+          <p class="page-subtitle">Lihat bukti dan perbaiki pencatatan transaksi.</p>
+        </div>
+      </div>
+
+      <% if (!transaction) { %>
+        <section class="empty-state app-panel">
+          <div>
+            <p class="font-semibold text-white"><%= errorMessage %></p>
+            <a href="/transaksi" class="mt-4 inline-block text-sm font-semibold text-green-400">Kembali ke daftar transaksi</a>
+          </div>
+        </section>
+      <% } else { %>
+        <% 
+          const typeLabels = { income: 'Pemasukan', expense: 'Pengeluaran', saving: 'Tabungan' };
+          const isPositive = transaction.type === 'income' || transaction.type === 'saving';
+          const formattedAmount = new Intl.NumberFormat('id-ID').format(Number(transaction.amount));
+          const formattedDate = new Intl.DateTimeFormat('id-ID', {
+            day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'
+          }).format(new Date(`${transaction.transaction_date}T00:00:00Z`));
+          const attachmentUrl = `/trx/transactions/${transaction.id}/attachment`;
+        %>
+
+        <section class="app-panel p-5 sm:p-8">
+          <div class="flex flex-col gap-5 border-b border-gray-800 pb-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <span class="inline-block rounded-lg bg-gray-800 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-300">
+                <%= typeLabels[transaction.type] || transaction.type %>
+              </span>
+              <h2 class="mt-3 text-2xl font-semibold text-white"><%= transaction.name %></h2>
+              <p class="mt-2 text-sm text-gray-400"><%= formattedDate %></p>
+            </div>
+            <div class="sm:text-right">
+              <p class="text-3xl font-bold <%= isPositive ? 'text-green-400' : 'text-red-400' %>">
+                <%= isPositive ? '+' : '-' %> Rp<%= formattedAmount %>
+              </p>
+              <button
+                type="button"
+                id="editButton"
+                aria-controls="editSection"
+                aria-expanded="false"
+                class="mt-4 rounded-xl border border-green-400 px-4 py-2 text-sm font-semibold text-green-300 transition hover:bg-green-400/10"
+              >
+                Edit transaksi
+              </button>
+            </div>
+          </div>
+
+          <dl class="grid gap-4 py-6 sm:grid-cols-2">
+            <div class="rounded-2xl bg-slate-950/70 p-4">
+              <dt class="text-xs uppercase tracking-wider text-gray-500">Kategori</dt>
+              <dd class="mt-2 font-medium text-gray-200"><%= transaction.category || 'Umum' %></dd>
+            </div>
+            <div class="rounded-2xl bg-slate-950/70 p-4">
+              <dt class="text-xs uppercase tracking-wider text-gray-500">Tanggal transaksi</dt>
+              <dd class="mt-2 font-medium text-gray-200"><%= formattedDate %></dd>
+            </div>
+          </dl>
+
+          <div class="border-t border-gray-800 py-6">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Catatan</h3>
+            <p class="mt-3 whitespace-pre-wrap text-gray-200"><%= transaction.description || 'Tidak ada catatan.' %></p>
+          </div>
+
+          <% if (transaction.attachment_path) { %>
+            <div class="border-t border-gray-800 pt-6">
+              <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-400">Attachment</h3>
+              <% if (transaction.attachment_type && transaction.attachment_type.startsWith('image/')) { %>
+                <a href="<%= attachmentUrl %>" target="_blank" rel="noopener" class="block overflow-hidden rounded-2xl border border-gray-800 bg-slate-950/70">
+                  <img
+                    src="<%= attachmentUrl %>"
+                    alt="Attachment transaksi <%= transaction.name %>"
+                    loading="lazy"
+                    class="max-h-[32rem] w-full object-contain"
+                  />
+                  <span class="block border-t border-gray-800 px-4 py-3 text-sm font-medium text-green-400"><%= transaction.attachment_name %> ↗</span>
+                </a>
+              <% } else { %>
+                <a href="<%= attachmentUrl %>" target="_blank" rel="noopener" class="flex items-center justify-between rounded-2xl border border-gray-800 bg-slate-950/70 p-4 text-green-400 hover:border-green-400">
+                  <span class="font-medium">📄 <%= transaction.attachment_name %></span>
+                  <span aria-hidden="true">Buka ↗</span>
+                </a>
+              <% } %>
+            </div>
+          <% } %>
+        </section>
+
+        <section id="editSection" class="app-panel mt-5 hidden p-5 sm:p-8">
+          <div class="mb-6">
+            <h2 class="text-xl font-semibold text-white">Edit transaksi</h2>
+            <p class="mt-1 text-sm text-gray-400">Semua perubahan langsung memperbarui ringkasan dan analitik.</p>
+          </div>
+
+          <form id="editForm" class="space-y-4">
+            <label class="block">
+              <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Nama transaksi</span>
+              <input type="text" name="name" value="<%= transaction.name %>" maxlength="50" required class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400" />
+            </label>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="block">
+                <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Tanggal</span>
+                <input type="date" name="date" value="<%= transaction.transaction_date %>" required class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400" />
+              </label>
+              <label class="block">
+                <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Jumlah</span>
+                <input type="text" name="amount" oninput="formatRupiah(this)" value="<%= Number(transaction.amount) %>" required class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400" />
+              </label>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="block">
+                <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Tipe</span>
+                <select name="type" required class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400">
+                  <option value="income" <%= transaction.type === 'income' ? 'selected' : '' %>>Pemasukan</option>
+                  <option value="expense" <%= transaction.type === 'expense' ? 'selected' : '' %>>Pengeluaran</option>
+                  <% if (transaction.type === 'saving') { %>
+                    <option value="saving" selected>Tabungan</option>
+                  <% } %>
+                </select>
+              </label>
+              <label id="categoryEdit" class="block">
+                <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Kategori</span>
+                <input type="text" name="category" value="<%= transaction.category || '' %>" maxlength="50" class="w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400" />
+              </label>
+            </div>
+
+            <label class="block">
+              <span class="mb-2 block text-xs uppercase tracking-wider text-gray-500">Catatan</span>
+              <textarea name="description" maxlength="5000" class="min-h-[120px] w-full rounded-2xl border border-gray-800 bg-[#020617] px-4 py-3 text-white outline-none transition focus:border-green-400"><%= transaction.description || '' %></textarea>
+            </label>
+
+            <div class="rounded-2xl border border-dashed border-gray-700 bg-[#020617] p-4">
+              <label class="block">
+                <span class="block text-sm font-semibold text-gray-300">Ganti attachment <span class="font-normal text-gray-500">(opsional)</span></span>
+                <span class="mt-1 block text-xs text-gray-500">JPG, PNG, WebP, atau PDF — maksimal 5 MB</span>
+                <input type="file" id="editAttachment" accept="image/jpeg,image/png,image/webp,application/pdf" class="mt-3 block w-full text-sm text-gray-400 file:mr-3 file:rounded-xl file:border-0 file:bg-green-400 file:px-4 file:py-2 file:font-semibold file:text-slate-950" />
+              </label>
+              <% if (transaction.attachment_path) { %>
+                <label class="mt-4 flex items-center gap-3 text-sm text-red-300">
+                  <input type="checkbox" id="removeAttachment" class="h-4 w-4 accent-red-400" />
+                  Hapus attachment saat ini
+                </label>
+              <% } %>
+            </div>
+
+            <p id="formMessage" role="status" class="hidden rounded-xl border px-4 py-3 text-sm"></p>
+
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button type="button" id="cancelEdit" class="rounded-xl border border-gray-700 px-5 py-3 text-sm font-semibold text-gray-300 hover:border-gray-500">Batal</button>
+              <button type="submit" class="rounded-xl bg-green-400 px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-green-300">Simpan perubahan</button>
+            </div>
+          </form>
+        </section>
+      <% } %>
+    </main>
+
+    <% if (transaction) { %>
+      <script src="/public/js/transactionAttachment.js"></script>
+      <script>
+        const editButton = document.getElementById('editButton');
+        const editSection = document.getElementById('editSection');
+        const cancelEdit = document.getElementById('cancelEdit');
+        const editForm = document.getElementById('editForm');
+        const formMessage = document.getElementById('formMessage');
+
+        function toggleEdit(show) {
+          editSection.classList.toggle('hidden', !show);
+          editButton.setAttribute('aria-expanded', String(show));
+          if (show) editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function formatRupiah(el) {
+          let rawValue = el.value.replace(/[^0-9]/g, "");
+          const hiddenInput = document.getElementById("amountActual");
+          if (hiddenInput) {
+            hiddenInput.value = rawValue;
+          }
+
+          if (!rawValue) {
+            el.value = "";
+            return;
+          }
+
+          let formatted = new Intl.NumberFormat("id-ID").format(rawValue);
+          el.value = formatted;
+        }
+
+        editButton.addEventListener('click', () => toggleEdit(true));
+        cancelEdit.addEventListener('click', () => toggleEdit(false));
+
+        editForm.addEventListener('submit', async event => {
+          event.preventDefault();
+          const submitButton = editForm.querySelector('[type="submit"]');
+          submitButton.disabled = true;
+          submitButton.textContent = 'Menyimpan...';
+          formMessage.classList.add('hidden');
+
+          try {
+            const payload = Object.fromEntries(new FormData(editForm));
+            payload.removeAttachment = document.getElementById('removeAttachment')?.checked || false;
+            const attachment = await uploadTransactionAttachment(document.getElementById('editAttachment').files[0]);
+            if (attachment) {
+              payload.attachmentPath = attachment.path;
+              payload.attachmentName = attachment.name;
+              payload.attachmentType = attachment.type;
+              payload.removeAttachment = false;
+            }
+
+            const response = await fetch('/trx/transactions/<%= transaction.id %>', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'Gagal memperbarui transaksi.');
+
+            window.location.reload();
+          } catch (error) {
+            formMessage.textContent = error.message || 'Terjadi kesalahan sistem.';
+            formMessage.className = 'rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Simpan perubahan';
+          }
+        });
+      </script>
+    <% } %>
+  </body>
+</html>

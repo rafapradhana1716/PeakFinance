@@ -52,6 +52,9 @@ CREATE TABLE `transactions` (
   `amount` decimal(15,0) NOT NULL,
   `description` text DEFAULT NULL,
   `savings_goal_id` int(11) DEFAULT NULL,
+  `attachment_path` varchar(500) DEFAULT NULL,
+  `attachment_name` varchar(255) DEFAULT NULL,
+  `attachment_type` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

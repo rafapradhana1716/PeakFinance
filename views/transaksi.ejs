@@ -58,25 +58,35 @@
             container.innerHTML = '';
 
             data.transactions.forEach(txn => {
-              const date = new Date(txn.created_at).toLocaleString('id-ID', {
+              const date = new Date(`${txn.transaction_date}T00:00:00`).toLocaleDateString('id-ID', {
                 day: 'numeric', month: 'long', year: 'numeric'
               });
               const amount = Number(txn.amount).toLocaleString('id-ID');
               const typeClass = txn.type === 'income' || txn.type === 'saving' ? 'text-green-400' : 'text-red-400';
               const sign = txn.type === 'income' || txn.type === 'saving' ? '+' : '-';
+              const card = document.createElement('a');
+              card.href = `/transaksi/${txn.id}`;
+              card.className = 'transaction-card transaction-row transition hover:border-green-400 hover:-translate-y-1';
+              card.setAttribute('aria-label', `Buka detail transaksi ${txn.name}`);
 
-              container.innerHTML += `
-                <article class="transaction-card transaction-row">
-                  <div class="transaction-copy">
-                    <p class="font-semibold">${date}</p>
-                    <p class="text-sm text-gray-400 font-medium">${txn.name}</p>
-                    <span class="inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg">
-                      ${txn.category || 'Umum'}
-                    </span>
-                  </div>
-                  <p class="transaction-amount ${typeClass}">${sign} Rp${amount}</p>
-                </article>
-              `;
+              const copy = document.createElement('div');
+              copy.className = 'transaction-copy';
+              const dateText = document.createElement('p');
+              dateText.className = 'font-semibold';
+              dateText.textContent = date;
+              const name = document.createElement('p');
+              name.className = 'text-sm text-gray-400 font-medium';
+              name.textContent = txn.name;
+              const category = document.createElement('span');
+              category.className = 'inline-block mt-2 px-2 py-1 text-[10px] uppercase tracking-wider bg-gray-800 text-gray-300 rounded-lg';
+              category.textContent = txn.category || 'Umum';
+              copy.append(dateText, name, category);
+
+              const transactionAmount = document.createElement('p');
+              transactionAmount.className = `transaction-amount ${typeClass}`;
+              transactionAmount.textContent = `${sign} Rp${amount}`;
+              card.append(copy, transactionAmount);
+              container.append(card);
             });
           } else {
             container.innerHTML = '<div class="empty-state app-panel"><p>Tidak ada transaksi dalam ' + days + ' hari terakhir.</p></div>';

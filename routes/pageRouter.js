@@ -28,6 +28,39 @@ router.get('/transaksi', verifyToken, async (req, res) => {
   res.render('transaksi', { page: 'transaksi' });
 });
 
+router.get('/transaksi/:id', verifyToken, async (req, res) => {
+  if (!/^\d+$/.test(req.params.id)) {
+    return res.status(404).render('transaksiDetail', {
+      page: 'transaksi',
+      transaction: null,
+      errorMessage: 'Transaksi tidak ditemukan.',
+    });
+  }
+
+  try {
+    const rows = await db.query(
+      `SELECT id, name, type, category, amount, description, savings_goal_id,
+        attachment_path, attachment_name, attachment_type,
+        DATE_FORMAT(created_at, '%Y-%m-%d') AS transaction_date
+      FROM transactions WHERE id = ? AND user_id = ?`,
+      [req.params.id, req.user.id],
+    );
+
+    return res.status(rows.length ? 200 : 404).render('transaksiDetail', {
+      page: 'transaksi',
+      transaction: rows[0] || null,
+      errorMessage: rows.length ? null : 'Transaksi tidak ditemukan.',
+    });
+  } catch (err) {
+    console.error('Transaction detail error:', err);
+    return res.status(500).render('transaksiDetail', {
+      page: 'transaksi',
+      transaction: null,
+      errorMessage: 'Gagal memuat detail transaksi.',
+    });
+  }
+});
+
 router.get('/target', verifyToken, (req, res) => {
   res.render('targetTabungan', { page: 'target' });
 });

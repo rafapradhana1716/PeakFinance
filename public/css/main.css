@@ -384,6 +384,8 @@ select:focus-visible {
 .dashboard-score-card {
   min-height: 13.75rem;
   height: auto !important;
+  justify-content: center;
+  padding: 32px;
 }
 
 .insight-card {
