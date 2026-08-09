@@ -1,3 +1,5 @@
+<img src="public/peakfinance-icon-brand%201.svg" alt="PeakFinance" width="120">
+
 # PeakFinance  
 ### Elevate Your Money Management
 
